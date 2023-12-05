@@ -8,7 +8,6 @@ class setMapTest extends Phaser.Scene{
   {super('setMapTest');};
 
 
-
   preload(){
 
     const progress = this.add.graphics();
@@ -36,6 +35,7 @@ class setMapTest extends Phaser.Scene{
   create() {
     // primi due valori sono di centratura immagine 2000px
     this.add.image(700/2,450/2,'background');
+
 
     // prendo e dichiaro la mainCamera & la controllo con gli input
     const mainCamera = this.cameras.main;
