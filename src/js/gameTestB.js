@@ -5,7 +5,7 @@ export {config};
 
 class setMapTest extends Phaser.Scene{
   constructor ()
-  {super('helloworld');};
+  {super('setMapTest');};
 
 
 
@@ -34,12 +34,21 @@ class setMapTest extends Phaser.Scene{
   };
 
   create() {
+    // primi due valori sono di centratura immagine 2000px
     this.add.image(700/2,450/2,'background');
 
-    // camera controls
+    // prendo e dichiaro la mainCamera & la controllo con gli input
+    const mainCamera = this.cameras.main;
+
+    this.input.on('wheel',(pointer, gameObjects, deltaX, deltaY, deltaZ) => {
+      if(!((mainCamera.zoomY - deltaY / 2500) > 2 || (mainCamera.zoomY - deltaY / 2500 )< 0.34)){
+        mainCamera.zoomY -= deltaY / 2500;
+        mainCamera.zoomX -= deltaY / 2500 ;
+      }
+    });
 
     const controlConfig = {
-      camera: this.cameras.main,
+      camera:  mainCamera,
       left:    this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.A),
       right:   this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.D),
       up:      this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.W),
@@ -49,18 +58,14 @@ class setMapTest extends Phaser.Scene{
       acceleration: 0.028,
       drag: 0.0006,
       maxSpeed: 0.4,
+      maxZoom: 2,
+      minZoom: 0.34,
     }
     this.controls = new Phaser.Cameras.Controls.SmoothedKeyControl(controlConfig);
-    
-    //  camera additional control
-    let cam = this.cameras.main;
+    mainCamera.setBounds(-675, -800, 2055, 2050);
 
-    this.input.on('wheel',(pointer, gameObjects, deltaX, deltaY, deltaZ) => {
-      cam.zoomY -= deltaY / 2500;
-      cam.zoomX -= deltaY / 2500 ;
-    });
 
-    // gui è un debuggher grafico utile
+    // gui è un debuggher grafico utile ---------------
     const gui = new dat.GUI();
 
     let help = {
@@ -70,10 +75,10 @@ class setMapTest extends Phaser.Scene{
     }
 
     const f1 = gui.addFolder('Camera');
-      f1.add(cam, 'scrollX').listen();
-      f1.add(cam, 'scrollY').listen();
-      f1.add(cam, 'zoomX').listen();
-      f1.add(cam, 'zoomY').listen();
+      f1.add(mainCamera, 'scrollX').listen();
+      f1.add(mainCamera, 'scrollY').listen();
+      f1.add(mainCamera, 'zoomX').listen();
+      f1.add(mainCamera, 'zoomY').listen();
       f1.add(help, 'moveKey');
       f1.add(help, 'zoomKey');
       f1.add(help, 'zoomWheel');
