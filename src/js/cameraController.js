@@ -42,7 +42,7 @@ export default class CameraController {
     const guiMCamera = new dat.GUI();
 
     let guiMCameraHelp = {
-      moveKey : '[ASDW]',
+      moveKey : '[ADWS]',
       zoomKey : '[ZX]',
       zoomWheel : '[mouse wheel]',
     }
@@ -55,7 +55,7 @@ export default class CameraController {
       debuggherMCamera.add(guiMCameraHelp, 'moveKey');
       debuggherMCamera.add(guiMCameraHelp, 'zoomKey');
       debuggherMCamera.add(guiMCameraHelp, 'zoomWheel');
-      debuggherMCamera.open();
+      // debuggherMCamera.open();
     // ----------------------------------------
   }
 
