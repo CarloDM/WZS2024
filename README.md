@@ -1,29 +1,18 @@
 # game-test-phaser
 
-This template should help get you started developing with Vue 3 in Vite.
+05/12/2023 <br>
+phaser 3.7 con vite + vue!
+test personale di phaser implementato e genesi di un intera logica di gioco RTS! <br>
+sono arrivato al terzo test progressivo!
+<ol>
+  date 05/12/2023
+  <li> hello word inizializzare phaser dentro componente vue.</li>
+  <li> preload, init, create, update; approcciare alla logica Phaser.</li>
+  date 06/12/2023 giorno 2
+  <li> caricare un background img di debug, centrarlo e implementare funzionalità di controllo della main camera.</li>
+  <li>modularizzare in classe la camera e i suoi controlli, quindi importare il modulo nella scena principale.</li>
+  <li>creare un rettangolo di selezione col mouse.</li>
+  <li>creare il primo sprite e selezionarlo rudimentalmente col rettangolo di selezione.</li>
+     07/12/2023 
+  <li>??? modularizzare il selettore e il tank, rendere univoco il tank wip</li>
 
-## Recommended IDE Setup
-
-[VSCode](https://code.visualstudio.com/) + [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) (and disable Vetur) + [TypeScript Vue Plugin (Volar)](https://marketplace.visualstudio.com/items?itemName=Vue.vscode-typescript-vue-plugin).
-
-## Customize configuration
-
-See [Vite Configuration Reference](https://vitejs.dev/config/).
-
-## Project Setup
-
-```sh
-npm install
-```
-
-### Compile and Hot-Reload for Development
-
-```sh
-npm run dev
-```
-
-### Compile and Minify for Production
-
-```sh
-npm run build
-```
