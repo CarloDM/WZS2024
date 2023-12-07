@@ -2,10 +2,13 @@ import Phaser from "phaser";
 import dat from 'dat.gui';
 
 export default class Tank {
-  constructor(scene){
+  constructor(scene, id, position){
     this.scene = scene;
+    this.id = id;
+    this.position = position;
+    this.isTankSelected = false;
 
-    this.tank = scene.add.sprite(280,225,'tankdebug');
+    this.tank = scene.add.sprite(position[0],position[1],'tankdebug');
     const tankWidth = 25;
     const tankHeight = 25;
     this.tank.setOrigin(0.5, 0.5);
@@ -21,19 +24,18 @@ export default class Tank {
   }
 
   setTankSelected() {
-    this.isTankSelected = !this.isTankSelected;
-  
-    // Cambia il colore o l'aspetto del tank in base allo stato di selezione
-    if (this.isTankSelected) {
-      // Tank selezionato
-      this.tank.setTint(0x00ff00); // Esempio: colora il tank di verde
-    } else {
-      // Tank non selezionato
-      this.tank.clearTint(); // Ripristina il colore originale
+    if(!this.isTankSelected){
+      this.isTankSelected = true;
+      this.tank.setTint(0x00ff00);
     }
   }
 
-  handleTankClick() {
-    this.setTankSelected();
+  setTankUnselected(){
+    this.isTankSelected = false;
+    this.tank.clearTint(); // Ripristina il colore originale
   }
+  
+  // handleTankClick() {
+  //   this.setTankSelected();
+  // }
 }

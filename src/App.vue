@@ -2,12 +2,13 @@
 import GameTestA from './components/gameTestA.vue';
 import GameTestB from './components/gameTestB.vue';
 import GameTestC from './components/gameTestC.vue';
+import GameTestD from './components/gameTestD.vue';
 </script>
 
 <template>
   <main>
 
-    <GameTestC />
+    <GameTestD />
 
   </main>
 </template>
