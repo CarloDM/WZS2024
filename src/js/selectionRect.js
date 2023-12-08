@@ -140,6 +140,16 @@ export default class SelectionRect {
         break;
       case  (2):
         console.log('lasciato dx');
+
+        const target = new Phaser.Math.Vector2();
+        target.x = this.scene.cameras.main.getWorldPoint(pointer.x, pointer.y).x;
+        target.y = this.scene.cameras.main.getWorldPoint(pointer.x, pointer.y).y;
+        console.log(target);
+        this.tanks.forEach((tank) => {
+          if(tank.isTankSelected){
+            tank.moveTankTo(target);
+          }
+        })
         break;
     }
 

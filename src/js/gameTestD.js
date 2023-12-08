@@ -44,7 +44,7 @@ class setMapTest extends Phaser.Scene{
   aspect = 2;
 
   create() {
-
+    this.physics.world.setBounds(-650, -780, 2000, 2010);
     this.cameraController = new CameraController(this);
     // primi due valori sono di centratura immagine di 2000px
     this.add.image(700/this.aspect,450/this.aspect,'background');
@@ -53,6 +53,9 @@ class setMapTest extends Phaser.Scene{
     this.Tank1 = new Tank(this, 1 , [280,255]);
     this.Tank2 = new Tank(this, 2 , [350,255]);
     this.Tank3 = new Tank(this, 3 , [390,280]);
+    this.physics.add.collider(this.Tank1.tank, [this.Tank2.tank, this.Tank3.tank]);
+    this.physics.add.collider(this.Tank2.tank, [this.Tank1.tank, this.Tank3.tank]);
+    this.physics.add.collider(this.Tank3.tank, [this.Tank1.tank, this.Tank2.tank]);
 
     // selettore mouse
     this.input.mouse.disableContextMenu();
@@ -66,7 +69,9 @@ class setMapTest extends Phaser.Scene{
   update(time, delta) {
 
     this.cameraController.update(delta)
-
+    this.Tank1.update();
+    this.Tank2.update();
+    this.Tank3.update();
   };
 }
 

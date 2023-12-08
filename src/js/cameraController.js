@@ -5,6 +5,7 @@ export default class CameraController {
   constructor(scene) {
     // dichiaro main camera per leggibilità migliore
     const mainCamera = scene.cameras.main;
+
     // gli input vanno importati dalla scena passata quindi
     scene.input.on('wheel',(pointer, gameObjects, deltaX, deltaY, deltaZ) => {
 
