@@ -6,7 +6,7 @@ export default class SelectionRect {
     this.scene = scene;
     this.tanks = tanks;
     this.tolerance = 12;
-    console.log(tanks)
+
       /** @type {Phaser.GameObjects.Rectangle} */
     this.selectionRect = new Phaser.Geom.Rectangle(0, 0, 0, 0);
     this.selection = scene.add.rectangle(0, 0, 0, 0, 0x1d7196, 0.5);
@@ -147,10 +147,10 @@ export default class SelectionRect {
         
         this.tanks.forEach((tank) => {
           if(tank.isTankSelected){
-            console.log(target)
+
             target.x += Phaser.Math.Between(-15, 15);
             target.y += Phaser.Math.Between(-15, 15);
-            console.log(target)
+
             tank.moveTankTo(target);
           }
         })

@@ -1,19 +1,22 @@
-import Phaser, { Time } from "phaser";
+import Phaser from "phaser";
 import dat from 'dat.gui';
 
 export default class Tank {
-  constructor(scene, id, position, worldBounds){
+  constructor(scene, id, position){
     this.scene = scene;
     this.id = id;
     this.position = position;
     this.rotation = 0;
     this.isTankSelected = false;
     this.target = false;
-    this.speed = 20;
+    this.speed = 40;
     this.acceleration = 1;
-    this.friction = 0.97;
-    this.break = false;
     this.accIncrement = this.speed/60;
+    this.break = false;
+    this.friction = 0.96;
+    this.tolerance = 30;
+
+
 
     this.tank = scene.add.sprite(position[0],position[1],'tankdebug');
     const tankWidth = 25;
@@ -26,7 +29,7 @@ export default class Tank {
     scene.physics.world.enable(this.tank);
     this.tank.body.setCollideWorldBounds(true);
     this.tank.setInteractive();
-
+    // console.log(this.tank.body)
     
   }
 
@@ -51,16 +54,12 @@ export default class Tank {
   }
   
   update(){
-            //  4 is our distance tolerance, i.e. how close the source can get to the target
-        //  before it is considered as being there. The faster it moves, the more tolerance is required.
 
-        
-        // this.rotation = this.tank.body.angle;
 
         if(this.target){
-          const tolerance = 30;
+
           const distance = Phaser.Math.Distance.BetweenPoints(this.tank, this.target);
-          if (distance < tolerance)
+          if (distance < this.tolerance)
           {
               this.target = false;
               this.acceleration = 1;
