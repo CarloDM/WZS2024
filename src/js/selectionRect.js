@@ -29,14 +29,14 @@ export default class SelectionRect {
         this.selection.y = this.scene.cameras.main.getWorldPoint(pointer.x, pointer.y).y;
         break;
       case  (1):
-        console.log('premuta wheel');
+        // console.log('premuta wheel');
         break;
       case  (2):
-        console.log('premuto dx');
+        // console.log('premuto dx');
         if(this.isAnySelected(this.tanks)){
-          console.log('qualcuno selezionato');
+          // console.log('qualcuno selezionato');
         }else{
-          console.log('nessuno selezionato');
+          // console.log('nessuno selezionato');
         }
         break;
     }
@@ -88,6 +88,12 @@ export default class SelectionRect {
       this.addActiveOnSelection = false;
     }
 
+    if (pointer.event.ctrlKey) {
+      this.addMoreTarget= true;
+    } else {
+      this.addMoreTarget = false;
+    }
+
     switch (pointer.event.button) {
       case  (0):
 
@@ -134,26 +140,48 @@ export default class SelectionRect {
         break;
 
 
-
       case  (1):
-        console.log('lasciata wheel');
+        // console.log('lasciata wheel');
         break;
+
+
       case  (2):
-        console.log('lasciato dx');
+        // console.log('lasciato dx', pointer.event.ctrlKey);
+        if(!this.addMoreTarget){
 
-        const target = new Phaser.Math.Vector2();
-        target.x = this.scene.cameras.main.getWorldPoint(pointer.x, pointer.y).x;
-        target.y = this.scene.cameras.main.getWorldPoint(pointer.x, pointer.y).y;
-        
-        this.tanks.forEach((tank) => {
-          if(tank.isTankSelected){
+            const target = new Phaser.Math.Vector2();
+            target.x = this.scene.cameras.main.getWorldPoint(pointer.x, pointer.y).x;
+            target.y = this.scene.cameras.main.getWorldPoint(pointer.x, pointer.y).y;
 
-            target.x += Phaser.Math.Between(-15, 15);
-            target.y += Phaser.Math.Between(-15, 15);
+            this.tanks.forEach((tank) => {
+              if(tank.isTankSelected){
+              
+                target.x += Phaser.Math.Between(-15, 15);
+                target.y += Phaser.Math.Between(-15, 15);
+              
+                tank.moveTankTo(target);
+              }
+            });
 
-            tank.moveTankTo(target);
-          }
-        })
+        }else {
+
+          const target = new Phaser.Math.Vector2();
+          target.x = this.scene.cameras.main.getWorldPoint(pointer.x, pointer.y).x;
+          target.y = this.scene.cameras.main.getWorldPoint(pointer.x, pointer.y).y;
+
+          this.tanks.forEach((tank) => {
+            if(tank.isTankSelected){
+            
+              target.x += Phaser.Math.Between(-15, 15);
+              target.y += Phaser.Math.Between(-15, 15);
+            
+              tank.pushTarget(target);
+            }
+          });
+
+
+        }
+
         break;
     }
 

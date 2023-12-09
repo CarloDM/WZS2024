@@ -9,6 +9,7 @@ export default class Tank {
     this.rotation = 0;
     this.isTankSelected = false;
     this.target = false;
+    this.targets = []
     this.speed = 40;
     this.acceleration = 1;
     this.accIncrement = this.speed/60;
@@ -27,8 +28,9 @@ export default class Tank {
     this.tank.angle = 0;
 
     scene.physics.world.enable(this.tank);
-    this.tank.body.setCollideWorldBounds(true);
+    this.tank.body.setCollideWorldBounds(true, 4, 4);
     this.tank.setInteractive();
+    this.tank.body.setBounce(4,4)
     // console.log(this.tank.body)
     
   }
@@ -46,11 +48,35 @@ export default class Tank {
   }
 
   moveTankTo(target){
+
+    this.targets = [];
     this.break = false;
     this.target = target;
 
     this.scene.physics.moveToObject(this.tank,this.target , 1);
 
+  }
+
+  moveTankToNext(target){
+    
+    this.break = false;
+    this.target = target;
+
+    this.scene.physics.moveToObject(this.tank,this.target , 1);
+
+  }
+
+  pushTarget(target){
+
+    if(!this.target && this.targets.length === 0){
+
+      this.moveTankTo(target);
+
+    }else{
+
+      this.targets.push(target);
+
+    }
   }
   
   update(){
@@ -62,8 +88,15 @@ export default class Tank {
           if (distance < this.tolerance)
           {
               this.target = false;
-              this.acceleration = 1;
+              this.acceleration = 20;
               this.break = true;
+
+              if(this.targets.length > 0 && !this.target){
+                console.warn(this.targets);
+                this.moveTankToNext(this.targets[0]) 
+                this.targets.shift();
+                console.log(this.targets);
+              }
           }
 
           if (!this.break && this.tank.body.speed > 0 && this.tank.body.speed <  this.speed  )
