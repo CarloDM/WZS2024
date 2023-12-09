@@ -40,6 +40,7 @@ class setMapTest extends Phaser.Scene{
     this.load.image('collisionMap','collision-map-test.png');
     this.load.image('wall','wall.png');
     this.load.image('tankdebug','tankdebug.png');
+    this.load.tilemapCSV('map','../assets/testA.csv');
     this.wallsCord = createArray();
   };
 
@@ -49,12 +50,21 @@ class setMapTest extends Phaser.Scene{
 
   create() {
 
-    this.physics.world.setBounds(-650, -780, 2000, 2010);
+    this.physics.world.setBounds(-650, -775, 2000, 2010);
     this.cameraController = new CameraController(this);
     // primi due valori sono di centratura immagine di 2000px
     this.add.image(700/this.aspect,450/this.aspect,'background');
     this.add.image(700/this.aspect,450/this.aspect,'collisionMap');
 
+    this.map = this.make.tilemap({key: 'map', tileWidth: 20, tileHeight:20});
+    const layer = this.map.createLayer(0,'',-650, -775 )
+    this.map.setCollisionBetween(3,15);
+    this.debugGraphics = this.add.graphics();
+    this.map.renderDebug(this.debugGraphics, {
+      tileColor: null, // Non-colliding tiles
+      collidingTileColor: new Phaser.Display.Color(243, 134, 48, 200), // Colliding tiles
+      faceColor: new Phaser.Display.Color(40, 39, 37, 255) // Colliding face edges
+  });
 
 
     const walls = this.physics.add.staticGroup();
@@ -79,6 +89,8 @@ class setMapTest extends Phaser.Scene{
     // collider
     this.physics.add.collider(tanks);
     this.physics.add.collider(walls, tanks);
+    this.physics.add.collider(tanks, layer);
+    // this.physics.add.collider(layer, tanks );
 
 
     // selettore mouse
