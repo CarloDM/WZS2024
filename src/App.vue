@@ -6,13 +6,14 @@ import GameTestD from './components/gameTestD.vue';
 import GameTestE from './components/gameTestE.vue';
 import GameTestF from './components/gameTestF.vue';
 import GameTestG from './components/gameTestG.vue';
+import TSTestA from './components/TStestA.vue';
 import ColliderGenerator from './components/collidermapgenerator.vue';
 </script>
 
 <template>
   <main>
 
-    <GameTestG />
+    <TSTestA />
 
   </main>
 </template>
