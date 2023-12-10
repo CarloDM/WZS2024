@@ -1,5 +1,7 @@
 import Phaser from "phaser";
 import dat from 'dat.gui';
+import {findPath} from "./Astar";
+import {fromPointerToTile,fromTileToWorldPoint} from "./mathFunction";
 
 export default class SelectionRect {
   constructor(scene, tanks) {
@@ -55,7 +57,7 @@ export default class SelectionRect {
 
           const dy= this.scene.cameras.main.getWorldPoint(pointer.x, pointer.y).y -
                     this.scene.cameras.main.getWorldPoint(pointer.prevPosition.x, pointer.prevPosition.y).y;
-        
+
           this.selection.width += dx;
           this.selection.height += dy;
         
@@ -72,7 +74,7 @@ export default class SelectionRect {
             this.selectionRect.y += this.selectionRect.height;
             this.selectionRect.height *= -1;
           }
-        
+
 
       }
     } 
@@ -149,17 +151,34 @@ export default class SelectionRect {
         // console.log('lasciato dx', pointer.event.ctrlKey);
         if(!this.addMoreTarget){
 
-            const target = new Phaser.Math.Vector2();
-            target.x = this.scene.cameras.main.getWorldPoint(pointer.x, pointer.y).x;
-            target.y = this.scene.cameras.main.getWorldPoint(pointer.x, pointer.y).y;
+          const tileTarget =  fromPointerToTile(this.scene, pointer.x, pointer.y);
+          console.log('TILE target xy',tileTarget);
 
+          const centredWorldTarget = fromTileToWorldPoint(tileTarget[0],tileTarget[1]);
+
+            const target = new Phaser.Math.Vector2();
+            target.x = centredWorldTarget[0] ;
+            target.y = centredWorldTarget[1] ;
+
+            let sheddingX = 1;
+            let sheddingY = 1;
+            let count = 1;
             this.tanks.forEach((tank) => {
               if(tank.isTankSelected){
-              
-                target.x += Phaser.Math.Between(-15, 15);
-                target.y += Phaser.Math.Between(-15, 15);
-              
-                tank.moveTankTo(target);
+                count ++;
+                
+                if(count % 2 === 0){
+                  tileTarget[0] += sheddingX;
+                  tileTarget[1] -= sheddingY;
+                }else{
+                  tileTarget[0] -= sheddingX;
+                  tileTarget[1] += sheddingY;
+                }
+
+                tank.moveTankTo(target, tileTarget );
+
+                sheddingX += 1;
+                sheddingY += 1;
               }
             });
 
@@ -172,8 +191,8 @@ export default class SelectionRect {
           this.tanks.forEach((tank) => {
             if(tank.isTankSelected){
             
-              target.x += Phaser.Math.Between(-15, 15);
-              target.y += Phaser.Math.Between(-15, 15);
+              target.x += Phaser.Math.Between(-32, 32);
+              target.y += Phaser.Math.Between(-32, 32);
             
               tank.pushTarget(target);
             }

@@ -1,5 +1,7 @@
 import Phaser from "phaser";
 import dat from 'dat.gui';
+import {fromTileToTargetObj,fromTileToWorldPoint,fromPositionToTile} from "./mathFunction";
+import {findPath} from "./Astar";
 
 export default class Tank {
   constructor(scene, id, position){
@@ -10,12 +12,12 @@ export default class Tank {
     this.isTankSelected = false;
     this.target = false;
     this.targets = []
-    this.speed = 100;
+    this.speed = 50;
     this.acceleration = 1;
     this.accIncrement = this.speed/60;
     this.break = false;
     this.friction = 0.96;
-    this.tolerance = 30;
+    this.tolerance = 32;
 
 
 
@@ -47,18 +49,53 @@ export default class Tank {
     this.tank.clearTint(); // Ripristina il colore originale
   }
 
-  moveTankTo(target){
+  moveTankTo(target, tileTarget){
 
     this.targets = [];
     this.break = false;
-    this.target = target;
+    const tilePosition = fromPositionToTile(this.tank.x, this.tank.y);
 
-    this.scene.physics.moveToObject(this.tank,this.target , 1);
+    console.log('tank position', this.tank.x, this.tank.y, tilePosition )
+    
+    findPath(tilePosition[0], tilePosition[1], tileTarget[0], tileTarget[1])
+      .then((Fpath) =>{
+
+        console.log('Astar path founded', Fpath);
+        Fpath.shift();
+        const lastTile = Fpath[Fpath.length - 1];
+        const filteredPath = Fpath.filter((tile, index) => index % 3 === 0);
+        filteredPath.push(lastTile);
+
+
+        this.target = fromTileToTargetObj(filteredPath[0].x,filteredPath[0].y);
+        filteredPath.shift();
+
+
+        this.scene.physics.moveToObject(this.tank,this.target , 1);
+        
+        const pathConvert = [];
+        filteredPath.forEach(tile => {
+
+          this.targets.push(fromTileToTargetObj(tile.x,tile.y))
+        });
+        console.log('conversione in array',this.targets);
+        // this.targets = pathConvert;
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+
+
+
+
+
+
+
 
   }
 
   moveTankToNext(target){
-    
+    console.log('move to next', target, this.targets)
     this.break = false;
     this.target = target;
 
@@ -88,7 +125,7 @@ export default class Tank {
           if (distance < this.tolerance)
           {
               this.target = false;
-              this.acceleration = 20;
+              this.acceleration = this.speed;
               this.break = true;
 
               if(this.targets.length > 0 && !this.target){

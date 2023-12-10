@@ -34,7 +34,7 @@ function setUpFinder(map){
   }
 
 
-  console.log('Astar grid',grid);
+  // console.log('Astar grid',grid);
 
   finder.setGrid(grid);
 
@@ -45,7 +45,7 @@ function setUpFinder(map){
   finder.setTileCost(3, 4); 
   finder.setTileCost(2, 3);
 
-  finder.setIterationsPerCalculation(1000);
+  finder.setIterationsPerCalculation(10000);
 
 }
 
