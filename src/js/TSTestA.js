@@ -1,13 +1,14 @@
 import Phaser from "phaser";
 import * as dat from 'dat.gui';
-import EasyStar from "easystarjs"
+
+import {setUpFinder,findPath} from "./Astar";
 
 import CameraController from './cameraController';
 import SelectionRect from './selectionRect';
 import Tank from './tank';
-import Wall from './wall';
 
-import {createArray} from './collidersGenByimg';
+
+
 export {config};
 
 
@@ -37,12 +38,11 @@ class setMapTest extends Phaser.Scene{
 
     });
 
-    this.load.image('background','backgroundgrid-test.jpg');
-    this.load.image('collisionMap','collision-map-test.png');
-    this.load.image('wall','wall.png');
-    this.load.image('tankdebug','tankdebug.png');
-    this.load.tilemapCSV('map','../assets/testA.csv');
-    this.wallsCord = createArray();
+    this.load.image('background','/texture/TS-clr-map-draft-01.jpg');
+
+    this.load.image('tankdebug','/texture/tank.png'); //
+
+    this.load.tilemapCSV('map','../tankSurvive/map/ts-map-collide-cost.csv');
   };
 
 
@@ -51,101 +51,79 @@ class setMapTest extends Phaser.Scene{
 
   create() {
 
-    this.physics.world.setBounds(-630, -775, 2000, 2010);
+    // this.physics.world.setBounds(-630, -775, 2000, 2010);
     this.cameraController = new CameraController(this);
     // primi due valori sono di centratura immagine di 2000px
-    this.add.image(700/this.aspect,450/this.aspect,'background');
-    this.add.image(700/this.aspect,450/this.aspect,'collisionMap');
+    this.add.image(-0,-0,'background');
 
 
+    this.map = this.make.tilemap({key: 'map', tileWidth: 32, tileHeight:32});
+    const layer = this.map.createLayer(0,'ground',-2048, -2048 )
+    this.map.setCollisionBetween(4,5);
 
-    this.map = this.make.tilemap({key: 'map', tileWidth: 20, tileHeight:20});
-    const layer = this.map.createLayer(0,'ground',-650, -775 )
-    this.map.setCollisionBetween(3,14);
+  //   this.debugGraphics = this.add.graphics();
+  //   this.map.renderDebug(this.debugGraphics, {
+  //     tileColor: null, // Non-colliding tiles
+  //     collidingTileColor: new Phaser.Display.Color(0, 0, 0, 0), // Colliding tiles
+  //     faceColor: new Phaser.Display.Color(40, 39, 37, 255) // Colliding face edges
+  // });
 
 
-    this.debugGraphics = this.add.graphics();
-    this.map.renderDebug(this.debugGraphics, {
-      tileColor: null, // Non-colliding tiles
-      collidingTileColor: new Phaser.Display.Color(243, 134, 48, 200), // Colliding tiles
-      faceColor: new Phaser.Display.Color(40, 39, 37, 255) // Colliding face edges
-  });
 
       // ### Pathfinding stuff ###
     // Initializing the pathfinder
 
     // console.log(this.map.height, this.map.width, this.map.layer.data );
 
-    this.finder = new EasyStar.js();
+    setUpFinder(this.map); //testing
 
-    const tilesData = this.map.layer.data;
+    findPath(110, 25, 20, 19)
+      .then((Fpath) =>{
+        console.log('Astar path founded', Fpath);
 
-    const grid = [];
+        for (let index = 0; index < Fpath.length; index++) {
+          this.add.rectangle((Fpath[index].x * 32 ) -2032 , (Fpath[index].y * 32) -2032 , 32, 32, 0x1d7196, 0.5);
+        }
+        
+      })
+      .catch((error) => {
+        console.error(error);
+      });
 
-    for (let y = 0; y < this.map.height; y++) {
+    findPath(20, 19, 107, 58)
+      .then((Fpath) =>{
+        console.log('Astar path founded', Fpath);
 
-      let col = [];
-
-        for (let x = 0; x < this.map.width; x++) {
-
-          let tileID = tilesData[y][x].index
-
-          col.push(tileID);
+        for (let index = 0; index < Fpath.length; index++) {
+          this.add.rectangle((Fpath[index].x * 32 ) -2032 , (Fpath[index].y * 32) -2032 , 32, 32, 0x1d7196, 0.5);
         }
 
-      grid.push(col);
+      })
+      .catch((error) => {
+        console.error(error);
+      });
 
-    }
-    console.log('grid',grid)
+    findPath(107, 58, 49, 119)
+      .then((Fpath) =>{
+        console.log('Astar path founded', Fpath);
 
-    this.finder.setGrid(grid);
-
-    this.finder.setAcceptableTiles([-1, 0, 1, 2, 15]);
-
-    const self = this;
-
-    this.finder.findPath(46, 52, 64, 38, function( path ) {
-      if (path === null) {
-        console.log("Path was not found.");
-      } else {
-        console.log("Path was found. The first Point is " + path[0].x + " " + path[0].y);
-
-        for (let index = 0; index < path.length; index++) {
-
-            self.add.rectangle((path[index].x * 20 ) -640 , (path[index].y * 20) - 765 , 20, 20, 0x1d7196, 0.5);
-
-          
+        for (let index = 0; index < Fpath.length; index++) {
+          this.add.rectangle((Fpath[index].x * 32 ) -2032 , (Fpath[index].y * 32) -2032 , 32, 32, 0x1d7196, 0.5);
         }
-      }
-    });
 
-    this.finder.enableDiagonals();
-    this.finder.setTileCost(15, 5);
-    this.finder.setIterationsPerCalculation(1000);
-
-    this.finder.calculate();
-    this.finder.calculate();
-    this.finder.calculate();
-    this.finder.calculate();
-    this.finder.calculate();
+      })
+      .catch((error) => {
+        console.error(error);
+      });
 
 
 
-
-    this.debugGraphics2 = this.add.graphics();
-    this.map.renderDebug(this.debugGraphics2, {
-      tileColor: null, // Non-colliding tiles
-      collidingTileColor: new Phaser.Display.Color(243, 134, 48, 200), // Colliding tiles
-      faceColor: new Phaser.Display.Color(40, 39, 37, 255) // Colliding face edges
-  });
-
-
-
+// ---------------------------------------
 
 
     const walls = this.physics.add.staticGroup();
 
-    walls.create(200,400,'wall').setScale(10).refreshBody();
+    // walls.create(200,400,'wall').setScale(10).refreshBody();
 
 
 
@@ -192,7 +170,7 @@ const config = {
   width: 1400/2,
   height: 900/2,
   loader:{
-    baseURL: '/src/assets/'
+    baseURL: '/src/assets/tankSurvive'
   },
   scene: setMapTest,
   physics: {

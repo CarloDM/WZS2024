@@ -5,8 +5,8 @@ export default class CameraController {
   constructor(scene) {
     // dichiaro main camera per leggibilità migliore
     const mainCamera = scene.cameras.main;
-    // mainCamera.zoomX = 0.25;
-    // mainCamera.zoomY = 0.25;
+    mainCamera.zoomX = 0.15;
+    mainCamera.zoomY = 0.15;
 
     // gli input vanno importati dalla scena passata quindi
     scene.input.on('wheel',(pointer, gameObjects, deltaX, deltaY, deltaZ) => {
@@ -39,7 +39,7 @@ export default class CameraController {
     this.controls = new Phaser.Cameras.Controls.SmoothedKeyControl(controlConfig);
     
     // impostazione del limite telecamera
-    mainCamera.setBounds(-675, -800, 2055, 2050);
+    // mainCamera.setBounds(-675, -800, 2055, 2050);
 
     // debugghing camera control ------------ :)
     const guiMCamera = new dat.GUI();

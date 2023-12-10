@@ -10,7 +10,7 @@ export default class Tank {
     this.isTankSelected = false;
     this.target = false;
     this.targets = []
-    this.speed = 40;
+    this.speed = 100;
     this.acceleration = 1;
     this.accIncrement = this.speed/60;
     this.break = false;
@@ -20,8 +20,8 @@ export default class Tank {
 
 
     this.tank = scene.add.sprite(position[0],position[1],'tankdebug');
-    const tankWidth = 25;
-    const tankHeight = 25;
+    const tankWidth = 64;
+    const tankHeight = 64;
     this.tank.setOrigin(0.5, 0.5);
     this.tank.displayWidth = tankWidth;
     this.tank.displayHeight = tankHeight;
@@ -92,10 +92,10 @@ export default class Tank {
               this.break = true;
 
               if(this.targets.length > 0 && !this.target){
-                console.warn(this.targets);
+
                 this.moveTankToNext(this.targets[0]) 
                 this.targets.shift();
-                console.log(this.targets);
+
               }
           }
 
