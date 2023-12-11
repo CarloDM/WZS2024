@@ -1,5 +1,6 @@
 import Phaser from "phaser";
 import * as dat from 'dat.gui';
+import Stats from "stats.js"
 
 import {setUpFinder,findPath} from "./Astar";
 
@@ -10,6 +11,10 @@ import Tank from './tank';
 
 
 export {config};
+
+var stats = new Stats();
+stats.showPanel(0); // 0: fps, 1: ms, 2: mb, 3+: custom
+document.body.appendChild(stats.dom);
 
 
 class setMapTest extends Phaser.Scene{
@@ -45,6 +50,7 @@ class setMapTest extends Phaser.Scene{
     this.load.tilemapCSV('map','../tankSurvive/map/ts-map-collide-cost.csv');
   };
 
+  
 
 
   create() {
@@ -99,7 +105,17 @@ class setMapTest extends Phaser.Scene{
     this.Tank5 = new Tank(this, 5 , [800,340]);
     this.Tank6 = new Tank(this, 6 , [390,370]);
 
-    tanks.addMultiple([this.Tank1.tank,this.Tank2.tank, this.Tank3.tank, this.Tank4.tank, this.Tank5.tank, this.Tank6.tank,]);
+    this.Tank7 = new Tank(this, 7 , [200,0]);
+    this.Tank8 = new Tank(this, 8 , [350,0]);
+    this.Tank9 = new Tank(this, 9 , [500,100]);
+    this.Tank10 = new Tank(this, 10 , [650,0]);
+    this.Tank11= new Tank(this, 11 , [800,0]);
+    this.Tank12= new Tank(this, 12 , [390,0]);
+
+    tanks.addMultiple([
+      this.Tank1.tank,this.Tank2.tank, this.Tank3.tank, this.Tank4.tank, this.Tank5.tank, this.Tank6.tank,
+      this.Tank7.tank,this.Tank8.tank, this.Tank9.tank, this.Tank10.tank, this.Tank11.tank, this.Tank12.tank,
+    ]);
 
 
 
@@ -109,10 +125,14 @@ class setMapTest extends Phaser.Scene{
     // this.physics.add.collider(layer, tanks );
 
     // inizializza selettore tanks
-    this.selectionRectManager = new SelectionRect(this, [this.Tank1, this.Tank2, this.Tank3, this.Tank4, this.Tank5, this.Tank6]);
+    this.selectionRectManager = new SelectionRect(this, [
+      this.Tank1, this.Tank2, this.Tank3, this.Tank4, this.Tank5, this.Tank6,
+      this.Tank7,this.Tank8, this.Tank9, this.Tank10, this.Tank11, this.Tank12,
+    ]);
   };
 
   update(time, delta) {
+    stats.begin();
 
     this.cameraController.update(delta)
     this.Tank1.update();
@@ -121,6 +141,15 @@ class setMapTest extends Phaser.Scene{
     this.Tank4.update();
     this.Tank5.update();
     this.Tank6.update();
+
+    this.Tank7.update();
+    this.Tank8.update();
+    this.Tank9.update();
+    this.Tank10.update();
+    this.Tank11.update();
+    this.Tank12.update();
+
+    stats.end();
   };
 }
 
@@ -136,7 +165,7 @@ const config = {
     default: 'arcade',
     arcade: {
       gravity: { x: 0 }, // Nessuna gravità
-      debug: false,
+      debug: true,
     },
   },
 }

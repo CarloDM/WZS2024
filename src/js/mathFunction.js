@@ -1,4 +1,4 @@
-export {fromPointerToTile, fromTileToWorldPoint, fromPositionToTile, fromTileToTargetObj };
+export {fromPointerToTile, fromTileToWorldPoint, fromPositionToTile, fromTileToTargetObj, calculateDistance };
 
 
 // from pointer to tile convert
@@ -27,10 +27,25 @@ function fromTileToTargetObj (tileX, tileY){
   return { x: wordPX, y: wordPY };
 }
 
+
 function fromPositionToTile(positionX, positionY){
 
   const tileX =  Math.floor((positionX +2048) /32);
   const tileY =  Math.floor((positionY +2048) /32);
 
   return [tileX,tileY]
+}
+
+
+
+//  Euclide disse che : "
+//    la distanza tra due punti (x1,y1),(x2,x2) è data dalla:
+//    radice quadrata di -> (x2 - x1) alla seconda + (y2 - y1) alla seconda 
+//  "
+function calculateDistance(positionX, positionY, targetX, targetY ){
+
+  const dx = positionX - targetX;
+  const dy = positionY - targetY;
+  return Math.sqrt(dx * dx + dy * dy);
+
 }

@@ -1,7 +1,7 @@
 import Phaser from "phaser";
 import dat from 'dat.gui';
 import {findPath} from "./Astar";
-import {fromPointerToTile,fromTileToWorldPoint} from "./mathFunction";
+import {fromPointerToTile,fromTileToWorldPoint,calculateDistance} from "./mathFunction";
 
 export default class SelectionRect {
   constructor(scene, tanks) {
@@ -163,24 +163,60 @@ export default class SelectionRect {
             let sheddingX = 1;
             let sheddingY = 1;
             let count = 1;
-            this.tanks.forEach((tank) => {
-              if(tank.isTankSelected){
-                count ++;
+            let tankSelected = this.tanks.filter((tank) => tank.isTankSelected);
+            console.log(tankSelected[0].tank.x,tankSelected[0].tank.y, 'target', centredWorldTarget[0],centredWorldTarget[1] );
+            // sort by distance
+            tankSelected.sort((a,b) => 
+            calculateDistance(a.tank.x, a.tank.y, centredWorldTarget[0],centredWorldTarget[1]) 
+            - 
+            calculateDistance(b.tank.x, b.tank.y, centredWorldTarget[0],centredWorldTarget[1])
+            );
+
+            let tanksCount = tankSelected.length
+            console.log(tanksCount)
+
+            const interval = setInterval(() => {
+              // console.log('interval on');
+                  if(tanksCount !== 0){
+                    if(count % 2 === 0){
+                      tileTarget[0] += sheddingX;
+                      tileTarget[1] -= sheddingY;
+                    }else{
+                      tileTarget[0] -= sheddingX;
+                      tileTarget[1] += sheddingY;
+                    }
+                  
+                    tankSelected[count - 1].moveTankTo(tileTarget );
+                    tanksCount --;
+                    count ++;
+                    sheddingX += 1;
+                    sheddingY += 1;
+                  }else{
+                    clearInterval(interval);
+                    // console.log('interval off')
+                  }
+
+              }, 450);
+
+
+            // this.tanks.forEach((tank) => {
+            //   if(tank.isTankSelected){
+            //     count ++;
                 
-                if(count % 2 === 0){
-                  tileTarget[0] += sheddingX;
-                  tileTarget[1] -= sheddingY;
-                }else{
-                  tileTarget[0] -= sheddingX;
-                  tileTarget[1] += sheddingY;
-                }
+            //     if(count % 2 === 0){
+            //       tileTarget[0] += sheddingX;
+            //       tileTarget[1] -= sheddingY;
+            //     }else{
+            //       tileTarget[0] -= sheddingX;
+            //       tileTarget[1] += sheddingY;
+            //     }
 
-                tank.moveTankTo(target, tileTarget );
+            //     tank.moveTankTo(target, tileTarget );
 
-                sheddingX += 1;
-                sheddingY += 1;
-              }
-            });
+            //     sheddingX += 1;
+            //     sheddingY += 1;
+            //   }
+            // });
 
         }else {
 
