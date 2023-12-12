@@ -12,7 +12,7 @@ export default class Tank {
     this.isTankSelected = false;
     this.target = false;
     this.targets = []
-    this.speed = 110;
+    this.speed = 120;
     this.acceleration = 1;
     this.accIncrement = this.speed/60;
     this.break = false;

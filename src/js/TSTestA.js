@@ -68,19 +68,7 @@ class setMapTest extends Phaser.Scene{
     
     // Initializing the pathfinder
     setUpFinder(this.map); 
-//  @{findPath} example
-    // findPath(110, 25, 20, 19)
-    //   .then((Fpath) =>{
-    //     console.log('Astar path founded', Fpath);
 
-    //     for (let index = 0; index < Fpath.length; index++) {
-    //       this.add.rectangle((Fpath[index].x * 32 ) -2032 , (Fpath[index].y * 32) -2032 , 32, 32, 0x1d7196, 0.5);
-    //     }
-        
-    //   })
-    //   .catch((error) => {
-    //     console.error(error);
-    //   });
 
 // ---------------------------------------
       // debug collider wall
@@ -122,7 +110,7 @@ class setMapTest extends Phaser.Scene{
     // collider ------------
     this.physics.add.collider(tanks);
     this.physics.add.collider(tanks, layer);
-    // this.physics.add.collider(layer, tanks );
+
 
     // inizializza selettore tanks
     this.selectionRectManager = new SelectionRect(this, [

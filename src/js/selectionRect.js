@@ -199,24 +199,7 @@ export default class SelectionRect {
               }, 450);
 
 
-            // this.tanks.forEach((tank) => {
-            //   if(tank.isTankSelected){
-            //     count ++;
-                
-            //     if(count % 2 === 0){
-            //       tileTarget[0] += sheddingX;
-            //       tileTarget[1] -= sheddingY;
-            //     }else{
-            //       tileTarget[0] -= sheddingX;
-            //       tileTarget[1] += sheddingY;
-            //     }
 
-            //     tank.moveTankTo(target, tileTarget );
-
-            //     sheddingX += 1;
-            //     sheddingY += 1;
-            //   }
-            // });
 
         }else {
 
