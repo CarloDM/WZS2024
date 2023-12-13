@@ -9,43 +9,28 @@ if(finder){
   console.warn('finder error')
 }
 
-let tilesData = []
-const grid = [];
+// let tilesData = []
+// const grid = [];
 
 
-function setUpFinder(map){
-
-  tilesData = map.layer.data;
-
-
-  for (let y = 0; y < map.height; y++) {
-
-    let col = [];
-
-      for (let x = 0; x < map.width; x++) {
-
-        let tileID = tilesData[y][x].index
-
-        col.push(tileID);
-      }
-
-    grid.push(col);
-
-  }
-
-
-  // console.log('Astar grid',grid);
+function setUpFinder(grid){
 
   finder.setGrid(grid);
-
-  finder.enableDiagonals();
-
+  
+  // finder.enableDiagonals();
+  
   finder.setAcceptableTiles([-1, 0, 1, 2, 3]);
-
-  finder.setTileCost(3, 4); 
+  
+  finder.setTileCost(3, 10); 
   finder.setTileCost(2, 3);
-
+  
   finder.setIterationsPerCalculation(10000);
+
+  if(grid){
+    console.log('finder inizialized');
+  }else{
+    console.warn('finder not inizialized');
+  }
 
 }
 

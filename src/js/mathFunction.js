@@ -1,6 +1,16 @@
-export {fromPointerToTile, fromTileToWorldPoint, fromPositionToTile, fromTileToTargetObj, calculateDistance };
+export {initializeMathFunction, fromPointerToTile, fromTileToWorldPoint, fromPositionToTile, fromTileToTargetObj, calculateDistance, ifTileInsideBound,ifTileIsAllowed, ifTileIsAllowedXY };
 
+let grid = false;
 
+function initializeMathFunction(gridIn){
+
+grid = gridIn;
+if(grid){
+  console.log('mathFunction initialized')
+}else{
+  console.warn('mathFunction not initialize')
+}
+}
 // from pointer to tile convert
 function fromPointerToTile(scene, pointerX, pointerY){
 
@@ -48,4 +58,38 @@ function calculateDistance(positionX, positionY, targetX, targetY ){
   const dy = positionY - targetY;
   return Math.sqrt(dx * dx + dy * dy);
 
+}
+
+function ifTileInsideBound(tile){
+
+  if((tile[0] > 2) && (tile[0] < 126) && (tile[1] > 2) && (tile[1] < 126)){
+
+    return true;
+  }else{
+
+    return false;
+  }
+}
+
+// grid array di oogni y contiene array di x 
+function ifTileIsAllowed(tile){
+
+  if(grid[tile[1]][tile[0]] !== 4){
+
+    return true;
+  }else{
+
+    return false;
+  }
+}
+
+function ifTileIsAllowedXY(tX,tY){
+
+  if(grid[tY][tX] !== 4){
+
+    return true;
+  }else{
+
+    return false;
+  }
 }

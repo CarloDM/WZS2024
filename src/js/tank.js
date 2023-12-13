@@ -3,7 +3,7 @@ import dat from 'dat.gui';
 import {fromTileToTargetObj,fromTileToWorldPoint,fromPositionToTile} from "./mathFunction";
 import {findPath} from "./Astar";
 
-export default class Tank {
+export default class Tank  {
   constructor(scene, id, position){
     this.scene = scene;
     this.id = id;
@@ -12,13 +12,14 @@ export default class Tank {
     this.isTankSelected = false;
     this.target = false;
     this.targets = []
-    this.speed = 120;
+    this.speed = 40;
     this.acceleration = 1;
     this.accIncrement = this.speed/60;
     this.break = false;
     this.isDirected = false;
     this.friction = 0.80;
-    this.tolerance = 32;
+    this.tolerance = 64;
+    this.selftCheck = false;
 
 
 
@@ -36,6 +37,13 @@ export default class Tank {
     this.tank.body.setBounce(4,4)
     // console.log(this.tank.body)
     this.totalCheck = 0;
+
+
+    if(this.id === 1){
+      setTimeout(() => {
+        this.destroy()
+      }, 6000);
+    }
   }
 
   setTankSelected() {
@@ -77,13 +85,12 @@ export default class Tank {
         this.isDirected = true;
         this.selftMoveControll();
 
-        const pathConvert = [];
+
         filteredPath.forEach(tile => {
 
           this.targets.push(fromTileToTargetObj(tile.x,tile.y))
         });
-        // console.log('conversione in array',this.targets);
-        // this.targets = pathConvert;
+
       })
       .catch((error) => {
         console.error(error);
@@ -92,15 +99,18 @@ export default class Tank {
   };
 
 
-  
   selftMoveControll(){
 
+  if(!this.selftCheck){
+    console.log('set checking')
+
+    this.selftCheck = true;
     let positionVerified = [];
 
       let check = setInterval(() => {
-        console.log('check interval');
-        this.totalCheck ++;
+
         if(this.isDirected){
+
           const tilePosition =  fromPositionToTile(this.tank.x, this.tank.y);
           positionVerified.push(tilePosition);
           // console.log('check tile position', positionVerified );
@@ -112,9 +122,7 @@ export default class Tank {
                 positionVerified[0].toString() === positionVerified[2].toString() &&
                 positionVerified[0].toString() === positionVerified[3].toString() &&
                 this.target
-                )
-                {
-                  // console.warn('tank bloccato!', this.id)
+                ){
 
                   let targetPosition = null;
 
@@ -123,37 +131,62 @@ export default class Tank {
                   }else{
                     targetPosition = this.target;
                   }
-                  // console.log('targetposition', targetPosition);
+
                   const targetTile = fromPositionToTile(targetPosition.x, targetPosition.y );
-                  // console.log(this.tank.x, this.tank.y);
-                  if(Phaser.Math.Between(0, 1) === 1){
-                    console.log('try 1')
-                    this.tank.x -= 64;
-                    this.tank.y += 64;
-                  }else{
-                    console.log('try 0')
-                    this.tank.x += 64;
-                    this.tank.y -= 64;
+
+                  //tentativi di sbroglio
+                  let choice = Phaser.Math.Between(0, 3);
+                  switch (choice) {
+
+                    case 0:
+                      this.tank.x -= 64;
+                      this.tank.y += 64;
+                      break;
+                    case 1:
+                      this.tank.x += 64;
+                      this.tank.y -= 64;
+                      break;
+                    case 2:
+                      this.tank.x += 64;
+                      this.tank.y += 64;
+                      break;
+                    case 3:
+                      this.tank.x -= 64;
+                      this.tank.y -= 64;
+                      break;
+
                   }
-                  // console.warn('target Tile', targetTile);
-                  this.moveTankTo(targetTile);
-                  console.warn('clear & retarget', this.id)
-                  clearInterval(check);
-                  // console.log('total check', this.totalCheck, this.id)
+
+
+                  if(this.tank.body){
+                    clearInterval(check);
+                    console.log('clear reset');
+                    this.selftCheck = false;
+                    this.moveTankTo(targetTile);
+                  }else{
+                    clearInterval(check);
+                    console.log('clear because die', this.id);
+                  }
+
                 };
             }
 
         }else{
-          console.warn('clear chacking');
-          // console.log('total check', this.totalCheck, this.id);
+
           clearInterval(check);
           positionVerified = [];
+          this.selftCheck = false;
+          console.log('clear');
+
         }
 
       }, 3000);
 
       check;
 
+    }else{
+      console.log('alrady checking')
+    }
   }
 
   moveTankToNext(target){
@@ -178,8 +211,31 @@ export default class Tank {
     }
   }
   
+  destroy() {
+    // Assicurati che il tank esista prima di tentare la distruzione
+    if (this.tank.body) {
+      // Distruggi il corpo fisico
+      this.tank.body.destroy();
+    }
+    // Distruggi il tank
+    this.tank.destroy();
+    console.log(this.id ,'destroy')
+  }
+
+  isDestroyed() {
+    if(!this.tank.active){
+      return true
+    }else{
+      return false
+    }
+  }
+
+
+
+
   update(){
 
+    // this.tank.destroy(true);
 
         if(this.target){
 
@@ -224,5 +280,7 @@ export default class Tank {
       //frizione
       this.tank.body.velocity.x *= this.friction;
       this.tank.body.velocity.y *= this.friction;
+
+
   }
 }
