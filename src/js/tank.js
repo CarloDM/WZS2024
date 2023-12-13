@@ -11,7 +11,8 @@ export default class Tank  {
     this.rotation = 0;
     this.isTankSelected = false;
     this.target = false;
-    this.targets = []
+    this.targets = [];
+    this.afterTargets = [];
     this.speed = 40;
     this.acceleration = 1;
     this.accIncrement = this.speed/60;
@@ -64,7 +65,7 @@ export default class Tank  {
     this.targets = [];
     this.break = false;
     const tilePosition = fromPositionToTile(this.tank.x, this.tank.y);
-
+    console.log('new target move to',tileTarget)
     // console.log('tank position', this.tank.x, this.tank.y, tilePosition );
     
     findPath(tilePosition[0], tilePosition[1], tileTarget[0], tileTarget[1])
@@ -205,8 +206,8 @@ export default class Tank  {
       this.moveTankTo(target);
 
     }else{
-
-      this.targets.push(target);
+      console.log('push after', target)
+      this.afterTargets.push(target);
 
     }
   }
@@ -247,10 +248,14 @@ export default class Tank  {
               this.break = true;
 
               if(this.targets.length > 0 && !this.target){
-
+                console.log('good targets',this.targets)
                 this.moveTankToNext(this.targets[0]) 
                 this.targets.shift();
 
+              }else if(this.afterTargets.length > 0 && !this.target){
+                console.log('after targets',this.afterTargets)
+                this.moveTankTo(this.afterTargets[0])
+                this.afterTargets.shift();
               }else{
                 this.isDirected = false;
               }
