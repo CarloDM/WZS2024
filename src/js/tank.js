@@ -36,7 +36,7 @@ export default class Tank  {
     this.totalCheck = 0;
 
 
-    this.tank.cannon = new Cannon(this.scene, this.tank, this.position);
+    this.tank.cannon = new Cannon(this.scene, this.tank);
 
 
     if(this.id === 1){
@@ -45,6 +45,8 @@ export default class Tank  {
         this.destroy()
       }, 6000);
     }
+    
+    // console.log('cannon' ,this.tank.cannon.circle)
   }
 
 
@@ -238,7 +240,7 @@ export default class Tank  {
       return false
     }
   }
-
+  
 // --------------------------------
 
 
