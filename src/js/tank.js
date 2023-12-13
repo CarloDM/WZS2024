@@ -1,4 +1,5 @@
 import Phaser from "phaser";
+import Cannon from "./cannon";
 import dat from 'dat.gui';
 import {fromTileToTargetObj,fromTileToWorldPoint,fromPositionToTile} from "./mathFunction";
 import {findPath} from "./Astar";
@@ -21,17 +22,13 @@ export default class Tank  {
     this.friction = 0.80;
     this.tolerance = 64;
     this.selftCheck = false;
-
-
+// ------
 
     this.tank = scene.add.sprite(position[0],position[1],'tankdebug');
-    const tankWidth = 64;
-    const tankHeight = 64;
     this.tank.setOrigin(0.5, 0.5);
-    this.tank.displayWidth = tankWidth;
-    this.tank.displayHeight = tankHeight;
+    this.tank.displayWidth = 64;
+    this.tank.displayHeight = 64;
     this.tank.angle = 0;
-
     scene.physics.world.enable(this.tank);
     this.tank.body.setCollideWorldBounds(true, 4, 4);
     this.tank.setInteractive();
@@ -39,12 +36,23 @@ export default class Tank  {
     this.totalCheck = 0;
 
 
+    this.tank.cannon = new Cannon(this.scene, this.tank, this.position);
+
+
     if(this.id === 1){
       setTimeout(() => {
+        
         this.destroy()
       }, 6000);
     }
   }
+
+
+
+
+
+
+// this class functions---------------------------
 
   setTankSelected() {
     if(!this.isTankSelected){
@@ -201,7 +209,7 @@ export default class Tank  {
   pushTarget(target){
 
     if(!this.target && this.targets.length === 0){
-      
+
       this.moveTankTo(target, true);
 
     }else{
@@ -218,6 +226,7 @@ export default class Tank  {
       this.tank.body.destroy();
     }
     // Distruggi il tank
+    this.tank.cannon.destroy()
     this.tank.destroy();
     console.log(this.id ,'destroy')
   }
@@ -230,12 +239,14 @@ export default class Tank  {
     }
   }
 
+// --------------------------------
 
 
-
+// ---------------------------updatew
   update(){
 
-    // this.tank.destroy(true);
+    this.tank.cannon.update()
+
 
         if(this.target){
 

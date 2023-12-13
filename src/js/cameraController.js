@@ -5,8 +5,8 @@ export default class CameraController {
   constructor(scene) {
     // dichiaro main camera per leggibilità migliore
     const mainCamera = scene.cameras.main;
-    mainCamera.zoomX = 0.26;
-    mainCamera.zoomY = 0.26;
+    mainCamera.zoomX = 0.43;
+    mainCamera.zoomY = 0.43;
 
     // gli input vanno importati dalla scena passata quindi
     scene.input.on('wheel',(pointer, gameObjects, deltaX, deltaY, deltaZ) => {

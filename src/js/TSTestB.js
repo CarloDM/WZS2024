@@ -52,6 +52,7 @@ class setMapTest extends Phaser.Scene{
     this.load.image('background','/texture/TS-clr-map-draft-01.jpg');
 
     this.load.image('tankdebug','/texture/tank.png'); //
+    this.load.image('cannon','/texture/cannonDebug.png'); //
 
     this.load.tilemapCSV('map','../tankSurvive/map/ts-map-collide-cost.csv');
   };
@@ -97,15 +98,15 @@ class setMapTest extends Phaser.Scene{
 
 // ---------------------------------------
       // debug collider wall
-      // this.debugGraphics = this.add.graphics();
-      // this.map.renderDebug(this.debugGraphics, {
+      this.debugGraphics = this.add.graphics();
+      this.map.renderDebug(this.debugGraphics, {
       
-      //   tileColor: null, // Non-colliding tiles
+        tileColor: null, // Non-colliding tiles
       
-      //   collidingTileColor: new Phaser.Display.Color(180, 80, 0, 100), // Colliding tiles
+        collidingTileColor: new Phaser.Display.Color(180, 80, 0, 100), // Colliding tiles
       
-      //   faceColor: new Phaser.Display.Color(20, 20, 20, 255) // Colliding face edges
-      // });
+        faceColor: new Phaser.Display.Color(20, 20, 20, 255) // Colliding face edges
+      });
 
 
 
@@ -137,13 +138,7 @@ class setMapTest extends Phaser.Scene{
     // collider ------------
     this.physics.add.collider(tanks);
     this.physics.add.collider(tanks, layer);
-    
-    // setTimeout(() => {
-    //   this.tanksGrp1[0].destroy();
-
-    //   let newTank = tankFactory.createTank([0,0]);
-    //   this.tanksGrp1.push(newTank)
-    // }, 6000);
+  
   };
 
 
@@ -157,8 +152,11 @@ class setMapTest extends Phaser.Scene{
         console.log('splice dead tank')
         // Rimuovi il tank distrutto dalla lista
         this.tanksGrp1.splice(index, 1);
+        
       }else{
+
         tank.update(); 
+
       }
     })
 
