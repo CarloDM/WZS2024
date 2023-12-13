@@ -13,7 +13,7 @@ export default class Tank  {
     this.target = false;
     this.targets = [];
     this.afterTargets = [];
-    this.speed = 40;
+    this.speed = 300;
     this.acceleration = 1;
     this.accIncrement = this.speed/60;
     this.break = false;
@@ -36,7 +36,6 @@ export default class Tank  {
     this.tank.body.setCollideWorldBounds(true, 4, 4);
     this.tank.setInteractive();
     this.tank.body.setBounce(4,4)
-    // console.log(this.tank.body)
     this.totalCheck = 0;
 
 
@@ -59,19 +58,19 @@ export default class Tank  {
     this.tank.clearTint(); // Ripristina il colore originale
   }
 
-  moveTankTo(tileTarget){
+  moveTankTo(tileTarget, clearAfter){
 
+    if(clearAfter){
+      this.afterTargets= [];
+    }
     this.isDirected = false;
     this.targets = [];
     this.break = false;
     const tilePosition = fromPositionToTile(this.tank.x, this.tank.y);
-    console.log('new target move to',tileTarget)
-    // console.log('tank position', this.tank.x, this.tank.y, tilePosition );
-    
+
     findPath(tilePosition[0], tilePosition[1], tileTarget[0], tileTarget[1])
       .then((Fpath) =>{
 
-        // console.log('Astar path founded', Fpath);
         Fpath.shift();
         const lastTile = Fpath[Fpath.length - 1];
         const filteredPath = Fpath.filter((tile, index) => index % 3 === 0);
@@ -114,7 +113,7 @@ export default class Tank  {
 
           const tilePosition =  fromPositionToTile(this.tank.x, this.tank.y);
           positionVerified.push(tilePosition);
-          // console.log('check tile position', positionVerified );
+
 
             if(positionVerified.length >= 5){
               positionVerified.shift();
@@ -191,7 +190,7 @@ export default class Tank  {
   }
 
   moveTankToNext(target){
-    // console.log('move to next', target, this.targets);
+
     this.break = false;
     this.target = target;
 
@@ -202,11 +201,11 @@ export default class Tank  {
   pushTarget(target){
 
     if(!this.target && this.targets.length === 0){
-
-      this.moveTankTo(target);
+      
+      this.moveTankTo(target, true);
 
     }else{
-      console.log('push after', target)
+
       this.afterTargets.push(target);
 
     }
@@ -246,27 +245,27 @@ export default class Tank  {
               this.target = false;
               this.acceleration = this.speed;
               this.break = true;
-
+              
               if(this.targets.length > 0 && !this.target){
-                console.log('good targets',this.targets)
+                  
                 this.moveTankToNext(this.targets[0]) 
                 this.targets.shift();
-
+                  
               }else if(this.afterTargets.length > 0 && !this.target){
-                console.log('after targets',this.afterTargets)
-                this.moveTankTo(this.afterTargets[0])
+                  
+                this.moveTankTo(this.afterTargets[0], false)
                 this.afterTargets.shift();
               }else{
                 this.isDirected = false;
               }
           }
-
+            
           if (!this.break && this.tank.body.speed > 0 && this.tank.body.speed <  this.speed  )
           {
             this.tank.rotation = this.tank.body.angle;
             this.acceleration += this.accIncrement;
             this.scene.physics.moveToObject(this.tank, this.target, this.acceleration);
-
+              
           }else if (this.target){
             this.tank.rotation = this.tank.body.angle;
             this.break = true;
