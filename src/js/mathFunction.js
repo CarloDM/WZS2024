@@ -1,4 +1,5 @@
-export {initializeMathFunction, fromPointerToTile, fromTileToWorldPoint, fromPositionToTile, fromTileToTargetObj, calculateDistance, ifTileInsideBound,ifTileIsAllowed, ifTileIsAllowedXY };
+import Phaser from "phaser";
+export {initializeMathFunction, fromPointerToTile, fromTileToWorldPoint, fromPositionToTile, fromTileToTargetObj, calculateDistance, ifTileInsideBound,ifTileIsAllowed, ifTileIsAllowedXY, calculateRotationAngle };
 
 let grid = false;
 
@@ -92,4 +93,10 @@ function ifTileIsAllowedXY(tX,tY){
 
     return false;
   }
+}
+
+function calculateRotationAngle(originX, originY , targetX, targetY ){
+  const angle = Math.atan2(targetY - originY, targetX - originX);
+  const angleInDegrees = Phaser.Math.RadToDeg(angle);
+  return angleInDegrees;
 }

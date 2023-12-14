@@ -1,8 +1,10 @@
 import Tank from './tank';
+import Enemy from "./enemy";
 export default class TankFactory {
   constructor(scene){
     this.scene = scene;
     this.tankCount = 0;
+    this.enemyCount = 0;
   }
   
   createTank(position){
@@ -24,4 +26,22 @@ export default class TankFactory {
     return tanks;
   }
 
+  createEnemy(position){
+    this.enemyCount ++
+    console.log('new Enemy', this.enemyCount)
+    return new Enemy(this.scene, this.enemyCount, position);
+  }
+  
+  createMultipleEnemies(number,  startingPosition) {
+    const enemies = [];
+  
+    for (let i = 0; i < number; i++) {
+  
+      const position = [startingPosition[0] + i * 128, startingPosition[1]];
+      const enemy = this.createEnemy(position);
+      enemies.push(enemy);
+    }
+  
+    return enemies;
+  }
 };

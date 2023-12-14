@@ -8,7 +8,7 @@ import {initializeMathFunction} from './mathFunction';
 import CameraController from './cameraController';
 import SelectionRect from './selectionRect';
 import TankFactory from './tankFactory';
-import Tank from './tank';
+
 
 
 
@@ -24,8 +24,9 @@ class setMapTest extends Phaser.Scene{
   constructor ()
   {super('setMapTest');
 
-  this.tanksGrp1 = [];
   this.grid = [];
+  this.tanksGrp1 = [];
+  this.enemiesGrp = [];
 
   };
   
@@ -53,6 +54,7 @@ class setMapTest extends Phaser.Scene{
 
     this.load.image('tankdebug','/texture/tank.png'); //
     this.load.image('cannon','/texture/cannonDebug.png'); //
+    this.load.image('enemy','/texture/enemy.png'); //
 
     this.load.tilemapCSV('map','../tankSurvive/map/ts-map-collide-cost.csv');
   };
@@ -98,26 +100,25 @@ class setMapTest extends Phaser.Scene{
 
 // ---------------------------------------
       // debug collider wall
-      this.debugGraphics = this.add.graphics();
-      this.map.renderDebug(this.debugGraphics, {
+      // this.debugGraphics = this.add.graphics();
+      // this.map.renderDebug(this.debugGraphics, {
       
-        tileColor: null, // Non-colliding tiles
+      //   tileColor: null, // Non-colliding tiles
       
-        collidingTileColor: new Phaser.Display.Color(180, 80, 0, 100), // Colliding tiles
+      //   collidingTileColor: new Phaser.Display.Color(180, 80, 0, 100), // Colliding tiles
       
-        faceColor: new Phaser.Display.Color(20, 20, 20, 255) // Colliding face edges
-      });
-
+      //   faceColor: new Phaser.Display.Color(20, 20, 20, 255) // Colliding face edges
+      // });
+    
+    
+    const tankFactory = new TankFactory(this);
 
 
     const tanks = this.physics.add.group();
 
-    const tankFactory = new TankFactory(this);
-
-
-    this.tanksGrp1 = tankFactory.createMultipleTanks(10, [-600,255]);
-    const tanksGrp2 = tankFactory.createMultipleTanks(10, [-600,0]);
-    const tanksGrp5 = tankFactory.createMultipleTanks(10, [-600,-200]);
+    this.tanksGrp1 =  tankFactory.createMultipleTanks(1, [-600,255] );
+    const tanksGrp2 = tankFactory.createMultipleTanks(1, [-600,0]   );
+    const tanksGrp5 = tankFactory.createMultipleTanks(0, [-600,-200]);
 
     tanksGrp2.forEach(tank => {
       this.tanksGrp1.push(tank);
@@ -130,20 +131,37 @@ class setMapTest extends Phaser.Scene{
     tanks.addMultiple(this.tanksGrp1.map(tank => tank.tank));
 
 
+
+    const enemies = this.physics.add.group();
+    // ---- primo enemy
+    this.enemiesGrp = tankFactory.createMultipleEnemies(1,[0,0])
+
+    tanks.addMultiple(this.enemiesGrp.map(enemy => enemy.enemy));
+
+
+
+
     // inizializza selettore tanks
     this.selectionRectManager = new SelectionRect(this, 
       this.tanksGrp1 
     );
-    
     // collider ------------
     this.physics.add.collider(tanks);
     this.physics.add.collider(tanks, layer);
+    this.physics.add.collider(tanks, enemies);
+    this.physics.add.collider(enemies);
+    this.physics.add.collider(enemies, tanks);
+    this.physics.add.collider(enemies, layer);
   
   };
 
 
   update(time, delta) {
     stats.begin();
+
+    // if(Math.floor(time) % 1000 === 0){
+    //   console.log(time);
+    // }
 
     this.cameraController.update(delta);
 

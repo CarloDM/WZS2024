@@ -26,17 +26,18 @@ export default class Tank  {
 
     this.tank = scene.add.sprite(position[0],position[1],'tankdebug');
     this.tank.setOrigin(0.5, 0.5);
-    this.tank.displayWidth = 64;
-    this.tank.displayHeight = 64;
-    this.tank.angle = 0;
+    // this.tank.displayWidth = 64;
+    // this.tank.displayHeight = 64;
+    // this.tank.angle = 0;
     scene.physics.world.enable(this.tank);
     this.tank.body.setCollideWorldBounds(true, 4, 4);
     this.tank.setInteractive();
     this.tank.body.setBounce(4,4)
+    this.tank.body.setCircle(32);
     this.totalCheck = 0;
 
 
-    this.tank.cannon = new Cannon(this.scene, this.tank);
+    this.tank.cannon = new Cannon(this.scene, this.tank, this.id);
 
 
     if(this.id === 1){
