@@ -39,6 +39,7 @@ export default class TankFactory {
   
       const position = [startingPosition[0] + i * 128, startingPosition[1]];
       const enemy = this.createEnemy(position);
+      console.log('create enemy', enemy)
       enemies.push(enemy);
     }
   

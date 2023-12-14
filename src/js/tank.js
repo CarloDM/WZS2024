@@ -14,7 +14,7 @@ export default class Tank  {
     this.target = false;
     this.targets = [];
     this.afterTargets = [];
-    this.speed = 300;
+    this.speed = 40;
     this.acceleration = 1;
     this.accIncrement = this.speed/60;
     this.break = false;
@@ -42,7 +42,7 @@ export default class Tank  {
 
     if(this.id === 1){
       setTimeout(() => {
-        
+        this.tank.cannon.destroy()
         this.destroy()
       }, 6000);
     }

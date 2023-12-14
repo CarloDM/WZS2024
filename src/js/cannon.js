@@ -1,5 +1,7 @@
 import Phaser from "phaser";
 
+import Bullet from './Bullet';
+
 import {calculateDistance,calculateRotationAngle} from './mathFunction';
 
 export default class cannon {
@@ -9,11 +11,13 @@ export default class cannon {
     this.id = id;
 
     this.range = 450;
-    this.rotationVelocity = 1;
+    this.rotationVelocity = 0.5;
+    this.rof = 1000;
 
     this.enemies = [];
     this.target = null;
     this.hookingAngle = 0;
+    this.isShooting = false;
 
 
 
@@ -22,16 +26,19 @@ export default class cannon {
 
 
     this.cannon = scene.add.sprite(this.tank.x, this.tank.y, 'cannon');
-    this.cannon.angle = 180;
+    this.cannon.angle = 0;
+
+
+
 
 
     this.scanning = setInterval(() => {
       this.scanForEnemies();
     }, 1500);
+    console.log('cannon',this)
 
 
-
-
+    console.log(this.scene.bulletsGrp)
 
 
     // create circle range 
@@ -70,11 +77,10 @@ export default class cannon {
               
                 if(distanceFromCannon < this.circle.radius){
                 
-                    console.log('nemicoID:' , enemy.id ,'dentro raggio');
                     enemiesScanned.push(enemy);
                 
                 }else{
-                  // console.log('nessun nemico')
+                  this.isShooting = false;
                 }
               
               });
@@ -128,13 +134,37 @@ export default class cannon {
 
   }
 
+  shooting(onOff){
+    const shotInterval = setInterval(() => {
+
+      if(this.isShooting && this.cannon.active){
+        this.fire();
+        }else{
+          clearInterval(shotInterval);
+        }
+      }, this.rof);
+
+    if(onOff){
+
+      shotInterval;
+    }else{
+      clearInterval(shotInterval);
+    }
+  }
+
+  fire(){
+    const bullet = new Bullet(this.scene, this.cannon.x, this.cannon.y, this.cannon.angle, 750, 8, 2 );
+    this.scene.bulletsGrp.push(bullet);
+    this.scene.bullets.add(bullet.bullet);
+  }
+
   destroy() {
-    // Assicurati che il tank esista prima di tentare la distruzione
+
     if (this.cannon.body) {
       // Distruggi il corpo fisico
       this.cannon.body.destroy();
     }
-    // Distruggi il tank & il suo cannone
+
     this.cannon.destroy();
     this.graphics.destroy();
     console.log('cannon also destroy')
@@ -143,25 +173,53 @@ export default class cannon {
 
 
   update(){
+
     this.cannon.x = this.tank.x;
     this.cannon.y = this.tank.y;
     this.circle.x = this.tank.x;
     this.circle.y = this.tank.y;
 
-    if(this.target){
-      this.setHookingAngle();
-      const angleDifference = Math.floor( Phaser.Math.Angle.ShortestBetween(this.hookingAngle, this.cannon.angle));
-  
-      if(angleDifference > 0){
-  
-          this.cannon.angle -= this.rotationVelocity;
-  
-      }else if (angleDifference < 0){
-  
-          this.cannon.angle += this.rotationVelocity;
-        }
 
-    }
+
+    if(this.target){
+    
+      //angolo di aggancio
+      this.setHookingAngle();
+    
+      // determina la differenza tra angolo cannone e angolo di aggancio
+      const angleDifference = Math.floor( Phaser.Math.Angle.ShortestBetween(this.hookingAngle, this.cannon.angle));
+    
+      // apre chiude il fuoco se bersaglio è sotto mira o no
+      if(angleDifference < 3 && angleDifference > -3 ){
+
+          if(!this.isShooting){
+            this.isShooting = true ;
+            console.warn('shooting true true')
+            this.shooting(true);
+          }
+
+      }else{
+
+          if(this.isShooting){
+            this.isShooting = false;
+            console.warn('shooting false ')
+            this.shooting(false);
+          }
+
+      }
+    
+      //anima la rotazione
+      if(angleDifference > 0){
+          
+          this.cannon.angle -= this.rotationVelocity;
+          
+      }else if (angleDifference < 0){
+          
+          this.cannon.angle += this.rotationVelocity;
+
+      }
+
+    }// se abbiamo un target
 
 
 

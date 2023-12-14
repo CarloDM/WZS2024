@@ -27,6 +27,9 @@ class setMapTest extends Phaser.Scene{
   this.grid = [];
   this.tanksGrp1 = [];
   this.enemiesGrp = [];
+  this.bulletsGrp = [];
+  this.bullets = [];
+
 
   };
   
@@ -55,6 +58,7 @@ class setMapTest extends Phaser.Scene{
     this.load.image('tankdebug','/texture/tank.png'); //
     this.load.image('cannon','/texture/cannonDebug.png'); //
     this.load.image('enemy','/texture/enemy.png'); //
+    this.load.image('bullet','/texture/bullet.png'); //
 
     this.load.tilemapCSV('map','../tankSurvive/map/ts-map-collide-cost.csv');
   };
@@ -116,9 +120,9 @@ class setMapTest extends Phaser.Scene{
 
     const tanks = this.physics.add.group();
 
-    this.tanksGrp1 =  tankFactory.createMultipleTanks(1, [-600,255] );
-    const tanksGrp2 = tankFactory.createMultipleTanks(1, [-600,0]   );
-    const tanksGrp5 = tankFactory.createMultipleTanks(0, [-600,-200]);
+    this.tanksGrp1 =  tankFactory.createMultipleTanks(2, [-600,255] );
+    const tanksGrp2 = tankFactory.createMultipleTanks(2, [-600,0]   );
+    const tanksGrp5 = tankFactory.createMultipleTanks(2, [-600,-200]);
 
     tanksGrp2.forEach(tank => {
       this.tanksGrp1.push(tank);
@@ -136,10 +140,9 @@ class setMapTest extends Phaser.Scene{
     // ---- primo enemy
     this.enemiesGrp = tankFactory.createMultipleEnemies(1,[0,0])
 
-    tanks.addMultiple(this.enemiesGrp.map(enemy => enemy.enemy));
+    enemies.addMultiple(this.enemiesGrp.map(enemy => enemy.enemy));
 
-
-
+    this.bullets = this.physics.add.group();
 
     // inizializza selettore tanks
     this.selectionRectManager = new SelectionRect(this, 
@@ -152,6 +155,16 @@ class setMapTest extends Phaser.Scene{
     this.physics.add.collider(enemies);
     this.physics.add.collider(enemies, tanks);
     this.physics.add.collider(enemies, layer);
+    // this.physics.add.collider(enemies, bullets);
+
+
+    this.physics.add.collider(this.bullets, enemies, (bullet, enemy) => {
+      // Logica per la collisione tra proiettile e nemico
+      console.log('collisione')
+      enemy.body.setVelocity(0);
+      bullet.destroy();
+      // enemy.takeDamage(bullet.damage);
+    });
   
   };
 
@@ -178,6 +191,29 @@ class setMapTest extends Phaser.Scene{
       }
     })
 
+
+
+
+
+
+
+    if(this.bulletsGrp.length > 0){
+      this.bulletsGrp.forEach((bullet,index) => {
+        
+        if (bullet.active) {
+          console.warn('splice dead bullet')
+          // Rimuovi il tank distrutto dalla lista
+          this.bulletsGrp.splice(index, 1);
+          
+        }else{
+  
+          bullet.update(); 
+  
+        }
+      });
+    }
+    // this.bullets.addMultiple(this.bulletsGrp.map(bullet => bullet.bullet));
+    
 
 
     stats.end();
