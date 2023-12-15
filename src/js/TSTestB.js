@@ -1,6 +1,8 @@
 import Phaser from "phaser";
 import * as dat from 'dat.gui';
-import Stats from "stats.js"
+import Stats from "stats.js";
+import FloatingNumbersPlugin from "./FloatingNumbersPlugin";
+
 
 import {setUpFinder,findPath} from "./Astar";
 
@@ -25,10 +27,17 @@ class setMapTest extends Phaser.Scene{
   {super('setMapTest');
 
   this.grid = [];
+
   this.tanksGrp1 = [];
+  this.tanks = []
+
   this.enemiesGrp = [];
+  this.enemies = [];
+
   this.bulletsGrp = [];
   this.bullets = [];
+
+  this.tankFactory = null;
 
 
   };
@@ -53,6 +62,8 @@ class setMapTest extends Phaser.Scene{
 
     });
 
+    this.load.scenePlugin('floatingNumbersPlugin', FloatingNumbersPlugin, 'floatingNumbersPlugin', 'floatingNumbers');
+
     this.load.image('background','/texture/TS-clr-map-draft-01.jpg');
 
     this.load.image('tankdebug','/texture/tank.png'); //
@@ -63,7 +74,6 @@ class setMapTest extends Phaser.Scene{
     this.load.tilemapCSV('map','../tankSurvive/map/ts-map-collide-cost.csv');
   };
 
-  
 
 
   create() {
@@ -79,6 +89,18 @@ class setMapTest extends Phaser.Scene{
     const layer = this.map.createLayer(0,'collision',-2048, -2048 );
     
     this.map.setCollisionBetween(4,5);
+
+    // ------------------debug walls tiles---------------------
+      // debug collider wall
+      // this.debugGraphics = this.add.graphics();
+      // this.map.renderDebug(this.debugGraphics, {
+      
+      //   tileColor: null, // Non-colliding tiles
+      
+      //   collidingTileColor: new Phaser.Display.Color(180, 80, 0, 100), // Colliding tiles
+      
+      //   faceColor: new Phaser.Display.Color(20, 20, 20, 255) // Colliding face edges
+      // });
 
     let tilesData = this.map.layer.data;
 
@@ -102,71 +124,47 @@ class setMapTest extends Phaser.Scene{
     initializeMathFunction(this.grid);
 
 
-// ---------------------------------------
-      // debug collider wall
-      // this.debugGraphics = this.add.graphics();
-      // this.map.renderDebug(this.debugGraphics, {
-      
-      //   tileColor: null, // Non-colliding tiles
-      
-      //   collidingTileColor: new Phaser.Display.Color(180, 80, 0, 100), // Colliding tiles
-      
-      //   faceColor: new Phaser.Display.Color(20, 20, 20, 255) // Colliding face edges
-      // });
-    
-    
-    const tankFactory = new TankFactory(this);
-
-
-    const tanks = this.physics.add.group();
-
-    this.tanksGrp1 =  tankFactory.createMultipleTanks(2, [-600,255] );
-    const tanksGrp2 = tankFactory.createMultipleTanks(2, [-600,0]   );
-    const tanksGrp5 = tankFactory.createMultipleTanks(2, [-600,-200]);
-
-    tanksGrp2.forEach(tank => {
-      this.tanksGrp1.push(tank);
-    });
-
-    tanksGrp5.forEach(tank => {
-      this.tanksGrp1.push(tank);
-    });
-    
-    tanks.addMultiple(this.tanksGrp1.map(tank => tank.tank));
-
-
-
-    const enemies = this.physics.add.group();
-    // ---- primo enemy
-    this.enemiesGrp = tankFactory.createMultipleEnemies(1,[0,0])
-
-    enemies.addMultiple(this.enemiesGrp.map(enemy => enemy.enemy));
-
+    // inizializza gruppi fisici
+    this.tanks   = this.physics.add.group();
+    this.enemies = this.physics.add.group();
     this.bullets = this.physics.add.group();
+    
+    
+    this.tankFactory = new TankFactory(this);
+    this.tankFactory.createMultipleTanks(2, [-500,255] );
+    this.tankFactory.createMultipleTanks(2, [-500,0]   );
+    this.tankFactory.createMultipleTanks(2, [-500,-200]);
+    // ---- primo enemy
+    this.tankFactory.createMultipleEnemies(1,[0,0])
+
+
 
     // inizializza selettore tanks
     this.selectionRectManager = new SelectionRect(this, 
       this.tanksGrp1 
     );
-    // collider ------------
-    this.physics.add.collider(tanks);
-    this.physics.add.collider(tanks, layer);
-    this.physics.add.collider(tanks, enemies);
-    this.physics.add.collider(enemies);
-    this.physics.add.collider(enemies, tanks);
-    this.physics.add.collider(enemies, layer);
-    // this.physics.add.collider(enemies, bullets);
 
 
-    this.physics.add.collider(this.bullets, enemies, (bullet, enemy) => {
+    // setta collider tra gruppi fisici e wall ------------
+    this.physics.add.collider(this.tanks);
+    this.physics.add.collider(this.tanks, layer);
+    this.physics.add.collider(this.tanks, this.enemies);
+    this.physics.add.collider(this.enemies);
+    this.physics.add.collider(this.enemies, this.tanks);
+    this.physics.add.collider(this.enemies, layer);
+
+
+    this.physics.add.collider(this.bullets, this.enemies, (bullet, enemy) => {
       // Logica per la collisione tra proiettile e nemico
-      console.log('collisione')
       enemy.body.setVelocity(0);
+      enemy.enemyInstance.takeDamage(bullet.bulletInstance.damage);
       bullet.destroy();
-      // enemy.takeDamage(bullet.damage);
     });
-  
-  };
+    
+    
+    
+    
+  }; //----create
 
 
   update(time, delta) {

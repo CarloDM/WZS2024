@@ -19,6 +19,8 @@ export default class Bullet {
 
     this.bullet.body.setVelocity(this.velocity.x, this.velocity.y);
     this.scene.add.existing(this.bullet);
+
+    this.bullet.bulletInstance = this;
   }
 
   destroy() {

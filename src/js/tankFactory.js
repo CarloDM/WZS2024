@@ -9,40 +9,40 @@ export default class TankFactory {
   
   createTank(position){
     this.tankCount ++
-    console.log('newtank', this.tankCount)
-    return new Tank(this.scene, this.tankCount, position);
+    const newTank = new Tank(this.scene, this.tankCount, position);
+    this.scene.tanksGrp1.push(newTank);
+    this.scene.tanks.add(newTank.tank);
   }
 
-  createMultipleTanks(tankCount,  startingPosition) {
-    const tanks = [];
+  createMultipleTanks(tankCount, startingPosition) {
+
 
     for (let i = 0; i < tankCount; i++) {
 
       const position = [startingPosition[0] + i * 128, startingPosition[1]];
-      const tank = this.createTank(position);
-      tanks.push(tank);
+      this.createTank(position);
+
     }
 
-    return tanks;
   }
 
   createEnemy(position){
     this.enemyCount ++
-    console.log('new Enemy', this.enemyCount)
-    return new Enemy(this.scene, this.enemyCount, position);
+
+    const newEnemy = new Enemy(this.scene, this.enemyCount, position);
+    this.scene.enemiesGrp.push(newEnemy);
+    this.scene.enemies.add(newEnemy.enemy);
   }
   
   createMultipleEnemies(number,  startingPosition) {
-    const enemies = [];
   
     for (let i = 0; i < number; i++) {
   
       const position = [startingPosition[0] + i * 128, startingPosition[1]];
-      const enemy = this.createEnemy(position);
-      console.log('create enemy', enemy)
-      enemies.push(enemy);
+      this.createEnemy(position);
+
     }
   
-    return enemies;
+
   }
 };
