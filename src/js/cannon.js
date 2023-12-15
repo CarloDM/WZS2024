@@ -21,23 +21,20 @@ export default class cannon {
     this.hookingAngle = 0;
     this.isShooting = false;
 
-    this.graphics = null;
-    this.points = null;
-
     this.cannon = scene.add.sprite(this.tank.x, this.tank.y, 'cannon');
-    this.cannon.angle = 0;
+    this.cannon.displayWidth = 64;
+    this.cannon.displayHeight = 64;
 
     this.scanning = setInterval(() => {
       this.scanForEnemies();
     }, 1500);
 
-
     // create circle range 
-    this.graphics = scene.add.graphics({ lineStyle: { width: 1, color: 0xF5FFF7 },    fillStyle: { color: 0xF5FFF7 , alpha:0.20 }});
+    this.graphics = scene.add.graphics({ lineStyle: { width: 1, color: 0xF5FFF7 },    fillStyle: { color: 0xF5FFF7 , alpha:0.10 }});
     this.circle = new Phaser.Geom.Circle(this.tank.x, this.tank.y, this.range );
   
     // visualizza circle range 
-    this.points = this.circle.getPoints(8);
+    this.points = this.circle.getPoints(16);
   
     for (let i = 0; i < this.points.length; i++)
         {
@@ -56,16 +53,16 @@ export default class cannon {
     if(this.tank.body){
 
         if(this.scene.enemiesGrp.length > 0){
-        
+          
               let enemiesScanned = []
               
               this.scene.enemiesGrp.forEach(enemy => {
-              
+
                 let distanceFromCannon =
-                Math.floor(calculateDistance(this.circle.x, this.circle.y, enemy.position[0], enemy.position[1]));
+                Math.floor(calculateDistance(this.circle.x, this.circle.y, enemy.enemy.x, enemy.enemy.y));
               
                 if(distanceFromCannon < this.circle.radius){
-                
+                    
                     enemiesScanned.push(enemy);
                 
                 }else{
@@ -80,6 +77,9 @@ export default class cannon {
             }else{
               this.target = null;
             }
+        }else{
+          this.isShooting = false;
+          this.target = null;
         }
 
     }else{
@@ -123,7 +123,7 @@ export default class cannon {
   }
 // ------------
   fire(){
-    const bullet = new Bullet(this.scene, this.cannon.x, this.cannon.y, this.cannon.angle, 750, 8, 2 );
+    const bullet = new Bullet(this.scene, this.cannon.x, this.cannon.y, this.cannon.angle, 750, 8, 10, 1500 );
     this.scene.bulletsGrp.push(bullet);
     this.scene.bullets.add(bullet.bullet);
   }
@@ -137,7 +137,6 @@ export default class cannon {
 
     this.cannon.destroy();
     this.graphics.destroy();
-    console.log('cannon also destroy');
 
   }
 
@@ -205,7 +204,7 @@ export default class cannon {
 
 
     // debug range 
-    this.points = this.circle.getPoints(16);
+    this.points = this.circle.getPoints(128);
 
     // Pulisci i vecchi rettangoli
     this.graphics.clear();

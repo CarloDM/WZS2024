@@ -1,5 +1,5 @@
 export default class Bullet {
-  constructor(scene, x, y, rotation, speed ,size, damage){
+  constructor(scene, x, y, rotation, speed ,size, damage, lifeTime){
     this.scene = scene;
     this.rotation = rotation;
     this.bullet = scene.add.sprite(x, y, 'bullet'); 
@@ -21,7 +21,13 @@ export default class Bullet {
     this.scene.add.existing(this.bullet);
 
     this.bullet.bulletInstance = this;
-  }
+
+    setTimeout(() => {
+      this.destroy();
+    }, lifeTime);
+
+  }//bullet constructor
+
 
   destroy() {
     if(this.bullet.body){
@@ -40,9 +46,10 @@ export default class Bullet {
   
 
   update() {
-    // Logica di aggiornamento del proiettile, ad esempio controlli di collisione, distruzione, ecc.
+  
     if(this.bullet.body){
       this.bullet.body.setVelocity(this.velocity.x,this.velocity.y);
     }
   }
+  
 }//bullet class

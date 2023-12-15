@@ -9,7 +9,7 @@ export default class TankFactory {
   
   createTank(position){
     this.tankCount ++
-    const newTank = new Tank(this.scene, this.tankCount, position);
+    const newTank = new Tank(this.scene, this.tankCount, position, 500);
     this.scene.tanksGrp1.push(newTank);
     this.scene.tanks.add(newTank.tank);
   }
@@ -29,7 +29,7 @@ export default class TankFactory {
   createEnemy(position){
     this.enemyCount ++
 
-    const newEnemy = new Enemy(this.scene, this.enemyCount, position);
+    const newEnemy = new Enemy(this.scene, this.enemyCount, position, 100);
     this.scene.enemiesGrp.push(newEnemy);
     this.scene.enemies.add(newEnemy.enemy);
   }

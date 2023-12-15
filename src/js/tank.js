@@ -1,14 +1,16 @@
 import Phaser from "phaser";
 import Cannon from "./cannon";
-import dat from 'dat.gui';
+import LifeReloadBar from "./lifeReloadBar";
+
 import {fromTileToTargetObj,fromTileToWorldPoint,fromPositionToTile} from "./mathFunction";
 import {findPath} from "./Astar";
 
 export default class Tank  {
-  constructor(scene, id, position){
+  constructor(scene, id, position, hp){
     this.scene = scene;
     this.id = id;
     this.position = position;
+
     this.rotation = 0;
     this.isTankSelected = false;
     this.target = false;
@@ -24,31 +26,29 @@ export default class Tank  {
     this.selftCheck = false;
 // ------
 
-    this.tank = scene.add.sprite(position[0],position[1],'tankdebug');
+    this.tank = scene.add.sprite(position[0],position[1],'tank');
     this.tank.setOrigin(0.5, 0.5);
-    this.tank.displayWidth = 64;
-    this.tank.displayHeight = 64;
-
+    // this.tank.setScale(1)
+    this.tank.displayWidth = 32;
+    this.tank.displayHeight = 32;
+    this.tank.hp = hp;
     scene.physics.world.enable(this.tank);
     this.tank.body.setCollideWorldBounds(true, 4, 4);
-    this.tank.setInteractive();
     this.tank.body.setBounce(4,4)
     this.tank.body.setCircle(32);
-    this.totalCheck = 0;
+    this.tank.setInteractive();
 
 
     this.tank.cannon = new Cannon(this.scene, this.tank, this.id);
 
+    this.tank.lifeBar = new LifeReloadBar(this.scene, this.tank , hp);
 
-    if(this.id === 1){
-      setTimeout(() => {
-        this.tank.cannon.destroy()
-        this.destroy()
-      }, 6000);
-    }
-    
-    // console.log('cannon' ,this.tank.cannon.circle)
-  }
+
+
+
+    this.tank.tankInstance = this;
+
+  }// tank constructor end
 
 
 
@@ -231,7 +231,7 @@ export default class Tank  {
     // Distruggi il tank
     this.tank.cannon.destroy()
     this.tank.destroy();
-    console.log(this.id ,'destroy')
+
   }
 
   isDestroyed() {
@@ -248,8 +248,8 @@ export default class Tank  {
 // ---------------------------updatew
   update(){
 
-    this.tank.cannon.update()
-
+    this.tank.cannon.update();
+    this.tank.lifeBar.update();
 
         if(this.target){
 

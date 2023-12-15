@@ -66,8 +66,8 @@ class setMapTest extends Phaser.Scene{
 
     this.load.image('background','/texture/TS-clr-map-draft-01.jpg');
 
-    this.load.image('tankdebug','/texture/tank.png'); //
-    this.load.image('cannon','/texture/cannonDebug.png'); //
+    this.load.image('tank','/texture/tank-traction.png'); //
+    this.load.image('cannon','/texture/cannon.png'); //
     this.load.image('enemy','/texture/enemy.png'); //
     this.load.image('bullet','/texture/bullet.png'); //
 
@@ -77,6 +77,7 @@ class setMapTest extends Phaser.Scene{
 
 
   create() {
+
     this.physics.world.setBounds(-2048,-2048, 4096, 4096);
     // mouse dx disabilitare cntx menu
     this.input.mouse.disableContextMenu();
@@ -131,11 +132,12 @@ class setMapTest extends Phaser.Scene{
     
     
     this.tankFactory = new TankFactory(this);
-    this.tankFactory.createMultipleTanks(2, [-500,255] );
-    this.tankFactory.createMultipleTanks(2, [-500,0]   );
-    this.tankFactory.createMultipleTanks(2, [-500,-200]);
+
+    this.tankFactory.createMultipleTanks(10, [-400,0]);
+
     // ---- primo enemy
-    this.tankFactory.createMultipleEnemies(1,[0,0])
+    this.tankFactory.createMultipleEnemies(10,[-400,-600]);
+    this.tankFactory.createMultipleEnemies(10,[-400,-700]);
 
 
 
@@ -178,7 +180,7 @@ class setMapTest extends Phaser.Scene{
 
     this.tanksGrp1.forEach((tank,index) => {
       if (tank.isDestroyed()) {
-        console.log('splice dead tank')
+        console.log('splice dead tank');
         // Rimuovi il tank distrutto dalla lista
         this.tanksGrp1.splice(index, 1);
         
@@ -187,7 +189,19 @@ class setMapTest extends Phaser.Scene{
         tank.update(); 
 
       }
-    })
+    });
+
+    this.enemiesGrp.forEach((enemy, index) => {
+      if(enemy.isDestroyed()){
+        console.log('splice dead enemy');
+
+        this.enemiesGrp.splice(index, 1);
+      }else{
+
+        enemy.update();
+
+      }
+    });
 
 
 
@@ -198,8 +212,8 @@ class setMapTest extends Phaser.Scene{
     if(this.bulletsGrp.length > 0){
       this.bulletsGrp.forEach((bullet,index) => {
         
-        if (bullet.active) {
-          console.warn('splice dead bullet')
+        if (bullet.isDestroyed()) {
+          console.warn('splice dead bullet');
           // Rimuovi il tank distrutto dalla lista
           this.bulletsGrp.splice(index, 1);
           
@@ -230,7 +244,7 @@ const config = {
     default: 'arcade',
     arcade: {
       gravity: { x: 0 }, // Nessuna gravità
-      debug: true,
+      debug: false,
     },
   },
 }
