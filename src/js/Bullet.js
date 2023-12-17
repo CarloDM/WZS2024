@@ -23,11 +23,20 @@ export default class Bullet {
     this.bullet.bulletInstance = this;
 
     setTimeout(() => {
-      this.destroy();
+      this.explode();
     }, lifeTime);
 
   }//bullet constructor
 
+  explode() {
+    this.destroy(); // Chiamato quando l'animazione di esplosione è completata
+    const explosion = this.scene.add.sprite(this.bullet.x + this.velocity.x /30, this.bullet.y + this.velocity.y/30, 'explosion1')
+    .play('explosion')
+    .on('animationcomplete', () => {
+      explosion.destroy();
+    });
+
+  }
 
   destroy() {
     if(this.bullet.body){

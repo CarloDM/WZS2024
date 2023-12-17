@@ -70,6 +70,9 @@ class setMapTest extends Phaser.Scene{
     this.load.image('cannon','/texture/cannon.png'); //
     this.load.image('enemy','/texture/enemy.png'); //
     this.load.image('bullet','/texture/bullet.png'); //
+    this.load.image('base','/texture/BaseFactory.png'); //
+    this.load.spritesheet('explosion1','/texture/explosion01.png',{frameWidth:32,frameHeight:32});
+    this.load.spritesheet('baseBitanim','/texture/BaseFactory-bitAnim.png',{frameWidth:256,frameHeight:256});
 
     this.load.tilemapCSV('map','../tankSurvive/map/ts-map-collide-cost.csv');
   };
@@ -124,6 +127,28 @@ class setMapTest extends Phaser.Scene{
     setUpFinder(this.grid); 
     initializeMathFunction(this.grid);
 
+    this.anims.create({
+      key: 'explosion',
+      frames: this.anims.generateFrameNumbers('explosion1', { start: 0, end: 15 }),
+      frameRate: 15, 
+      repeat: 0, 
+    });
+
+    
+
+    this.anims.create({
+      key: 'baseBit',
+      frames: this.anims.generateFrameNumbers('baseBitanim', { start: 0, end: 57 }),
+      frameRate: 20, 
+      repeat: -1,
+      // yoyo : true,
+      delay: 3000,
+      repeatDelay: 10000,
+
+    });
+    const Base =  this.add.sprite(0, 0, 'base')
+    const baseBit = this.add.sprite(0, 0, 'baseBitanim').play('baseBit');
+
 
     // inizializza gruppi fisici
     this.tanks   = this.physics.add.group();
@@ -160,7 +185,7 @@ class setMapTest extends Phaser.Scene{
       // Logica per la collisione tra proiettile e nemico
       enemy.body.setVelocity(0);
       enemy.enemyInstance.takeDamage(bullet.bulletInstance.damage);
-      bullet.destroy();
+      bullet.bulletInstance.explode();
     });
     
     

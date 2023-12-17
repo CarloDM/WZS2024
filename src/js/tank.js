@@ -60,7 +60,7 @@ export default class Tank  {
   setTankSelected() {
     if(!this.isTankSelected){
       this.isTankSelected = true;
-      this.tank.setTint(0x00ff00);
+      this.tank.setTint(0xED3818);
     }
   }
 

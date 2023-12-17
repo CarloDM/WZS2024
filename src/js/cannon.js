@@ -30,7 +30,7 @@ export default class cannon {
     }, 1500);
 
     // create circle range 
-    this.graphics = scene.add.graphics({ lineStyle: { width: 1, color: 0xF5FFF7 },    fillStyle: { color: 0xF5FFF7 , alpha:0.10 }});
+    this.graphics = scene.add.graphics({ lineStyle: { width: 1, color: 0xF5FFF7 },    fillStyle: { color: 0xF5FFF7 , alpha:0.05 }});
     this.circle = new Phaser.Geom.Circle(this.tank.x, this.tank.y, this.range );
   
     // visualizza circle range 
@@ -123,7 +123,7 @@ export default class cannon {
   }
 // ------------
   fire(){
-    const bullet = new Bullet(this.scene, this.cannon.x, this.cannon.y, this.cannon.angle, 750, 8, 10, 1500 );
+    const bullet = new Bullet(this.scene, this.cannon.x, this.cannon.y, this.cannon.angle, 750, 8, 10, 800 );
     this.scene.bulletsGrp.push(bullet);
     this.scene.bullets.add(bullet.bullet);
   }
