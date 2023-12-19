@@ -1,7 +1,7 @@
 import Phaser from "phaser";
+import FloatingNumbersPlugin from "./FloatingNumbersPlugin";
 import * as dat from 'dat.gui';
 import Stats from "stats.js";
-import FloatingNumbersPlugin from "./FloatingNumbersPlugin";
 
 
 import {setUpFinder,findPath} from "./Astar";
@@ -71,6 +71,7 @@ class setMapTest extends Phaser.Scene{
     this.load.image('enemy','/texture/enemy.png'); //
     this.load.image('bullet','/texture/bullet.png'); //
     this.load.image('base','/texture/BaseFactory.png'); //
+    this.load.image('btn','/texture/btn-test.png'); //
     this.load.spritesheet('explosion1','/texture/explosion01.png',{frameWidth:32,frameHeight:32});
     this.load.spritesheet('baseBitanim','/texture/BaseFactory-bitAnim.png',{frameWidth:256,frameHeight:256});
 
@@ -85,7 +86,6 @@ class setMapTest extends Phaser.Scene{
     // mouse dx disabilitare cntx menu
     this.input.mouse.disableContextMenu();
 
-    this.cameraController = new CameraController(this);
     // aggiungere immagine di background
     this.add.image(0,0,'background');
     // set up layer collisioni
@@ -93,6 +93,7 @@ class setMapTest extends Phaser.Scene{
     const layer = this.map.createLayer(0,'collision',-2048, -2048 );
     
     this.map.setCollisionBetween(4,5);
+    this.cameraController = new CameraController(this);
 
     // ------------------debug walls tiles---------------------
       // debug collider wall
@@ -189,24 +190,33 @@ class setMapTest extends Phaser.Scene{
     });
     
     
-    
+    this.scale.on('resize', this.handleResize, this);
+
     
   }; //----create
+  
+  handleResize(){
+    // console.log('resize', this.scale.game.config , 'parentsize', this.scale.parentSize._width, this.scale.parentSize._height );
+    // console.log(this.scale.canvas.width,this.scale.canvas.height )
+    this.scale.canvas.width = this.scale.parentSize.width;
+    this.scale.canvas.height = this.scale.parentSize.height;
+    this.scale.gameSize.width = this.scale.parentSize.width;
+    this.scale.gameSize.height = this.scale.parentSize.height;
+    this.scale.baseSize.width = this.scale.parentSize.width;
+    this.scale.baseSize.height = this.scale.parentSize.height;
 
-
+  };
+  
   update(time, delta) {
     stats.begin();
 
-    // if(Math.floor(time) % 1000 === 0){
-    //   console.log(time);
-    // }
 
     this.cameraController.update(delta);
 
     this.tanksGrp1.forEach((tank,index) => {
       if (tank.isDestroyed()) {
         console.log('splice dead tank');
-        // Rimuovi il tank distrutto dalla lista
+
         this.tanksGrp1.splice(index, 1);
         
       }else{
@@ -215,6 +225,8 @@ class setMapTest extends Phaser.Scene{
 
       }
     });
+
+
 
     this.enemiesGrp.forEach((enemy, index) => {
       if(enemy.isDestroyed()){
@@ -230,16 +242,12 @@ class setMapTest extends Phaser.Scene{
 
 
 
-
-
-
-
     if(this.bulletsGrp.length > 0){
       this.bulletsGrp.forEach((bullet,index) => {
         
         if (bullet.isDestroyed()) {
           console.warn('splice dead bullet');
-          // Rimuovi il tank distrutto dalla lista
+
           this.bulletsGrp.splice(index, 1);
           
         }else{
@@ -259,17 +267,26 @@ class setMapTest extends Phaser.Scene{
 
 const config = {
   type: Phaser.AUTO,
-  width: 1400,
-  height: 900,
+  width: '100%',
+  height: '100%',
+
   loader:{
     baseURL: '/src/assets/tankSurvive'
   },
+
   scene: setMapTest,
+
   physics: {
     default: 'arcade',
     arcade: {
       gravity: { x: 0 }, // Nessuna gravità
-      debug: false,
+      debug: true,
     },
+
+    scale: {
+      mode:Phaser.Scale.Fit,
+      autoCenter:Phaser.Scale.CENTER_BOTH,
+      parent: 'gameContainer', 
+    }
   },
 }

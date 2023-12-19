@@ -245,7 +245,7 @@ export default class Tank  {
 // --------------------------------
 
 
-// ---------------------------updatew
+// ---------------------------update
   update(){
 
     this.tank.cannon.update();

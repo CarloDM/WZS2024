@@ -1,19 +1,22 @@
 import Phaser from "phaser";
 import dat from 'dat.gui';
+import UserInterface from './userInterface';
 
 export default class CameraController {
   constructor(scene) {
-    // dichiaro main camera per leggibilità migliore
+
     const mainCamera = scene.cameras.main;
     // mainCamera.zoomX = 0.43;
     // mainCamera.zoomY = 0.43;
-    mainCamera.scrollX = -643;
-    mainCamera.scrollY = -445;
+    mainCamera.scrollX = -600;
+    mainCamera.scrollY = -500;
+    mainCamera.midPoint.x = 0;
+    mainCamera.midPoint.y = 0;
 
     // gli input vanno importati dalla scena passata quindi
     scene.input.on('wheel',(pointer, gameObjects, deltaX, deltaY, deltaZ) => {
 
-      if(!((mainCamera.zoomY - deltaY / 2500) > 2 || (mainCamera.zoomY - deltaY / 2500 )< 0.34)){
+      if(!((mainCamera.zoomY - deltaY / 2500) > 1.5 || (mainCamera.zoomY - deltaY / 2500 )< 0.63)){
         mainCamera.zoomY -= deltaY / 2500;
         mainCamera.zoomX -= deltaY / 2500;
       }
@@ -33,15 +36,16 @@ export default class CameraController {
 
       acceleration: 0.028,
       drag: 0.0006,
-      maxSpeed: 0.4,
-      maxZoom: 2,
-      minZoom: 0.34,
+      maxSpeed: 0.6,
+      maxZoom: 1.5,
+      minZoom: 0.63,
     };
 
     this.controls = new Phaser.Cameras.Controls.SmoothedKeyControl(controlConfig);
     
     // impostazione del limite telecamera
-    // mainCamera.setBounds(-675, -800, 2055, 2050);
+    mainCamera.setBounds(-2048, -2048, 4096, 4096);
+
 
     // debugghing camera control ------------ :)
     const guiMCamera = new dat.GUI();
@@ -57,14 +61,23 @@ export default class CameraController {
       debuggherMCamera.add(mainCamera, 'scrollY').listen();
       debuggherMCamera.add(mainCamera, 'zoomX').listen();
       debuggherMCamera.add(mainCamera, 'zoomY').listen();
+      debuggherMCamera.add(mainCamera.midPoint, 'x').listen();
+      debuggherMCamera.add(mainCamera.midPoint, 'y').listen();
+      debuggherMCamera.add(mainCamera.worldView, 'width').listen();
+      debuggherMCamera.add(mainCamera.worldView, 'height').listen();
       debuggherMCamera.add(guiMCameraHelp, 'moveKey');
       debuggherMCamera.add(guiMCameraHelp, 'zoomKey');
       debuggherMCamera.add(guiMCameraHelp, 'zoomWheel');
       // debuggherMCamera.open();
     // ----------------------------------------
+
+
+    
+    this.userInterface = new UserInterface(scene);
   }
 
   update(delta) {
     this.controls.update(delta);
+    this.userInterface.update()
   }
 }
