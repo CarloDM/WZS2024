@@ -6,10 +6,10 @@ export default class CameraController {
   constructor(scene) {
 
     const mainCamera = scene.cameras.main;
-    // mainCamera.zoomX = 0.43;
-    // mainCamera.zoomY = 0.43;
-    mainCamera.scrollX = -600;
-    mainCamera.scrollY = -500;
+    mainCamera.zoomX = 0.6;
+    mainCamera.zoomY = 0.6;
+    mainCamera.scrollX = -1000;
+    mainCamera.scrollY = -400;
     mainCamera.midPoint.x = 0;
     mainCamera.midPoint.y = 0;
 

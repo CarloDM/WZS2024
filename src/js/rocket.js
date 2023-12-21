@@ -12,22 +12,22 @@ export default class cannon {
     this.id = id;
     this.upgradeTable = UpgradeTable.getInstance();
 
-    this.damage = this.upgradeTable.cannonDamage[this.upgradeTable.cannonDamageLevel].dmg
+    this.damage = this.upgradeTable.RocketDamage[this.upgradeTable.RocketDamageLevel].dmg
 
-    const range = calculateIncrementBylevel(320,this.upgradeTable.tanksRangeOfViewLevel,this.upgradeTable.tanksRangeOfView[1].incrementFactor );
+    const range = calculateIncrementBylevel(390,this.upgradeTable.tanksRangeOfViewLevel,this.upgradeTable.tanksRangeOfView[1].incrementFactor );
     this.range = range;
 
-    this.rotationVelocity =  this.upgradeTable.cannonRof[this.upgradeTable.cannonRofLevel].rot;
+    this.rotationVelocity =  this.upgradeTable.RocketRof[this.upgradeTable.RocketRofLevel].rot;
 
-    this.rof =               this.upgradeTable.cannonRof[this.upgradeTable.cannonRofLevel].rof;
-    this.shotCharge =        this.upgradeTable.cannonRof[this.upgradeTable.cannonRofLevel].rof;
+    this.rof =               this.upgradeTable.RocketRof[this.upgradeTable.RocketRofLevel].rof;
+    this.shotCharge =        this.upgradeTable.RocketRof[this.upgradeTable.RocketRofLevel].rof;
 
     this.enemies = [];
     this.target = null;
     this.hookingAngle = 0;
     this.isShooting = false;
 
-    this.cannon = scene.add.sprite(this.tank.x, this.tank.y, 'cannon');
+    this.cannon = scene.add.sprite(this.tank.x, this.tank.y, 'rocket');
     this.cannon.displayWidth = 64;
     this.cannon.displayHeight = 64;
 
@@ -35,9 +35,9 @@ export default class cannon {
       this.scanForEnemies();
     }, 1500);
 
-
+    
     // create circle range 
-    this.graphics = scene.add.graphics({ lineStyle: { width: 1, color: 0xF5FFF7 },    fillStyle: { color: 0xF5FFF7 , alpha:0.20 }});
+    this.graphics = scene.add.graphics({ lineStyle: { width: 1, color: 0xF5FFF7 },    fillStyle: { color: 0xF5FFF7 , alpha:0.2 }});
     this.circle = new Phaser.Geom.Circle(this.tank.x, this.tank.y, this.range );
   
     // visualizza circle range 
@@ -130,7 +130,7 @@ export default class cannon {
   }
 // ------------
   fire(){
-    const bullet = new Bullet(this.scene, this.cannon.x, this.cannon.y, this.cannon.angle, 750, 8, this.damage , 800 );
+    const bullet = new Bullet(this.scene, this.cannon.x, this.cannon.y, this.cannon.angle, 500, 8, this.damage , 800 );
     this.scene.bulletsGrp.push(bullet);
     this.scene.bullets.add(bullet.bullet);
   }
@@ -191,7 +191,7 @@ export default class cannon {
 
           if(!this.isShooting){
             this.isShooting = true ;
-            console.warn('shooting true')
+            console.warn('shooting true true')
 
           }
 

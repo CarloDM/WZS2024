@@ -68,10 +68,13 @@ class setMapTest extends Phaser.Scene{
 
     this.load.image('tank','/texture/tank-traction.png'); //
     this.load.image('cannon','/texture/cannon.png'); //
+    this.load.image('mg','/texture/MGun.png'); //
+    this.load.image('rocket','/texture/rocket.png'); //
     this.load.image('enemy','/texture/enemy.png'); //
     this.load.image('bullet','/texture/bullet.png'); //
     this.load.image('base','/texture/BaseFactory.png'); //
     this.load.image('btn','/texture/btn-test.png'); //
+
     this.load.spritesheet('explosion1','/texture/explosion01.png',{frameWidth:32,frameHeight:32});
     this.load.spritesheet('baseBitanim','/texture/BaseFactory-bitAnim.png',{frameWidth:256,frameHeight:256});
 
@@ -93,7 +96,7 @@ class setMapTest extends Phaser.Scene{
     const layer = this.map.createLayer(0,'collision',-2048, -2048 );
     
     this.map.setCollisionBetween(4,5);
-    this.cameraController = new CameraController(this);
+
 
     // ------------------debug walls tiles---------------------
       // debug collider wall
@@ -135,7 +138,6 @@ class setMapTest extends Phaser.Scene{
       repeat: 0, 
     });
 
-    
 
     this.anims.create({
       key: 'baseBit',
@@ -147,6 +149,7 @@ class setMapTest extends Phaser.Scene{
       repeatDelay: 10000,
 
     });
+
     const Base =  this.add.sprite(0, 0, 'base')
     const baseBit = this.add.sprite(0, 0, 'baseBitanim').play('baseBit');
 
@@ -158,12 +161,15 @@ class setMapTest extends Phaser.Scene{
     
     
     this.tankFactory = new TankFactory(this);
-
-    this.tankFactory.createMultipleTanks(10, [-400,0]);
+    this.cameraController = new CameraController(this);
+    this.tankFactory.createMultipleTanks(1, [-600,-600], 'machineGun');
+    this.tankFactory.createMultipleTanks(1, [-600,-0], 'cannon');
+    this.tankFactory.createMultipleTanks(1, [-600, +600], 'rocket');
 
     // ---- primo enemy
-    this.tankFactory.createMultipleEnemies(10,[-400,-600]);
-    this.tankFactory.createMultipleEnemies(10,[-400,-700]);
+    this.tankFactory.createMultipleEnemies(1,[-800,-500]);
+    this.tankFactory.createMultipleEnemies(1,[-800, +100]);
+    this.tankFactory.createMultipleEnemies(1,[-800, +700]);
 
 
 
@@ -280,7 +286,7 @@ const config = {
     default: 'arcade',
     arcade: {
       gravity: { x: 0 }, // Nessuna gravità
-      debug: true,
+      debug: false,
     },
 
     scale: {

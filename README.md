@@ -32,6 +32,46 @@ sono arrivato al terzo test progressivo!
   <li>limitazione errori di target usando gli id dei tile</li>
   <li>creata una tank factory</li>
   <li>primo destroy() test</li>
+  <li>classe cannone</li>
   ---------------------------------------------------
   <li> *** manca un sistema che previene lo schedule rispetto all invio del target</li>
+  ---------------------------------------------------
+  
+---
+14/12/2023 giorno 9
+  <li>cannone scansiona verifica se enemy sono all interno del suo range di tiro</li>
+  <li>cannone rotazione progressiva verifica angolo di aggancio e spara wip</li>
+  
+  
+---
+15/12/2023 giorno 10
+  <li>cannone rotazione progressiva verifica angolo di aggancio e spara finito</li>
+  <li>messo i gruppi fisici nel constructor</li>
+  <li>nel create dei body(tank,enemy,bullet) aggiunta diretta ai gruppi fisici</li>
+  <li>life e reload bar class</li>
+  <li>enemie's HP < 0 = destroy()</li>
+
+---
+17/12/2023 giorno 11
+  <li>ridisegnate texture dei tank motrice e cannone</li>
+  <li>prime spritesheet , test di animazioni con piskel, un esplosione ed fx sulla base</li>
+
+----
+19/12/2023 giorno 12
+  <li>canvas adattiva allo schermo: (min 900 x 900 px). con refresh della pagina. </li>
+  <li>layout interfaccia per la gestione </li>
+
+----
+20/12/2023 giorno 13
+  <li>disegnate texture  MGun & Rocket </li>
+  <li>differenziare i tre tipi di tank Mgun, Cannon, Rocket immetterli in scena durante il gioco </li>
+  <li>classe status menager & upgrade table</li>
+
+----
+21/12/2023 giorno 14
+  <li>create diversi per tank diversi</li>
+  <li>test creazione tank durante la partita con btn</li>
+  <li>tabella upgrade compilata e syncronizzata per speed traction, damage e rof per tutti e tre i tipi</li>
+
+
 

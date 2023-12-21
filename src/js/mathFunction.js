@@ -1,5 +1,5 @@
 import Phaser from "phaser";
-export {initializeMathFunction, fromPointerToTile, fromTileToWorldPoint, fromPositionToTile, fromTileToTargetObj, calculateDistance, ifTileInsideBound,ifTileIsAllowed, ifTileIsAllowedXY, calculateRotationAngle, calculateProportionalWidth };
+export {initializeMathFunction, fromPointerToTile, fromTileToWorldPoint, fromPositionToTile, fromTileToTargetObj, calculateDistance, ifTileInsideBound,ifTileIsAllowed, ifTileIsAllowedXY, calculateRotationAngle, calculateProportionalWidth,calculateIncrementBylevel };
 
 let grid = false;
 
@@ -103,4 +103,20 @@ function calculateRotationAngle(originX, originY , targetX, targetY ){
 
 function calculateProportionalWidth(now, max, fixed){
   return (now / max) * fixed;
+}
+
+function calculateIncrementBylevel(initial, level, factor){
+
+  let value = initial;
+
+  if(level === 0){
+    return initial;
+  }else{
+
+    for (let i = 0; i < level; i++) {
+      value *= factor;
+    }
+    return value;
+
+  }
 }

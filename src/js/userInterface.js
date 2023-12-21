@@ -1,8 +1,10 @@
+import UpgradeTable from "./upgradeTable";
 import {calculateProportionalWidth} from './mathFunction';
 export default class UserInterface {
   constructor(scene, width, height){
     this.scene = scene;
     this.camera = this.scene.cameras.main;
+    this.upgradeTable = UpgradeTable.getInstance();
 
 
     this.container = this.scene.add.container(
@@ -20,7 +22,7 @@ export default class UserInterface {
     
 
 
-
+    
     // --- aggiunta btn
     this.buttonA = this.scene.add.sprite(0,0,'btn');
     this.buttonA.setOrigin(0, 0);
@@ -30,12 +32,16 @@ export default class UserInterface {
 
     
     //-- btn ------
-    this.buttonB = this.scene.add.rectangle(0,0,0,0, 0x1d7196, 0.5);
+    this.buttonB = this.scene.add.sprite(0,0,'btn');
     this.buttonB.setOrigin(0, 0);
+    this.buttonB.on('pointerup' ,this.btnFunction2, this);
+    this.buttonB.setInteractive();
     this.container.add(this.buttonB);
     //-- btn ------
-    this.buttonC = this.scene.add.rectangle(0,0,0,0, 0x1d7196, 0.5);
+    this.buttonC = this.scene.add.sprite(0,0,'btn');
     this.buttonC.setOrigin(0, 0);
+    this.buttonC.on('pointerup' ,this.btnFunction3, this);
+    this.buttonC.setInteractive();
     this.container.add(this.buttonC);
     //-- btn ------
     this.buttonD = this.scene.add.rectangle(0,0,0,0, 0x1d7196, 0.5);
@@ -81,6 +87,45 @@ export default class UserInterface {
   btnFunction(){
 
     console.log('Il pulsante A è stato cliccato!');
+    let fattore = (10 - 2) / 10;
+    let valore = 2;
+    for (let index = 0; index < 10; index++) {
+      valore += fattore;
+        console.log(valore)
+      
+    }
+  }
+
+  btnFunction2(){
+
+    console.log('creare nuovo mg tank');
+    this.scene.tankFactory.tankFactoryIstance.createMgTank(0,0);
+  }
+
+  btnFunction3(){
+
+    console.log('fai upgrade di tank velocity & rangeview');
+    this.upgradeTable.tanksSpeedTractionLevel ++
+
+    this.scene.tanksGrp1.forEach(tank => {
+
+      tank.speed *= 
+        this.upgradeTable.tanksSpeedTraction[this.upgradeTable.tanksSpeedTractionLevel].incrementFactor;
+
+      tank.speed = Math.floor(tank.speed);
+
+    });
+
+    this.upgradeTable.tanksRangeOfViewLevel ++
+    this.scene.tanksGrp1.forEach(tank => {
+      
+      tank.tank.cannon.range *=
+      this.upgradeTable.tanksRangeOfView[this.upgradeTable.tanksRangeOfViewLevel].incrementFactor;
+
+      tank.tank.cannon.range = Math.floor(tank.tank.cannon.range);
+      
+    });
+    console.log(this.scene.tanksGrp1[2].tank.cannon.range);
 
   }
 
@@ -108,16 +153,14 @@ export default class UserInterface {
 
 
 
-    
-
-    this.buttonB.width = 75 /zoom;
-    this.buttonB.height = 75 /zoom;
+    this.buttonB.displayWidth = 75 /zoom;
+    this.buttonB.displayHeight = 75 /zoom;
     this.buttonB.x = calculateProportionalWidth(12, 110, this.camera.worldView.width - (50 / this.camera.zoom));
     this.buttonB.y = calculateProportionalWidth(89, 100, this.camera.worldView.height - (50 / this.camera.zoom));
 
     
-    this.buttonC.width = 75 /zoom;
-    this.buttonC.height = 75 /zoom;
+    this.buttonC.displayWidth = 75 /zoom;
+    this.buttonC.displayHeight = 75 /zoom;
     this.buttonC.x = calculateProportionalWidth(22, 110, this.camera.worldView.width - (50 / this.camera.zoom));
     this.buttonC.y = calculateProportionalWidth(89, 100, this.camera.worldView.height - (50 / this.camera.zoom));
 

@@ -1,22 +1,25 @@
 import Phaser from "phaser";
 import Cannon from "./cannon";
+import Mg from "./machineGun";
+import Rocket from "./rocket";
 import LifeReloadBar from "./lifeReloadBar";
 
-import {fromTileToTargetObj,fromTileToWorldPoint,fromPositionToTile} from "./mathFunction";
+import {fromTileToTargetObj,fromPositionToTile} from "./mathFunction";
 import {findPath} from "./Astar";
 
 export default class Tank  {
-  constructor(scene, id, position, hp){
+  constructor( type, scene, id, position, hp, speed, target){
     this.scene = scene;
     this.id = id;
     this.position = position;
+    this.type = type;
 
     this.rotation = 0;
     this.isTankSelected = false;
-    this.target = false;
+    this.target = target;
     this.targets = [];
     this.afterTargets = [];
-    this.speed = 40;
+    this.speed = speed;
     this.acceleration = 1;
     this.accIncrement = this.speed/60;
     this.break = false;
@@ -28,26 +31,33 @@ export default class Tank  {
 
     this.tank = scene.add.sprite(position[0],position[1],'tank');
     this.tank.setOrigin(0.5, 0.5);
-    // this.tank.setScale(1)
     this.tank.displayWidth = 32;
     this.tank.displayHeight = 32;
-    this.tank.hp = hp;
     scene.physics.world.enable(this.tank);
     this.tank.body.setCollideWorldBounds(true, 4, 4);
     this.tank.body.setBounce(4,4)
     this.tank.body.setCircle(32);
     this.tank.setInteractive();
+    this.tank.hp = hp;
 
 
-    this.tank.cannon = new Cannon(this.scene, this.tank, this.id);
+    switch (this.type) {
+      case 'machineGun':
+        this.tank.cannon = new Mg(this.scene, this.tank, this.id);
+        break;
+      case 'cannon':
+        this.tank.cannon = new Cannon(this.scene, this.tank, this.id);
+        break;
+      case 'rocket':
+        this.tank.cannon = new Rocket(this.scene, this.tank, this.id);
+        break;
+    }
 
+    
     this.tank.lifeBar = new LifeReloadBar(this.scene, this.tank , hp);
 
 
-
-
     this.tank.tankInstance = this;
-
   }// tank constructor end
 
 
@@ -254,6 +264,7 @@ export default class Tank  {
         if(this.target){
 
           const distance = Phaser.Math.Distance.BetweenPoints(this.tank, this.target);
+
           if (distance < this.tolerance)
           {
               this.target = false;
@@ -274,6 +285,8 @@ export default class Tank  {
               }
           }
             
+
+
           if (!this.break && this.tank.body.speed > 0 && this.tank.body.speed <  this.speed  )
           {
             this.tank.rotation = this.tank.body.angle;
