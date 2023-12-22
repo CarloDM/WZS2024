@@ -62,24 +62,39 @@ class setMapTest extends Phaser.Scene{
 
     });
 
+
     this.load.scenePlugin('floatingNumbersPlugin', FloatingNumbersPlugin, 'floatingNumbersPlugin', 'floatingNumbers');
 
-    this.load.image('background','/texture/TS-clr-map-draft-01.jpg');
+    // load texture
+    this.load.image('background',       '/texture/TS-clr-map-draft-01.jpg');
+    this.load.tilemapCSV('map',         '../tankSurvive/map/ts-map-collide-cost.csv');
+    this.load.image('gaiser',           '/texture/gaiser.png');
 
-    this.load.image('tank','/texture/tank-traction.png'); //
-    this.load.image('cannon','/texture/cannon.png'); //
-    this.load.image('mg','/texture/MGun.png'); //
-    this.load.image('rocket','/texture/rocket.png'); //
-    this.load.image('enemy','/texture/enemy.png'); //
-    this.load.image('bullet','/texture/bullet.png'); //
-    this.load.image('base','/texture/BaseFactory.png'); //
-    this.load.image('btn','/texture/btn-test.png'); //
+    this.load.image('base',             '/texture/BaseFactory.png'); 
+    this.load.spritesheet('baseBitanim','/texture/BaseFactory-bitAnim.png',
+    {frameWidth:256,frameHeight:256});
+    
+    this.load.image('engineering',      '/texture/engineering.png'); 
 
-    this.load.spritesheet('explosion1','/texture/explosion01.png',{frameWidth:32,frameHeight:32});
-    this.load.spritesheet('baseBitanim','/texture/BaseFactory-bitAnim.png',{frameWidth:256,frameHeight:256});
+    this.load.image('tank',             '/texture/tank-traction.png'); 
+    this.load.image('mg',               '/texture/MGun.png'); 
+    this.load.image('cannon',           '/texture/cannon.png'); 
+    this.load.image('rocket',           '/texture/rocket.png'); 
 
-    this.load.tilemapCSV('map','../tankSurvive/map/ts-map-collide-cost.csv');
-  };
+    this.load.image('bullet',           '/texture/bullet.png'); 
+    this.load.spritesheet('explosion1', '/texture/explosion01.png',
+    {frameWidth:32,frameHeight:32});
+
+    this.load.image('enemy',             '/texture/enemy-traction.png'); 
+    this.load.image('enemyMg',           '/texture/enemy-mg.png'); 
+    this.load.image('enemyCannon',       '/texture/enemy-cannon.png'); 
+    this.load.image('enemyRocket',       '/texture/enemy-rocket.png'); 
+
+    this.load.image('btn',              '/texture/btn-test.png'); 
+
+
+    
+  };// preload end ------------------------------------------------------------------/
 
 
 

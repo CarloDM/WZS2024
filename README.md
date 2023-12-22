@@ -72,6 +72,8 @@ sono arrivato al terzo test progressivo!
   <li>create diversi per tank diversi</li>
   <li>test creazione tank durante la partita con btn</li>
   <li>tabella upgrade compilata e syncronizzata per speed traction, damage e rof per tutti e tre i tipi</li>
+  da fare
+  <li>incominciare a concepire le fonti di energia e l ingegnere automaico</li>
 
 
 
