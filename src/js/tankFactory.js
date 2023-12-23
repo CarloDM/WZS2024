@@ -1,5 +1,6 @@
 import Tank from './tank';
 import Enemy from "./enemy";
+import Gaiser from "./gaiser";
 import {calculateIncrementBylevel} from "./mathFunction";
 import UpgradeTable from "./upgradeTable";
 export default class TankFactory {
@@ -102,11 +103,6 @@ export default class TankFactory {
 
   }
 
-
-
-
-
-
   // enemies--------
   createEnemy(position){
     this.enemyCount ++
@@ -124,6 +120,13 @@ export default class TankFactory {
       this.createEnemy(position);
 
     }
+  }
+
+
+  createGaiser(position, id){
+
+    const NewGaiser = new Gaiser(this.scene,position, id);
+    this.scene.gaiserGrp.push(NewGaiser);
   }
 
 };

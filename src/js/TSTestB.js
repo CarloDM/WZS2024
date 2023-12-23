@@ -10,6 +10,7 @@ import {initializeMathFunction} from './mathFunction';
 import CameraController from './cameraController';
 import SelectionRect from './selectionRect';
 import TankFactory from './tankFactory';
+import Engineering from './engineering';
 
 
 
@@ -27,6 +28,8 @@ class setMapTest extends Phaser.Scene{
   {super('setMapTest');
 
   this.grid = [];
+  this.gaiserGrp = [];
+  this.buildingsGrp = [];
 
   this.tanksGrp1 = [];
   this.tanks = []
@@ -174,24 +177,22 @@ class setMapTest extends Phaser.Scene{
     this.enemies = this.physics.add.group();
     this.bullets = this.physics.add.group();
     
+    this.ingBotty = new Engineering(this, [-100,+400])
     
     this.tankFactory = new TankFactory(this);
-    this.cameraController = new CameraController(this);
+
+    this.tankFactory.createGaiser([128,+400],1);
+    this.tankFactory.createGaiser([256,+400],2);
+    this.tankFactory.createGaiser([400,-200],3);
+
     this.tankFactory.createMultipleTanks(1, [-600,-600], 'machineGun');
     this.tankFactory.createMultipleTanks(1, [-600,-0], 'cannon');
     this.tankFactory.createMultipleTanks(1, [-600, +600], 'rocket');
 
     // ---- primo enemy
-    this.tankFactory.createMultipleEnemies(1,[-800,-500]);
-    this.tankFactory.createMultipleEnemies(1,[-800, +100]);
-    this.tankFactory.createMultipleEnemies(1,[-800, +700]);
-
-
-
-    // inizializza selettore tanks
-    this.selectionRectManager = new SelectionRect(this, 
-      this.tanksGrp1 
-    );
+    // this.tankFactory.createMultipleEnemies(1,[-800,-500]);
+    // this.tankFactory.createMultipleEnemies(1,[-800, +100]);
+    // this.tankFactory.createMultipleEnemies(1,[-800, +700]);
 
 
     // setta collider tra gruppi fisici e wall ------------
@@ -209,8 +210,13 @@ class setMapTest extends Phaser.Scene{
       enemy.enemyInstance.takeDamage(bullet.bulletInstance.damage);
       bullet.bulletInstance.explode();
     });
-    
-    
+
+
+    // inizializza selettore tanks
+    this.selectionRectManager = new SelectionRect(this, 
+      this.tanksGrp1 
+    );
+    this.cameraController = new CameraController(this);
     this.scale.on('resize', this.handleResize, this);
 
     
@@ -230,7 +236,7 @@ class setMapTest extends Phaser.Scene{
   
   update(time, delta) {
     stats.begin();
-
+    this.ingBotty.update();
 
     this.cameraController.update(delta);
 
@@ -278,7 +284,12 @@ class setMapTest extends Phaser.Scene{
         }
       });
     }
-    // this.bullets.addMultiple(this.bulletsGrp.map(bullet => bullet.bullet));
+
+    if(this.buildingsGrp.length > 0 ){
+      this.buildingsGrp.forEach((building, index) => {
+        building.update();
+      })
+    }
     
 
 
