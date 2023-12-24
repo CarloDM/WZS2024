@@ -169,9 +169,10 @@ export default class cannon {
 
     if(this.target){
     
-      //angolo di aggancio
-      this.setHookingAngle();
-    
+      //AGGIORNA ANGOLO DI ROTAZIONE MA VOLENDO FORSE SI PUOò FARE PIU LEGGERO ANCORA
+      // aggiornare solo il target position anziche il closest enemy
+      this.calculateClosestEnemy();
+
       // determina la differenza tra angolo cannone e angolo di aggancio
       const angleDifference = Math.floor( Phaser.Math.Angle.ShortestBetween(this.hookingAngle, this.cannon.angle));
       
