@@ -74,9 +74,15 @@ sono arrivato al terzo test progressivo!
   <li>tabella upgrade compilata e syncronizzata per speed traction, damage e rof per tutti e tre i tipi</li>
 
 ----
-21/12/2023 giorno 14
+21/12/2023 giorno 15
   <li>gaiser e costruzione automatica turbine</li>
   <li>gaiser test ciclo vitale done</li>
+  <li>creato modulo tabella conteggi</li>
 
+----
+24/12/2023 giorno 16
+  <li>enemie:  movimento e scelta automatica target </li>
+  da fare
+  <li>enegineering calcoli la vicinanza da un punto mediano rispetto alla base</li>
 
 

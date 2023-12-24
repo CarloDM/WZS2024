@@ -130,7 +130,7 @@ export default class cannon {
   }
 // ------------
   fire(){
-    const bullet = new Bullet(this.scene, this.cannon.x, this.cannon.y, this.cannon.angle, 500, 8, this.damage , 800 );
+    const bullet = new Bullet(this.scene, this.cannon.x, this.cannon.y, this.cannon.angle, 500, 8, this.damage , 1200 );
     this.scene.bulletsGrp.push(bullet);
     this.scene.bullets.add(bullet.bullet);
   }

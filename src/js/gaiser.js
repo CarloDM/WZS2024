@@ -2,6 +2,7 @@ import Phaser from "phaser";
 import UpgradeTable from "./upgradeTable";
 import StatusCounts from "./statusCounts";
 import LifeBar from "./lifeBar";
+
 export default class Gaiser {
   constructor(scene, position, id){
     this.scene = scene;
@@ -28,16 +29,17 @@ export default class Gaiser {
 
   startExtraction(){
 
-    let fakeDestruction = setInterval(() => {
-      if(this.gaiser.hp > 0){
-        this.gaiser.hp -= 5;
-        console.log(this.gaiser.hp);
-      }else{
-        clearInterval(fakeDestruction);
-        console.log('finita autodistruzione')
-      }
-    }, 500);
-    fakeDestruction;
+    // let fakeDestruction = setInterval(() => {
+    //   if(this.gaiser.hp > 0){
+    //     this.gaiser.hp -= 5;
+    //     console.log(this.gaiser.hp);
+    //   }else{
+    //     console.log('finita autodistruzione');
+
+    //     clearInterval(fakeDestruction);
+    //   }
+    // }, 500);
+    // fakeDestruction;
 
     let extractionInerval = setInterval(() => {
 
@@ -45,18 +47,21 @@ export default class Gaiser {
         this.extractEnergy();
       }else{
         
-        clearInterval(extractionInerval);
         console.log('extraction lost');
+
+        clearInterval(extractionInerval);
         this.gaiser.setTint(0x000000);
         this.gaiser.lifeBar.destroy();
+        this.scene.buildingsGrp.filter(item => item.id !== this.id);
 
         setTimeout(() => {
+          console.log('gaiser disponibile');
+
           this.gaiser.clearTint();
           this.gaiser.hp = 100;
-          this.scene.buildingsGrp.filter(item => item.id !== this.id);
           this.scene.gaiserGrp.push(this);
-          console.log('gaiser disponibile');
         }, 30000);
+
       }
     }, 5000);
 

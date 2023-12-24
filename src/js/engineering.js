@@ -53,7 +53,6 @@ export default class Engineering  {
 
 
 
-
         // create circle range 
         this.graphics = scene.add.graphics({ lineStyle: { width: 1, color: 0xF5FFF7 },    fillStyle: { color: 0xF5FFF7 , alpha:0.20 }});
         this.circle = new Phaser.Geom.Circle(this.engineering.x, this.engineering.y, this.range );
@@ -80,7 +79,7 @@ export default class Engineering  {
     if(this.engineering.body){
 
       let gaiserScanned = [];
-      console.log(this.scene.gaiserGrp)
+      // console.log(this.scene.gaiserGrp);
       if(this.scene.gaiserGrp.length > 0){
 
         this.scene.gaiserGrp.forEach(gaiser => {
@@ -90,7 +89,7 @@ export default class Engineering  {
         });
 
       }else{
-        console.log('non trovo altri', this.scene.gaiserGrp);
+        // console.log('non trovo altri', this.scene.gaiserGrp);
         setTimeout(() => {
           this.scanForGaiser();
         }, 5000);
@@ -132,7 +131,7 @@ export default class Engineering  {
 
 
     }else{
-      console.log('gaiser finiti')
+      // console.log('gaiser finiti');
     }
   }
 
@@ -180,7 +179,7 @@ export default class Engineering  {
   selftMoveControll(){
 
   if(!this.selftCheck){
-    console.log('set checking')
+    // console.log('set checking');
 
     this.selftCheck = true;
     let positionVerified = [];
@@ -238,12 +237,12 @@ export default class Engineering  {
 
                   if(this.engineering.body){
                     clearInterval(check);
-                    console.log('clear reset');
+                    // console.log('clear reset');
                     this.selftCheck = false;
                     this.moveTankTo(targetTile);
                   }else{
                     clearInterval(check);
-                    console.log('clear because die', this.id);
+                    // console.log('clear because die', this.id);
                   }
 
                 };
@@ -254,7 +253,7 @@ export default class Engineering  {
           clearInterval(check);
           positionVerified = [];
           this.selftCheck = false;
-          console.log('clear');
+          // console.log('clear');
 
         }
 
@@ -263,7 +262,7 @@ export default class Engineering  {
       check;
 
     }else{
-      console.log('alrady checking')
+      // console.log('alrady checking')
     }
   }
 
@@ -278,13 +277,13 @@ export default class Engineering  {
 
   build(){
 
-    console.log('building', this.scene.gaiserGrp[this.gaiserIndex] );
+    // console.log('building', this.scene.gaiserGrp[this.gaiserIndex] );
 
     setTimeout(() => {
         
         this.scene.gaiserGrp[this.gaiserIndex].exploited = true;
         this.scene.gaiserGrp[this.gaiserIndex].gaiser.gaiserInstance.startExtraction();
-        console.log('builded', this.scene.gaiserGrp[this.gaiserIndex]);
+        // console.log('builded', this.scene.gaiserGrp[this.gaiserIndex]);
         
         this.scene.buildingsGrp.push(this.scene.gaiserGrp[this.gaiserIndex]);
         this.scene.gaiserGrp.splice(this.gaiserIndex, 1);
@@ -348,7 +347,7 @@ export default class Engineering  {
                   
               }else{
                 this.isDirected = false;
-                console.log('arrivato');
+                // console.log('arrivato');
               
                 if(!this.isWorking){
                   this.isWorking = true ;

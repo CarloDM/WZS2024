@@ -44,8 +44,10 @@ export default class UserInterface {
     this.buttonC.setInteractive();
     this.container.add(this.buttonC);
     //-- btn ------
-    this.buttonD = this.scene.add.rectangle(0,0,0,0, 0x1d7196, 0.5);
+    this.buttonD = this.scene.add.sprite(0,0,'btn');
     this.buttonD.setOrigin(0, 0);
+    this.buttonD.on('pointerup' ,this.btnFunction4, this);
+    this.buttonD.setInteractive();
     this.container.add(this.buttonD);
     //-- btn ------
     this.buttonE = this.scene.add.rectangle(0,0,0,0, 0x1d7196, 0.5);
@@ -99,7 +101,13 @@ export default class UserInterface {
   btnFunction2(){
 
     console.log('creare nuovo mg tank');
-    this.scene.tankFactory.tankFactoryIstance.createMgTank(0,0);
+    this.scene.tankFactory.tankFactoryIstance.createRocketTank(0,0);
+  }
+
+  btnFunction4(){
+
+    console.log('creare nuovo enemy');
+    this.scene.tankFactory.tankFactoryIstance.createEnemy([400,-650]);
   }
 
   btnFunction3(){
@@ -165,8 +173,8 @@ export default class UserInterface {
     this.buttonC.y = calculateProportionalWidth(89, 100, this.camera.worldView.height - (50 / this.camera.zoom));
 
     
-    this.buttonD.width = 75 /zoom;
-    this.buttonD.height = 75 /zoom;
+    this.buttonD.displayWidth = 75 /zoom;
+    this.buttonD.displayHeight = 75 /zoom;
     this.buttonD.x = calculateProportionalWidth(32, 110, this.camera.worldView.width - (50 / this.camera.zoom));
     this.buttonD.y = calculateProportionalWidth(89, 100, this.camera.worldView.height - (50 / this.camera.zoom));
 

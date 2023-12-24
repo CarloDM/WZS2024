@@ -107,7 +107,9 @@ export default class TankFactory {
   createEnemy(position){
     this.enemyCount ++
 
-    const newEnemy = new Enemy(this.scene, this.enemyCount, position, 500);
+    const newEnemy = 
+      new Enemy('machineGun', this.scene, this.enemyCount, position, 500);
+      
     this.scene.enemiesGrp.push(newEnemy);
     this.scene.enemies.add(newEnemy.enemy);
   }
