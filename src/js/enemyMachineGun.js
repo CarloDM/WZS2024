@@ -1,0 +1,327 @@
+import Phaser from "phaser";
+import Bullet from './Bullet';
+import UpgradeTable from "./upgradeTable";
+
+import {calculateDistance,calculateRotationAngle,calculateIncrementBylevel} from './mathFunction';
+
+export default class cannon {
+  constructor(scene, enemy, id){
+
+    this.scene = scene;
+    this.enemy = enemy;
+    this.id = id;
+    this.upgradeTable = UpgradeTable.getInstance();
+
+    this.damage = this.upgradeTable.mgDamage[this.upgradeTable.mgDamageLevel].dmg
+
+    const range = calculateIncrementBylevel(260,this.upgradeTable.tanksRangeOfViewLevel,this.upgradeTable.tanksRangeOfView[1].incrementFactor );
+    this.range = range;
+
+    this.rotationVelocity =  this.upgradeTable.mgRof[this.upgradeTable.mgRofLevel].rot;
+
+    this.rof =               this.upgradeTable.mgRof[this.upgradeTable.mgRofLevel].rof;
+    this.shotCharge =        this.upgradeTable.mgRof[this.upgradeTable.mgRofLevel].rof;
+
+    this.tanks = [];
+    this.target = null;
+    this.tankTarget = false;
+    this.hookingAngle = 0;
+    this.isShooting = false;
+
+    this.cannon = scene.add.sprite(this.enemy.x, this.enemy.y, 'enemyMg');
+    this.cannon.displayWidth = 64;
+    this.cannon.displayHeight = 64;
+
+    // lo scanning del nemico si differenzia per
+    // - scannerizza tank non enemy
+    // - deve dare precedenza a bersagli tank rispetto a costruzioni
+
+    this.scanning = setInterval(() => {
+      this.scanForTanks();
+    }, 1500);
+
+    
+
+    // create circle range 
+    this.graphics = scene.add.graphics({ lineStyle: { width: 1, color: 0xF5FFF7 },    fillStyle: { color: 0xF5FFF7 , alpha:0.20 }});
+    this.circle = new Phaser.Geom.Circle(this.enemy.x, this.enemy.y, this.range );
+    console.log(this.circle)
+    // visualizza circle range 
+    this.points = this.circle.getPoints(16);
+  
+    for (let i = 0; i < this.points.length; i++)
+        {
+            const p = this.points[i];
+        
+            this.graphics.fillRect(p.x - 4, p.y - 4, 8, 8);
+    }
+    // debug range -------------------------
+    
+  }
+
+
+// ------------
+  scanForTanks(){
+
+    if(this.enemy.body){
+
+        if(this.scene.tanksGrp1.length > 0){
+          
+              let tankScanned = []
+              
+              this.scene.tanksGrp1.forEach(tank => {
+
+                let distanceFromCannon =
+                Math.floor(calculateDistance(this.circle.x, this.circle.y, tank.tank.x, tank.tank.y));
+              
+                if(distanceFromCannon < this.circle.radius){
+                    
+                    tankScanned.push(tank);
+                
+                }else{
+                  this.isShooting = false;
+                }
+              
+              });
+            
+            if(tankScanned.length > 0){
+
+              this.tankTarget = true;
+              this.tanks = tankScanned;
+              this.calculateClosestTank();
+
+            }else{
+
+              this.target = null;
+              this.tankTarget = false;
+              this.scanForBuild();
+
+            }
+
+        }else{
+          this.isShooting = false;
+          this.target = null;
+          this.tankTarget = false;
+          this.scanForBuild();
+        }
+
+    }else{
+      clearInterval(this.scanning)
+    }
+
+  }
+
+  calculateClosestTank(){
+
+    if(this.tanks.length > 0){
+        
+        let closestTank = this.tanks.reduce((closest, tank) =>{
+        
+            const distanceTo = 
+                  Math.floor(calculateDistance(this.circle.x, this.circle.y,tank.tank.x,tank.tank.y));
+          
+            if(distanceTo < closest.distance){
+              return {tank, distance: distanceTo };
+            }else{
+              return closest;
+            }
+          
+            }, { tank: null, distance: Infinity }).tank;
+      
+        this.tank = closestTank;
+        this.setHookingAngle();
+    }
+
+  }
+
+  scanForBuild(){
+
+    if(this.enemy.body){
+
+      if(this.scene.buildingsGrp.length > 0){
+
+        let buildingsScanned = [];
+
+        this.scene.buildingsGrp.forEach(building => {
+
+          if(building.gaiser){
+            
+            let distanceFromCannon =
+            Math.floor(calculateDistance(this.circle.x, this.circle.y, building.gaiser.x, building.gaiser.y));
+          
+            if(distanceFromCannon < this.circle.radius){
+                
+                buildingsScanned.push(building);
+                
+                
+            }else{
+              this.isShooting = false;
+            }
+          }
+        });
+
+        if(buildingsScanned.length > 0){
+          this.buildings = buildingsScanned;
+          this.calculateClosestBuilding();
+        }else{
+          this.enemy.enemyInstance.scanTargets('all');
+        }
+
+      }else{
+        this.isShooting = false;
+        this.target = null;
+        this.enemy.enemyInstance.scanTargets('all');
+      }
+
+    }else{
+      clearInterval(this.scanning)
+    }
+  }
+
+  calculateClosestBuilding(){
+    
+    if(this.buildings.length > 0){
+        
+        let closestBuilding= this.buildings.reduce((closest, building) =>{
+
+            const distanceTo = 
+                  Math.floor(calculateDistance(this.circle.x, this.circle.y,building.gaiser.x,building.gaiser.y));
+          
+            if(distanceTo < closest.distance){
+              return {building, distance: distanceTo };
+            }else{
+              return closest;
+            }
+          
+            }, { building: null, distance: Infinity }).building;
+
+        this.building = closestBuilding;
+        // console.log('closest building?', this.building);
+        this.setHookingAngle();
+    }
+
+  }
+
+// ------------
+  setHookingAngle(){
+
+    if(this.tankTarget){
+
+      this.target = [Math.floor(this.tank.tank.x), Math.floor(this.tank.tank.y)];
+      let angle =
+        Math.floor(calculateRotationAngle(this.cannon.x,this.cannon.y,this.target[0], this.target[1]));
+  
+      this.hookingAngle = angle;
+
+    }else{
+
+      this.target = [Math.floor(this.building.gaiser.x), Math.floor(this.building.gaiser.y)];
+      let angle =
+        Math.floor(calculateRotationAngle(this.cannon.x,this.cannon.y,this.target[0], this.target[1]));
+  
+      this.hookingAngle = angle;
+
+    }
+  }
+
+// ------------
+  fire(){
+    const bullet = new Bullet(this.scene, this.cannon.x, this.cannon.y, this.cannon.angle,
+    850, 8, 
+    this.damage,
+    800);
+
+    this.scene.bulletsGrp.push(bullet);
+    this.scene.enemiesBullets.add(bullet.bullet);
+  }
+// ------------
+  destroy() {
+
+    if (this.cannon.body) {
+      // Distruggi il corpo fisico
+      this.cannon.body.destroy();
+    }
+
+    this.cannon.destroy();
+    this.graphics.destroy();
+
+  }
+
+
+// ------------// ------------
+  update(){
+
+    // muovi cannone copiando cordinate tank
+    this.cannon.x = this.enemy.x;
+    this.cannon.y = this.enemy.y;
+    this.circle.x = this.enemy.x;
+    this.circle.y = this.enemy.y;
+    this.circle.radius = this.range;
+
+    // shot charging / reload
+    if(this.shotCharge <= this.rof){
+      this.shotCharge ++;
+    }else if (this.isShooting){
+      this.fire();
+      this.shotCharge = 0;
+    }
+
+
+    if(this.target){
+    
+      //angolo di aggancio
+      this.setHookingAngle();
+    
+      // determina la differenza tra angolo cannone e angolo di aggancio
+      const angleDifference = Math.floor( Phaser.Math.Angle.ShortestBetween(this.hookingAngle, this.cannon.angle));
+      
+      //anima la rotazione
+      if(angleDifference > 0){
+      
+        this.cannon.angle -= this.rotationVelocity;
+        
+      }else if (angleDifference < 0){
+        
+        this.cannon.angle += this.rotationVelocity;
+      
+      }
+
+      // apre chiude il fuoco se bersaglio è sotto mira o no
+      if(angleDifference < 3 && angleDifference > -3 ){
+
+          if(!this.isShooting){
+            this.isShooting = true ;
+            console.warn('shooting true true')
+
+          }
+
+      }else{
+
+          if(this.isShooting){
+            this.isShooting = false;
+            console.warn('shooting false ')
+
+          }
+
+      }
+
+    }// <-- se abbiamo un target
+
+
+
+
+    // debug range 
+    this.points = this.circle.getPoints(128);
+
+    // Pulisci i vecchi rettangoli
+    this.graphics.clear();
+
+    for (let i = 0; i < this.points.length; i++) {
+        const p = this.points[i];
+        // Disegna i nuovi rettangoli
+        this.graphics.fillRect(p.x - 4, p.y - 4, 8, 8);
+    }
+
+  }
+  
+}//class

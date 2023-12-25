@@ -30,6 +30,7 @@ class setMapTest extends Phaser.Scene{
   this.grid = [];
   this.gaiserGrp = [];
   this.buildingsGrp = [];
+  this.buildings = [];
 
   this.tanksGrp1 = [];
   this.tanks = []
@@ -39,6 +40,7 @@ class setMapTest extends Phaser.Scene{
 
   this.bulletsGrp = [];
   this.bullets = [];
+  this.enemiesBullets = [];
 
   this.tankFactory = null;
 
@@ -168,14 +170,18 @@ class setMapTest extends Phaser.Scene{
 
     });
 
-    const Base =  this.add.sprite(0, 0, 'base')
+    const Base =  this.add.sprite(0, 0, 'base');
+    // this.buildingsGrp.push(Base);
+    // console.log(this.buildingsGrp);
     const baseBit = this.add.sprite(0, 0, 'baseBitanim').play('baseBit');
 
 
     // inizializza gruppi fisici
     this.tanks   = this.physics.add.group();
     this.enemies = this.physics.add.group();
+    this.buildings = this.physics.add.group();
     this.bullets = this.physics.add.group();
+    this.enemiesBullets = this.physics.add.group();
     
     this.ingBotty = new Engineering(this, [-100,+400])
     
@@ -185,7 +191,7 @@ class setMapTest extends Phaser.Scene{
     this.tankFactory.createGaiser([256,+400],2);
     this.tankFactory.createGaiser([400,-200],3);
 
-    this.tankFactory.createMultipleTanks(1, [-600,-600], 'machineGun');
+    this.tankFactory.createMultipleTanks(1, [300,-600], 'machineGun');
     this.tankFactory.createMultipleTanks(1, [-600,-0], 'cannon');
     this.tankFactory.createMultipleTanks(1, [-600, +600], 'rocket');
 
@@ -208,6 +214,20 @@ class setMapTest extends Phaser.Scene{
       // Logica per la collisione tra proiettile e nemico
       enemy.body.setVelocity(0);
       enemy.enemyInstance.takeDamage(bullet.bulletInstance.damage);
+      bullet.bulletInstance.explode();
+    });
+
+    this.physics.add.collider(this.enemiesBullets, this.tanks, (bullet, tank) => {
+      // Logica per la collisione tra proiettile del nemico e tank
+      tank.body.setVelocity(0);
+      tank.tankInstance.takeDamage(bullet.bulletInstance.damage);
+      bullet.bulletInstance.explode();
+    });
+
+    this.physics.add.overlap(this.enemiesBullets, this.buildings, (bullet, building) => {
+      // Logica per la collisione tra proiettile del nemico e tank
+      // tank.body.setVelocity(0);
+      building.gaiserInstance.takeDamage(bullet.bulletInstance.damage);
       bullet.bulletInstance.explode();
     });
 
@@ -242,7 +262,7 @@ class setMapTest extends Phaser.Scene{
 
     this.tanksGrp1.forEach((tank,index) => {
       if (tank.isDestroyed()) {
-        console.log('splice dead tank');
+        // console.log('splice dead tank');
 
         this.tanksGrp1.splice(index, 1);
         
@@ -257,7 +277,7 @@ class setMapTest extends Phaser.Scene{
 
     this.enemiesGrp.forEach((enemy, index) => {
       if(enemy.isDestroyed()){
-        console.log('splice dead enemy');
+        // console.log('splice dead enemy');
 
         this.enemiesGrp.splice(index, 1);
       }else{
@@ -273,7 +293,7 @@ class setMapTest extends Phaser.Scene{
       this.bulletsGrp.forEach((bullet,index) => {
         
         if (bullet.isDestroyed()) {
-          console.warn('splice dead bullet');
+          // console.warn('splice dead bullet');
 
           this.bulletsGrp.splice(index, 1);
           
@@ -287,7 +307,15 @@ class setMapTest extends Phaser.Scene{
 
     if(this.buildingsGrp.length > 0 ){
       this.buildingsGrp.forEach((building, index) => {
-        building.update();
+        if(building.gaiser){
+          if(!building.exploited){
+            this.buildingsGrp.splice(index, 1);
+            console.warn('building splice');
+            console.log(this.buildingsGrp)
+          }else{
+            building.update();
+          }
+        }
       })
     }
     
@@ -312,7 +340,7 @@ const config = {
     default: 'arcade',
     arcade: {
       gravity: { x: 0 }, // Nessuna gravità
-      debug: false,
+      debug: true,
     },
 
     scale: {

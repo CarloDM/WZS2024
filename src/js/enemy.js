@@ -1,4 +1,9 @@
 import Phaser from "phaser";
+
+import Mg from "./enemyMachineGun";
+import Cannon from "./enemyCannon";
+import Rocket from "./enemyRocket";
+
 import {fromTileToTargetObj,fromPositionToTile} from "./mathFunction";
 import {findPath} from "./Astar";
 import LifeBar from "./lifeBar";
@@ -43,11 +48,24 @@ export default class Enemy  {
       // enemy deve preferire:
       //  edifici x i Cannoni 
       //  tank x rocket 
+      switch (this.type) {
+        case 'machineGun':
+          this.enemy.cannon = new Mg(this.scene, this.enemy, this.id);
+          break;
+        case 'cannon':
+          this.enemy.cannon = new Cannon(this.scene, this.enemy, this.id);
+          break;
+        case 'rocket':
+          this.enemy.cannon = new Rocket(this.scene, this.enemy, this.id);
+          break;
+      }
 
-    setTimeout(() => {
-      this.scanTargets('buildings');
 
-    }, 2000);
+
+    // setTimeout(() => {
+    //   this.scanTargets('buildings');
+
+    // }, 2000);
 
     // aggiunge proprietà enemy instance alla sprite
     this.enemy.enemyInstance = this;
@@ -61,10 +79,11 @@ export default class Enemy  {
 
       if(this.scene.tanksGrp1.length < 1){
         verifiedChoice = 'buildings';
+        console.log('no tanks');
       }
 
       // se 0 building la base è stata distrutta
-      if(this.scene.buildingsGrp.length < 1){
+      if(this.scene.buildingsGrp.length < 1 && this.scene.tanksGrp1.length < 1){
         console.warn('GAME OVER');
       }else{
 
@@ -109,7 +128,9 @@ export default class Enemy  {
       if(this.scene.buildingsGrp.length > 0 ){
 
         this.scene.buildingsGrp.forEach(building => {
-          targetScanned.push( [building.gaiser.x, building.gaiser.y] );
+          if(building.gaiser){
+            targetScanned.push( [building.gaiser.x, building.gaiser.y] );
+          }
         });
 
       }
@@ -370,6 +391,7 @@ export default class Enemy  {
 
       this.enemy.body.destroy();
     }
+    this.enemy.cannon.destroy()
     this.enemy.lifeBar.destroy();
     this.enemy.destroy();
 
@@ -385,7 +407,7 @@ export default class Enemy  {
   
 
   update(){
-
+    this.enemy.cannon.update();
     this.enemy.lifeBar.update()
 
     if(this.target){

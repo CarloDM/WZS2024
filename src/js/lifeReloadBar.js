@@ -31,6 +31,8 @@ export default class LifeReloadBar {
   destroy() {
     this.lifeBar.container.destroy();
     this.lifeBar.destroy();
+    this.lifeBar.reload.container.destroy();
+    this.lifeBar.reload.destroy();
   }
 
 

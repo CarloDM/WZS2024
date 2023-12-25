@@ -1,6 +1,7 @@
 import Phaser from "phaser";
-import Cannon from "./cannon";
+
 import Mg from "./machineGun";
+import Cannon from "./cannon";
 import Rocket from "./rocket";
 import LifeReloadBar from "./lifeReloadBar";
 
@@ -231,6 +232,40 @@ export default class Tank  {
 
     }
   }
+
+  takeDamage(damage){
+    this.tank.hp -= damage;
+
+    // plug floating damage
+    this.scene.floatingNumbers.createFloatingText({
+      textOptions: {
+          fontFamily: 'monospace',
+          fontSize: 30,
+          color: "#F5FFF7",
+          strokeThickness: 1,
+          fontWeight: "bold",
+          stroke: "#000000",
+          shadow: {
+              offsetX: 0,
+              offsetY: 1,
+              color: '#000000',
+              blur: 3,
+              stroke: true,
+              fill: true
+          }
+      },
+      
+      text: '-' + damage,
+      align: "top-center",
+      offsetX: 0,
+      offsetY: 0,
+      parentObject: this.tank ,
+      animation: "up",
+      animationEase: "Sine.easeOut",
+      animationDistance: 16,
+      timeToLive: 250,
+      })
+  }
   
   destroy() {
     // Assicurati che il tank esista prima di tentare la distruzione
@@ -240,6 +275,7 @@ export default class Tank  {
     }
     // Distruggi il tank
     this.tank.cannon.destroy()
+    this.tank.lifeBar.destroy();
     this.tank.destroy();
 
   }
@@ -312,6 +348,11 @@ export default class Tank  {
       this.tank.body.velocity.x *= this.friction;
       this.tank.body.velocity.y *= this.friction;
 
+
+        
+    if(this.tank.hp <= 0){
+      this.destroy()
+    }
 
   }
 }

@@ -98,7 +98,7 @@ class UpgradeTable {
     // upgrade specifici----
 
     // MachineGun 
-    this.mgDamageLevel = 10;
+    this.mgDamageLevel = 0;
     this.mgDamage = [
       {dmg : 2, 
       cost:100, time:60},
@@ -126,7 +126,7 @@ class UpgradeTable {
       cost:100, time:60},
     ]
 
-    this.mgRofLevel = 10;
+    this.mgRofLevel = 0;
     this.mgRof=[
       {rof : 20, rot: 0.7,
       cost:0, time:0},
@@ -163,7 +163,7 @@ class UpgradeTable {
 
     
     // Cannon --------------
-    this.cannonDamageLevel = 10;
+    this.cannonDamageLevel = 0;
     this.cannonDamage =[
       {dmg : 15,
       cost:0, time:0},
@@ -191,7 +191,7 @@ class UpgradeTable {
       cost:100, time:60},
     ]
 
-    this.cannonRofLevel = 10;
+    this.cannonRofLevel = 0;
     this.cannonRof=[
       {rof : 120, rot: 0.35,
         cost:0, time:0},
@@ -226,7 +226,7 @@ class UpgradeTable {
     ]
     
     // Rocket ---------------
-    this.RocketDamageLevel = 10;
+    this.RocketDamageLevel = 0;
     this.RocketDamage =[
       {dmg : 25,
       cost:0, time:0},
@@ -254,7 +254,7 @@ class UpgradeTable {
       cost:100, time:60},
     ]
 
-    this.RocketRofLevel = 10;
+    this.RocketRofLevel = 0;
     this.RocketRof=[
       {rof : 160, rot: 0.25,
         cost:100, time:60},

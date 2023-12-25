@@ -286,6 +286,7 @@ export default class Engineering  {
         // console.log('builded', this.scene.gaiserGrp[this.gaiserIndex]);
         
         this.scene.buildingsGrp.push(this.scene.gaiserGrp[this.gaiserIndex]);
+        this.scene.buildings.add(this.scene.gaiserGrp[this.gaiserIndex].gaiser);
         this.scene.gaiserGrp.splice(this.gaiserIndex, 1);
 
         this.isWorking = false;

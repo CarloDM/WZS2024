@@ -16,11 +16,15 @@ export default class Gaiser {
     this.gaiser.setOrigin(0.5, 0.5);
     this.gaiser.displayWidth = 32;
     this.gaiser.displayHeight = 32;
+
     scene.physics.world.enable(this.gaiser);
     this.gaiser.body.setCollideWorldBounds(true, 4, 4);
     this.gaiser.body.setCircle(32);
     this.gaiser.setInteractive();
     this.gaiser.hp = 100;
+
+    // this.gaiser.body.immovable = true;
+    console.log(this.gaiser.body)
 
 
 
@@ -52,8 +56,8 @@ export default class Gaiser {
         clearInterval(extractionInerval);
         this.gaiser.setTint(0x000000);
         this.gaiser.lifeBar.destroy();
-        this.scene.buildingsGrp.filter(item => item.id !== this.id);
-
+        // this.scene.buildingsGrp.filter(item => item.id !== this.id);
+        // console.warn(this.scene.buildingsGrp);
         setTimeout(() => {
           console.log('gaiser disponibile');
 
@@ -105,6 +109,40 @@ export default class Gaiser {
         timeToLive: 2000,
         });
     }
+  }
+
+  takeDamage(damage){
+    this.gaiser.hp -= damage;
+
+    // plug floating damage
+    this.scene.floatingNumbers.createFloatingText({
+      textOptions: {
+          fontFamily: 'monospace',
+          fontSize: 30,
+          color: "#F5FFF7",
+          strokeThickness: 1,
+          fontWeight: "bold",
+          stroke: "#000000",
+          shadow: {
+              offsetX: 0,
+              offsetY: 1,
+              color: '#000000',
+              blur: 3,
+              stroke: true,
+              fill: true
+          }
+      },
+      
+      text: '-' + damage,
+      align: "top-center",
+      offsetX: 0,
+      offsetY: 0,
+      parentObject: this.gaiser ,
+      animation: "up",
+      animationEase: "Sine.easeOut",
+      animationDistance: 16,
+      timeToLive: 250,
+      })
   }
 
   update(){
