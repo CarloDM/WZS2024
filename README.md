@@ -82,6 +82,11 @@ sono arrivato al terzo test progressivo!
 ----
 24/12/2023 giorno 16
   <li>enemie:  movimento e scelta automatica target </li>
+
+  ----
+  24/12/2023 giorno 16
+  <li>aggiornamento target immeditato cannoni </li>
+
   da fare
   <li>enegineering calcoli la vicinanza da un punto mediano rispetto alla base</li>
 

@@ -112,9 +112,7 @@ export default class cannon {
           
             }, { enemy: null, distance: Infinity }).enemy;
       
-
-        this.target = [Math.floor(closestEnemy.enemy.x), Math.floor(closestEnemy.enemy.y)];
-
+        this.enemy = closestEnemy;
         this.setHookingAngle();
     }
 
@@ -122,8 +120,10 @@ export default class cannon {
 // ------------
   setHookingAngle(){
 
+    this.target = [Math.floor(this.enemy.enemy.x), Math.floor(this.enemy.enemy.y)];
+
     let angle =
-    Math.floor(calculateRotationAngle(this.cannon.x,this.cannon.y,this.target[0], this.target[1]));
+      Math.floor(calculateRotationAngle(this.cannon.x,this.cannon.y,this.target[0], this.target[1]));
 
     this.hookingAngle = angle;
 
@@ -171,7 +171,7 @@ export default class cannon {
     
       //AGGIORNA ANGOLO DI ROTAZIONE MA VOLENDO FORSE SI PUOò FARE PIU LEGGERO ANCORA
       // aggiornare solo il target position anziche il closest enemy
-      this.calculateClosestEnemy();
+      this.setHookingAngle();
 
       // determina la differenza tra angolo cannone e angolo di aggancio
       const angleDifference = Math.floor( Phaser.Math.Angle.ShortestBetween(this.hookingAngle, this.cannon.angle));

@@ -111,10 +111,8 @@ export default class cannon {
             }
           
             }, { enemy: null, distance: Infinity }).enemy;
-      
-
-        this.target = [Math.floor(closestEnemy.enemy.x), Math.floor(closestEnemy.enemy.y)];
-
+        
+        this.enemy = closestEnemy;
         this.setHookingAngle();
     }
 
@@ -122,8 +120,10 @@ export default class cannon {
 // ------------
   setHookingAngle(){
 
+    this.target = [Math.floor(this.enemy.enemy.x), Math.floor(this.enemy.enemy.y)];
+
     let angle =
-    Math.floor(calculateRotationAngle(this.cannon.x,this.cannon.y,this.target[0], this.target[1]));
+      Math.floor(calculateRotationAngle(this.cannon.x,this.cannon.y,this.target[0], this.target[1]));
 
     this.hookingAngle = angle;
 

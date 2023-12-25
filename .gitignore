@@ -9,6 +9,7 @@ lerna-debug.log*
 
 node_modules
 texture-production
+oldtest
 tiledProj
 .DS_Store
 dist
