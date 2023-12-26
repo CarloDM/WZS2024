@@ -28,7 +28,7 @@ export default class Enemy  {
     this.break = false;
     this.isDirected = false;
     this.friction = 0.80;
-    this.tolerance = 64;
+    this.tolerance = 128;
     this.selftCheck = false;
 
     this.enemy = scene.add.sprite(position[0],position[1],'enemy');
@@ -404,13 +404,13 @@ export default class Enemy  {
   }
   
 
-  update(time){
+  update(){
 
     if(isNaN(this.enemy.x)){
       console.log(this.id, 'cord pre:', this.enemy.x, this.enemy.y);
     }
     
-    this.enemy.cannon.update(time);
+    this.enemy.cannon.update();
     this.enemy.lifeBar.update()
 
 

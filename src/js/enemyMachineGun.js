@@ -50,7 +50,7 @@ export default class Mgun {
     
 
     // create circle range 
-    this.graphics = scene.add.graphics({ lineStyle: { width: 1, color: 0xF5FFF7 },    fillStyle: { color: 0xF5FFF7 , alpha:0.20 }});
+    this.graphics = scene.add.graphics({ lineStyle: { width: 1, color: 0xED1871 },    fillStyle: { color: 0xED1871 , alpha:0.10 }});
     
     this.circle = new Phaser.Geom.Circle(this.enemy.x, this.enemy.y, this.range );
 
@@ -266,7 +266,7 @@ export default class Mgun {
 
 
 // ------------// ------------
-  update(time){
+  update(){
 
     this.scanCount ++ ;
     if(this.scanCount === 240){

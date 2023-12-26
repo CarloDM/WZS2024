@@ -12,9 +12,12 @@ export default class cannon {
     this.id = id;
     this.upgradeTable = UpgradeTable.getInstance();
 
+    this.scanCount = 0;
+
     this.damage = this.upgradeTable.RocketDamage[this.upgradeTable.RocketDamageLevel].dmg
 
-    const range = calculateIncrementBylevel(390,this.upgradeTable.tanksRangeOfViewLevel,this.upgradeTable.tanksRangeOfView[1].incrementFactor );
+    const range = 
+      calculateIncrementBylevel(390,this.upgradeTable.tanksRangeOfViewLevel,this.upgradeTable.tanksRangeOfView[1].incrementFactor );
     this.range = range;
 
     this.rotationVelocity =  this.upgradeTable.RocketRof[this.upgradeTable.RocketRofLevel].rot;
@@ -31,13 +34,15 @@ export default class cannon {
     this.cannon.displayWidth = 64;
     this.cannon.displayHeight = 64;
 
-    this.scanning = setInterval(() => {
-      this.scanForEnemies();
-    }, 1500);
+    // this.scanning = setInterval(() => {
+    //   this.scanForEnemies();
+    // }, 1500);
 
     
+
+
     // create circle range 
-    this.graphics = scene.add.graphics({ lineStyle: { width: 1, color: 0xF5FFF7 },    fillStyle: { color: 0xF5FFF7 , alpha:0.2 }});
+    this.graphics = scene.add.graphics({ lineStyle: { width: 1, color: 0x72D079 },    fillStyle: { color: 0x72D079 , alpha:0.1 }});
     this.circle = new Phaser.Geom.Circle(this.tank.x, this.tank.y, this.range );
   
     // visualizza circle range 
@@ -99,10 +104,11 @@ export default class cannon {
 
     if(this.enemies.length > 0){
         
-        let closestEnemy = this.enemies.reduce((closest, enemy) =>{
+        let closestEnemy = 
+          this.enemies.reduce((closest, enemy) =>{
         
             const distanceTo = 
-                  Math.floor(calculateDistance(this.circle.x, this.circle.y,enemy.position[0],enemy.position[1]));
+              Math.floor(calculateDistance(this.circle.x, this.circle.y,enemy.position[0],enemy.position[1]));
           
             if(distanceTo < closest.distance){
               return {enemy, distance: distanceTo };
@@ -110,12 +116,12 @@ export default class cannon {
               return closest;
             }
           
-            }, { enemy: null, distance: Infinity }).enemy;
+          }, { enemy: null, distance: Infinity }).enemy;
       
         this.enemy = closestEnemy;
         this.setHookingAngle();
-    }
 
+    }
   }
 // ------------
   setHookingAngle(){
@@ -151,6 +157,13 @@ export default class cannon {
 // ------------// ------------
   update(){
 
+    this.scanCount ++ ;
+    if(this.scanCount === 240){
+      this.scanForEnemies();
+      console.log('tank scan')
+      this.scanCount = 0;
+    }
+
     // muovi cannone copiando cordinate tank
     this.cannon.x = this.tank.x;
     this.cannon.y = this.tank.y;
@@ -169,8 +182,8 @@ export default class cannon {
 
     if(this.target){
     
+
       //AGGIORNA ANGOLO DI ROTAZIONE MA VOLENDO FORSE SI PUOò FARE PIU LEGGERO ANCORA
-      // aggiornare solo il target position anziche il closest enemy
       this.setHookingAngle();
 
       // determina la differenza tra angolo cannone e angolo di aggancio

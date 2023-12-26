@@ -191,9 +191,9 @@ class setMapTest extends Phaser.Scene{
     this.tankFactory.createGaiser([256,+400],2);
     this.tankFactory.createGaiser([400,-200],3);
 
-    this.tankFactory.createMultipleTanks(1, [300,-600], 'machineGun');
-    this.tankFactory.createMultipleTanks(1, [-600,-0], 'cannon');
-    this.tankFactory.createMultipleTanks(1, [-600, +600], 'rocket');
+    // this.tankFactory.createMultipleTanks(1, [300,-600], 'machineGun');
+    // this.tankFactory.createMultipleTanks(1, [-600,-0], 'cannon');
+    // this.tankFactory.createMultipleTanks(1, [-600, +600], 'rocket');
 
     // ---- primo enemy
     // this.tankFactory.createMultipleEnemies(1,[-800,-500]);

@@ -107,7 +107,7 @@ export default class UserInterface {
   btnFunction4(){
 
     console.log('creare nuovo enemy');
-    this.scene.tankFactory.tankFactoryIstance.createEnemy([400,-650]);
+    this.scene.tankFactory.tankFactoryIstance.createEnemy([0,-1650]);
   }
 
   btnFunction3(){
