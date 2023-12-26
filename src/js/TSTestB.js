@@ -289,6 +289,7 @@ class setMapTest extends Phaser.Scene{
           this.enemiesGrp[index].destroy();
           this.enemiesGrp.splice(index, 1);
           console.warn('splice & destroy:', enemy.enemy.x, enemy.id);
+
         }else{
           enemy.update(time);
         }
@@ -321,7 +322,7 @@ class setMapTest extends Phaser.Scene{
         if(building.gaiser){
 
           if(!building.exploited){
-            console.warn('building splice');
+
             this.buildingsGrp.splice(index, 1);
 
           }else{
@@ -354,7 +355,7 @@ const config = {
     default: 'arcade',
     arcade: {
       gravity: { x: 0 }, // Nessuna gravità
-      debug: true,
+      debug: false,
     },
 
     scale: {

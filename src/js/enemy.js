@@ -345,9 +345,7 @@ export default class Enemy  {
     this.break = false;
     this.target = target;
 
-
       this.scene.physics.moveToObject(this.enemy,this.target , 1);
-
 
   }
   

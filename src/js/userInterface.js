@@ -112,28 +112,31 @@ export default class UserInterface {
 
   btnFunction3(){
 
-    console.log('fai upgrade di tank velocity & rangeview');
-    this.upgradeTable.tanksSpeedTractionLevel ++
-
-    this.scene.tanksGrp1.forEach(tank => {
-
-      tank.speed *= 
-        this.upgradeTable.tanksSpeedTraction[this.upgradeTable.tanksSpeedTractionLevel].incrementFactor;
-
-      tank.speed = Math.floor(tank.speed);
-
-    });
-
-    this.upgradeTable.tanksRangeOfViewLevel ++
-    this.scene.tanksGrp1.forEach(tank => {
+    if(this.upgradeTable.tanksSpeedTractionLevel < 10){
       
-      tank.tank.cannon.range *=
-      this.upgradeTable.tanksRangeOfView[this.upgradeTable.tanksRangeOfViewLevel].incrementFactor;
-
-      tank.tank.cannon.range = Math.floor(tank.tank.cannon.range);
-      
-    });
-    console.log(this.scene.tanksGrp1[2].tank.cannon.range);
+      console.log('fai upgrade di tank velocity & rangeview');
+      this.upgradeTable.tanksSpeedTractionLevel ++
+  
+      this.scene.tanksGrp1.forEach(tank => {
+  
+        tank.speed *= 
+          this.upgradeTable.tanksSpeedTraction[this.upgradeTable.tanksSpeedTractionLevel].incrementFactor;
+  
+        tank.speed = Math.floor(tank.speed);
+  
+      });
+  
+      this.upgradeTable.tanksRangeOfViewLevel ++
+      this.scene.tanksGrp1.forEach(tank => {
+        
+        tank.tank.cannon.range *=
+        this.upgradeTable.tanksRangeOfView[this.upgradeTable.tanksRangeOfViewLevel].incrementFactor;
+  
+        tank.tank.cannon.range = Math.floor(tank.tank.cannon.range);
+        
+      });
+      console.log(this.scene.tanksGrp1[2].tank.cannon.range);
+    }
 
   }
 
