@@ -210,16 +210,16 @@ class setMapTest extends Phaser.Scene{
     this.physics.add.collider(this.enemies, layer);
 
 
-    this.physics.add.collider(this.bullets, this.enemies, (bullet, enemy) => {
+    this.physics.add.overlap(this.bullets, this.enemies, (bullet, enemy) => {
       // Logica per la collisione tra proiettile e nemico
-      enemy.body.setVelocity(0);
+      // enemy.body.setVelocity(0);
       enemy.enemyInstance.takeDamage(bullet.bulletInstance.damage);
       bullet.bulletInstance.explode();
     });
 
-    this.physics.add.collider(this.enemiesBullets, this.tanks, (bullet, tank) => {
+    this.physics.add.overlap(this.enemiesBullets, this.tanks, (bullet, tank) => {
       // Logica per la collisione tra proiettile del nemico e tank
-      tank.body.setVelocity(0);
+      // tank.body.setVelocity(0);
       tank.tankInstance.takeDamage(bullet.bulletInstance.damage);
       bullet.bulletInstance.explode();
     });
@@ -227,9 +227,11 @@ class setMapTest extends Phaser.Scene{
     this.physics.add.overlap(this.enemiesBullets, this.buildings, (bullet, building) => {
       // Logica per la collisione tra proiettile del nemico e tank
       // tank.body.setVelocity(0);
+
       building.gaiserInstance.takeDamage(bullet.bulletInstance.damage);
       bullet.bulletInstance.explode();
     });
+
 
 
     // inizializza selettore tanks
@@ -277,12 +279,19 @@ class setMapTest extends Phaser.Scene{
 
     this.enemiesGrp.forEach((enemy, index) => {
       if(enemy.isDestroyed()){
-        // console.log('splice dead enemy');
 
         this.enemiesGrp.splice(index, 1);
       }else{
 
-        enemy.update();
+        if(isNaN(enemy.enemy.x)){
+
+          console.warn('cord pre update:', enemy.enemy.x, enemy.id);
+          this.enemiesGrp[index].destroy();
+          this.enemiesGrp.splice(index, 1);
+          console.warn('splice & destroy:', enemy.enemy.x, enemy.id);
+        }else{
+          enemy.update(time);
+        }
 
       }
     });
@@ -306,14 +315,19 @@ class setMapTest extends Phaser.Scene{
     }
 
     if(this.buildingsGrp.length > 0 ){
+
       this.buildingsGrp.forEach((building, index) => {
+
         if(building.gaiser){
+
           if(!building.exploited){
-            this.buildingsGrp.splice(index, 1);
             console.warn('building splice');
-            console.log(this.buildingsGrp)
+            this.buildingsGrp.splice(index, 1);
+
           }else{
+
             building.update();
+
           }
         }
       })

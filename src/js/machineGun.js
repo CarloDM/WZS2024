@@ -40,7 +40,7 @@ export default class cannon {
     // create circle range 
     this.graphics = scene.add.graphics({ lineStyle: { width: 1, color: 0xF5FFF7 },    fillStyle: { color: 0xF5FFF7 , alpha:0.20 }});
     this.circle = new Phaser.Geom.Circle(this.tank.x, this.tank.y, this.range );
-    console.log(this.circle)
+
     // visualizza circle range 
     this.points = this.circle.getPoints(16);
   
@@ -194,16 +194,16 @@ export default class cannon {
       if(angleDifference < 3 && angleDifference > -3 ){
 
           if(!this.isShooting){
+
             this.isShooting = true ;
-            console.warn('shooting true true')
 
           }
 
       }else{
 
           if(this.isShooting){
+
             this.isShooting = false;
-            console.warn('shooting false ')
 
           }
 

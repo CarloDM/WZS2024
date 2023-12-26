@@ -192,7 +192,6 @@ export default class cannon {
 
           if(!this.isShooting){
             this.isShooting = true ;
-            console.warn('shooting true true')
 
           }
 
@@ -200,7 +199,6 @@ export default class cannon {
 
           if(this.isShooting){
             this.isShooting = false;
-            console.warn('shooting false ')
 
           }
 

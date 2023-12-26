@@ -105,7 +105,7 @@ export default class Tank  {
 
         this.scene.physics.moveToObject(this.tank,this.target , 1);
         this.isDirected = true;
-        this.selftMoveControll();
+        // this.selftMoveControll();
 
 
         filteredPath.forEach(tile => {
@@ -121,95 +121,91 @@ export default class Tank  {
   };
 
 
-  selftMoveControll(){
+  // selftMoveControll(){
 
-  if(!this.selftCheck){
-    console.log('set checking')
-
-    this.selftCheck = true;
-    let positionVerified = [];
-
-      let check = setInterval(() => {
-
-        if(this.isDirected){
-
-          const tilePosition =  fromPositionToTile(this.tank.x, this.tank.y);
-          positionVerified.push(tilePosition);
+  // if(!this.selftCheck){
 
 
-            if(positionVerified.length >= 5){
-              positionVerified.shift();
-              if(
-                positionVerified[0].toString() === positionVerified[1].toString() &&
-                positionVerified[0].toString() === positionVerified[2].toString() &&
-                positionVerified[0].toString() === positionVerified[3].toString() &&
-                this.target
-                ){
+  //   this.selftCheck = true;
+  //   let positionVerified = [];
 
-                  let targetPosition = null;
+  //     let check = setInterval(() => {
 
-                  if(this.targets.length > 0){
-                    targetPosition = this.targets[this.targets.length -1];
-                  }else{
-                    targetPosition = this.target;
-                  }
+  //       if(this.isDirected){
 
-                  const targetTile = fromPositionToTile(targetPosition.x, targetPosition.y );
-
-                  //tentativi di sbroglio
-                  let choice = Phaser.Math.Between(0, 3);
-                  switch (choice) {
-
-                    case 0:
-                      this.tank.x -= 64;
-                      this.tank.y += 64;
-                      break;
-                    case 1:
-                      this.tank.x += 64;
-                      this.tank.y -= 64;
-                      break;
-                    case 2:
-                      this.tank.x += 64;
-                      this.tank.y += 64;
-                      break;
-                    case 3:
-                      this.tank.x -= 64;
-                      this.tank.y -= 64;
-                      break;
-
-                  }
+  //         const tilePosition =  fromPositionToTile(this.tank.x, this.tank.y);
+  //         positionVerified.push(tilePosition);
 
 
-                  if(this.tank.body){
-                    clearInterval(check);
-                    console.log('clear reset');
-                    this.selftCheck = false;
-                    this.moveTankTo(targetTile);
-                  }else{
-                    clearInterval(check);
-                    console.log('clear because die', this.id);
-                  }
+  //           if(positionVerified.length >= 5){
+  //             positionVerified.shift();
+  //             if(
+  //               positionVerified[0].toString() === positionVerified[1].toString() &&
+  //               positionVerified[0].toString() === positionVerified[2].toString() &&
+  //               positionVerified[0].toString() === positionVerified[3].toString() &&
+  //               this.target
+  //               ){
 
-                };
-            }
+  //                 let targetPosition = null;
 
-        }else{
+  //                 if(this.targets.length > 0){
+  //                   targetPosition = this.targets[this.targets.length -1];
+  //                 }else{
+  //                   targetPosition = this.target;
+  //                 }
 
-          clearInterval(check);
-          positionVerified = [];
-          this.selftCheck = false;
-          console.log('clear');
+  //                 const targetTile = fromPositionToTile(targetPosition.x, targetPosition.y );
 
-        }
+  //                 //tentativi di sbroglio
+  //                 let choice = Phaser.Math.Between(0, 3);
+  //                 switch (choice) {
 
-      }, 3000);
+  //                   case 0:
+  //                     this.tank.x -= 64;
+  //                     this.tank.y += 64;
+  //                     break;
+  //                   case 1:
+  //                     this.tank.x += 64;
+  //                     this.tank.y -= 64;
+  //                     break;
+  //                   case 2:
+  //                     this.tank.x += 64;
+  //                     this.tank.y += 64;
+  //                     break;
+  //                   case 3:
+  //                     this.tank.x -= 64;
+  //                     this.tank.y -= 64;
+  //                     break;
 
-      check;
+  //                 }
 
-    }else{
-      console.log('alrady checking')
-    }
-  }
+
+  //                 if(this.tank.body){
+  //                   clearInterval(check);
+
+  //                   this.selftCheck = false;
+  //                   this.moveTankTo(targetTile);
+  //                 }else{
+  //                   clearInterval(check);
+  //                   console.log('clear selft check because tank is die', this.id);
+  //                 }
+
+  //               };
+  //           }
+
+  //       }else{
+
+  //         clearInterval(check);
+  //         positionVerified = [];
+  //         this.selftCheck = false;
+  //       }
+
+  //     }, 3000);
+
+  //     check;
+
+  //   }else{};
+  // }
 
   moveTankToNext(target){
 

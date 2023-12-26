@@ -4,13 +4,14 @@ import UpgradeTable from "./upgradeTable";
 
 import {calculateDistance,calculateRotationAngle,calculateIncrementBylevel} from './mathFunction';
 
-export default class cannon {
+export default class Mgun {
   constructor(scene, enemy, id){
 
     this.scene = scene;
     this.enemy = enemy;
     this.id = id;
     this.upgradeTable = UpgradeTable.getInstance();
+    this.scanCount = 0;
 
     this.damage = this.upgradeTable.mgDamage[this.upgradeTable.mgDamageLevel].dmg
 
@@ -36,16 +37,23 @@ export default class cannon {
     // - scannerizza tank non enemy
     // - deve dare precedenza a bersagli tank rispetto a costruzioni
 
-    this.scanning = setInterval(() => {
-      this.scanForTanks();
-    }, 1500);
+    // this.scanning = setInterval(() => {
+
+    //   if(isNaN(this.enemy.x)){
+    //     clearInterval(this.scanning);
+    //     console.log(this.enemy)
+    //   }else{
+    //     this.scanForTanks();
+    //   }
+    // }, 1500);
 
     
 
     // create circle range 
     this.graphics = scene.add.graphics({ lineStyle: { width: 1, color: 0xF5FFF7 },    fillStyle: { color: 0xF5FFF7 , alpha:0.20 }});
+    
     this.circle = new Phaser.Geom.Circle(this.enemy.x, this.enemy.y, this.range );
-    console.log(this.circle)
+
     // visualizza circle range 
     this.points = this.circle.getPoints(16);
   
@@ -62,7 +70,11 @@ export default class cannon {
 
 // ------------
   scanForTanks(){
+    console.log('scan for tanks');
 
+    try{
+
+    
     if(this.enemy.body){
 
         if(this.scene.tanksGrp1.length > 0){
@@ -104,10 +116,11 @@ export default class cannon {
           this.tankTarget = false;
           this.scanForBuild();
         }
-
-    }else{
-      clearInterval(this.scanning)
     }
+  } catch (error) {
+    console.error('Errore durante la scansione dei tank:', error);
+  }
+    
 
   }
 
@@ -196,7 +209,7 @@ export default class cannon {
             }, { building: null, distance: Infinity }).building;
 
         this.building = closestBuilding;
-        // console.log('closest building?', this.building);
+
         this.setHookingAngle();
     }
 
@@ -226,6 +239,10 @@ export default class cannon {
 
 // ------------
   fire(){
+
+    if(isNaN(this.enemy.x)){
+      console.log('fire wrong?:', this.enemy.x, this.id);}
+
     const bullet = new Bullet(this.scene, this.cannon.x, this.cannon.y, this.cannon.angle,
     850, 8, 
     this.damage,
@@ -249,7 +266,14 @@ export default class cannon {
 
 
 // ------------// ------------
-  update(){
+  update(time){
+
+    this.scanCount ++ ;
+    if(this.scanCount === 240){
+      this.scanForTanks()
+      this.scanCount = 0;
+    }
+
 
     // muovi cannone copiando cordinate tank
     this.cannon.x = this.enemy.x;
@@ -257,6 +281,9 @@ export default class cannon {
     this.circle.x = this.enemy.x;
     this.circle.y = this.enemy.y;
     this.circle.radius = this.range;
+
+
+
 
     // shot charging / reload
     if(this.shotCharge <= this.rof){
@@ -290,16 +317,16 @@ export default class cannon {
       if(angleDifference < 3 && angleDifference > -3 ){
 
           if(!this.isShooting){
+
             this.isShooting = true ;
-            console.warn('shooting true true')
 
           }
 
       }else{
 
           if(this.isShooting){
+
             this.isShooting = false;
-            console.warn('shooting false ')
 
           }
 

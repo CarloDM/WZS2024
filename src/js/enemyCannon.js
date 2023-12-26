@@ -190,16 +190,16 @@ export default class cannon {
       if(angleDifference < 3 && angleDifference > -3 ){
 
           if(!this.isShooting){
+            
             this.isShooting = true ;
-            console.warn('shooting true')
 
           }
 
       }else{
 
           if(this.isShooting){
+
             this.isShooting = false;
-            console.warn('shooting false ')
 
           }
 

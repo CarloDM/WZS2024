@@ -23,9 +23,6 @@ export default class Gaiser {
     this.gaiser.setInteractive();
     this.gaiser.hp = 100;
 
-    // this.gaiser.body.immovable = true;
-    console.log(this.gaiser.body)
-
 
 
     this.gaiser.gaiserInstance = this;
@@ -56,8 +53,7 @@ export default class Gaiser {
         clearInterval(extractionInerval);
         this.gaiser.setTint(0x000000);
         this.gaiser.lifeBar.destroy();
-        // this.scene.buildingsGrp.filter(item => item.id !== this.id);
-        // console.warn(this.scene.buildingsGrp);
+
         setTimeout(() => {
           console.log('gaiser disponibile');
 
