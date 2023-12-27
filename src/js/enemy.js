@@ -14,8 +14,7 @@ export default class Enemy  {
 
     // --------------
 
-    this.rotation = 0;
-    this.isTankSelected = false;
+
     this.target = false;
     this.targets = [];
     this.speed = 50;
@@ -25,7 +24,7 @@ export default class Enemy  {
     this.isDirected = false;
     this.friction = 0.80;
     this.tolerance = 128;
-    this.selftCheck = false;
+
 
     this.enemy = scene.add.sprite(position[0],position[1],'enemy');
     this.enemy.hp = hp
@@ -302,9 +301,6 @@ export default class Enemy  {
   
   update(){
 
-    if(isNaN(this.enemy.x)){
-      console.log(this.id, 'cord pre:', this.enemy.x, this.enemy.y);
-    }
     
     this.enemy.cannon.update();
     this.enemy.lifeBar.update()
@@ -312,46 +308,48 @@ export default class Enemy  {
 
     if(this.target){
 
-      const distance = Phaser.Math.Distance.BetweenPoints(this.enemy, this.target);
 
-      if (distance < this.tolerance){
-          
-          this.target = false;
+        const distance = Phaser.Math.Distance.BetweenPoints(this.enemy, this.target);
 
-          if(this.targets.length > 0 && !this.target){
+        if (distance < this.tolerance){
 
-            this.moveTankToNext(this.targets[0]) 
-            this.targets.shift();
-              
-          }else{
+            this.target = false;
 
-            this.isDirected = false;
-          }
-      }
-        
+            if(this.targets.length > 0 && !this.target){
 
+              this.moveTankToNext(this.targets[0]) 
+              this.targets.shift();
 
-      if (this.break && this.acceleration < this.speed && this.target){ 
+            }else{
 
-        this.enemy.rotation = this.enemy.body.angle;
-        this.acceleration += this.accIncrement;
-        this.scene.physics.moveToObject(this.enemy, this.target, this.acceleration);
-          
-      }else if (this.target){
+              this.isDirected = false;
 
-        if(this.break){
-          this.break = false;
+            }
+
         }
 
-        this.enemy.rotation = this.enemy.body.angle;
-        this.scene.physics.moveToObject(this.enemy, this.target, this.speed);
 
-    }
+        if (this.break && this.acceleration < this.speed && this.target){ 
+
+          this.enemy.rotation = this.enemy.body.angle;
+          this.acceleration += this.accIncrement;
+          this.scene.physics.moveToObject(this.enemy, this.target, this.acceleration);
+
+        }else if (this.target){
+
+          if(this.break){
+            this.break = false;
+          }
+          this.enemy.rotation = this.enemy.body.angle;
+          this.scene.physics.moveToObject(this.enemy, this.target, this.speed);
+
+        }
     
-  }else if(!this.break){
-    this.break = true;
-    this.acceleration = 1;
-  }
+
+    }else if(!this.break){
+      this.break = true;
+      this.acceleration = 1;
+    }
 
 
     this.enemy.body.velocity.x *= this.friction;

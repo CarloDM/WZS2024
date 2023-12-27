@@ -6,7 +6,7 @@ import {setUpFinder}            from "./Astar";
 import {initializeMathFunction} from './mathFunction';
 import CameraController         from './cameraController';
 import SelectionRect            from './selectionRect';
-import TankFactory              from './tankFactory';
+import TankFactory              from './Factory';
 import Engineering              from './engineering';
 import BulletsPool              from './bulletsPool';
 
@@ -170,9 +170,7 @@ class setMapTest extends Phaser.Scene{
     this.tanks   = this.physics.add.group();
     this.enemies = this.physics.add.group();
     this.buildings = this.physics.add.group();
-    // this.bullets = this.physics.add.group();
-    this.enemiesBullets = this.physics.add.group();
-    
+
     this.ingBotty = new Engineering(this, [-100,+400])
     
     this.tankFactory = new TankFactory(this);
@@ -180,16 +178,6 @@ class setMapTest extends Phaser.Scene{
     this.tankFactory.createGaiser([128,+400],1);
     this.tankFactory.createGaiser([256,+400],2);
     this.tankFactory.createGaiser([400,-200],3);
-
-    // this.tankFactory.createMultipleTanks(1, [300,-600], 'machineGun');
-    // this.tankFactory.createMultipleTanks(1, [-600,-0], 'cannon');
-    // this.tankFactory.createMultipleTanks(1, [-600, +600], 'rocket');
-
-    // ---- primo enemy
-    // this.tankFactory.createMultipleEnemies(1,[-800,-500]);
-    // this.tankFactory.createMultipleEnemies(1,[-800, +100]);
-    // this.tankFactory.createMultipleEnemies(1,[-800, +700]);
-
 
     this.bulletPool = new BulletsPool(this);
 
@@ -202,35 +190,26 @@ class setMapTest extends Phaser.Scene{
     this.physics.add.collider(this.enemies, layer);
 
 
-    // this.physics.add.overlap(this.bullets, this.enemies, (bullet, enemy) => {
-    //   // Logica per la collisione tra proiettile e nemico
-    //   // enemy.body.setVelocity(0);
-    //   enemy.enemyInstance.takeDamage(bullet.bulletInstance.damage);
-    //   bullet.bulletInstance.explode();
-    // });
-
     this.physics.add.overlap(this.bulletPool.userBulletsGroup, this.enemies, (bullet, enemy) => {
-      // Logica per la collisione tra proiettile e nemico
-      // enemy.body.setVelocity(0);
+
       enemy.enemyInstance.takeDamage(bullet.bulletInstance.damage);
       bullet.bulletInstance.explode();
-    });
 
+    });
 
 
     this.physics.add.overlap(this.bulletPool.enemyBulletsGroup, this.tanks, (bullet, tank) => {
-      // Logica per la collisione tra proiettile del nemico e tank
-      // tank.body.setVelocity(0);
+
       tank.tankInstance.takeDamage(bullet.bulletInstance.damage);
       bullet.bulletInstance.explode();
+
     });
 
     this.physics.add.overlap(this.bulletPool.enemyBulletsGroup, this.buildings, (bullet, building) => {
-      // Logica per la collisione tra proiettile del nemico e tank
-      // tank.body.setVelocity(0);
 
       building.gaiserInstance.takeDamage(bullet.bulletInstance.damage);
       bullet.bulletInstance.explode();
+
     });
 
     

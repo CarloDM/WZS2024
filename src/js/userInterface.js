@@ -142,12 +142,6 @@ export default class UserInterface {
   update(){
     const zoom = this.camera.zoom
 
-    // this.container.x = this.camera.worldView.x + (25 / this.camera.zoom) ;
-    // this.container.y = this.camera.worldView.y + (25 / this.camera.zoom) ;
-
-    // this.container.width = this.camera.worldView.width - (50 / this.camera.zoom);
-    // this.container.height = this.camera.worldView.height - (50 / this.camera.zoom);
-
     this.container.x = this.camera.worldView.x + 25 / zoom;
     this.container.y = this.camera.worldView.y + 25 / zoom;
 

@@ -12,7 +12,6 @@ export default class Tank  {
     this.position = position;
     this.type = type;
 
-    this.rotation = 0;
     this.isTankSelected = false;
     this.target = target;
     this.targets = [];
@@ -24,7 +23,7 @@ export default class Tank  {
     this.isDirected = false;
     this.friction = 0.90;
     this.tolerance = 64;
-    this.selftCheck = false;
+
 // ------
 
     this.tank = scene.add.sprite(position[0],position[1],'tank');
@@ -195,53 +194,57 @@ export default class Tank  {
     this.tank.cannon.update();
     this.tank.lifeBar.update();
 
+
         if(this.target){
 
-          const distance = Phaser.Math.Distance.BetweenPoints(this.tank, this.target);
 
-          if (distance < this.tolerance){
-              
-              this.target = false;
+            const distance = Phaser.Math.Distance.BetweenPoints(this.tank, this.target);
 
-              if(this.targets.length > 0 && !this.target){
+            if (distance < this.tolerance){
 
-                this.moveTankToNext(this.targets[0]) 
-                this.targets.shift();
-                  
-              }else if(this.afterTargets.length > 0 && !this.target){
+                this.target = false;
 
-                this.moveTankTo(this.afterTargets[0], false)
-                this.afterTargets.shift();
+                if(this.targets.length > 0 && !this.target){
 
-              }else{
+                  this.moveTankToNext(this.targets[0]) 
+                  this.targets.shift();
 
-                this.isDirected = false;
-              }
-          }
-            
+                }else if(this.afterTargets.length > 0 && !this.target){
 
+                  this.moveTankTo(this.afterTargets[0], false)
+                  this.afterTargets.shift();
 
-          if (this.break && this.acceleration < this.speed && this.target){ 
+                }else{
 
-            this.tank.rotation = this.tank.body.angle;
-            this.acceleration += this.accIncrement;
-            this.scene.physics.moveToObject(this.tank, this.target, this.acceleration);
-              
-          }else if (this.target){
+                  this.isDirected = false;
 
-            if(this.break){
-              this.break = false;
+                }
+
             }
 
-            this.tank.rotation = this.tank.body.angle;
-            this.scene.physics.moveToObject(this.tank, this.target, this.speed);
 
+
+            if (this.break && this.acceleration < this.speed && this.target){ 
+
+              this.tank.rotation = this.tank.body.angle;
+              this.acceleration += this.accIncrement;
+              this.scene.physics.moveToObject(this.tank, this.target, this.acceleration);
+
+            }else if (this.target){
+
+              if(this.break){
+                this.break = false;
+              }
+              this.tank.rotation = this.tank.body.angle;
+              this.scene.physics.moveToObject(this.tank, this.target, this.speed);
+
+            }
+          
+
+        }else if(!this.break){
+          this.break = true;
+          this.acceleration = 1;
         }
-        
-      }else if(!this.break){
-        this.break = true;
-        this.acceleration = 1;
-      }
 
       //frizione
       this.tank.body.velocity.x *= this.friction;
