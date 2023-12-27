@@ -159,13 +159,13 @@ export default class cannon {
           this.buildings = buildingsScanned;
           this.calculateClosestBuilding();
         }else{
-          this.enemy.enemyInstance.scanTargets('all');
+          this.enemy.enemyInstance.scanTargets('buildings');
         }
 
       }else{
         this.isShooting = false;
         this.target = null;
-        this.enemy.enemyInstance.scanTargets('all');
+        this.enemy.enemyInstance.scanTargets('buildings');
       }
 
     }else{
@@ -226,7 +226,7 @@ export default class cannon {
     const x = this.cannon.x;
     const y = this.cannon.y;
     const angle = this.cannon.angle;
-    const speed = 850;
+    const speed = 750;
     const size = 8;
     const damage = this.damage;
     const lifeTime = 800;

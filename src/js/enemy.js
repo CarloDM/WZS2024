@@ -20,7 +20,7 @@ export default class Enemy  {
     this.targets = [];
     this.speed = 50;
     this.acceleration = 1;
-    this.accIncrement = this.speed/60;
+    this.accIncrement = this.speed/30;
     this.break = false;
     this.isDirected = false;
     this.friction = 0.80;
@@ -41,9 +41,6 @@ export default class Enemy  {
 
     this.enemy.lifeBar = new LifeBar(this.scene, this.enemy , hp);
 
-      // enemy deve preferire:
-      //  edifici x i Cannoni 
-      //  tank x rocket 
       switch (this.type) {
         case 'machineGun':
           this.enemy.cannon = new Mg(this.scene, this.enemy, this.id);
@@ -209,7 +206,7 @@ export default class Enemy  {
     }
     this.isDirected = false;
     this.targets = [];
-    this.break = false;
+
     const tilePosition = fromPositionToTile(this.enemy.x, this.enemy.y);
 
     findPath(tilePosition[0], tilePosition[1], tileTarget[0], tileTarget[1])
@@ -243,10 +240,9 @@ export default class Enemy  {
 
   moveTankToNext(target){
 
-    this.break = false;
     this.target = target;
 
-      this.scene.physics.moveToObject(this.enemy,this.target , 1);
+    this.scene.physics.moveToObject(this.enemy,this.target , 1);
 
   }
   
@@ -315,77 +311,51 @@ export default class Enemy  {
 
 
     if(this.target){
+
       const distance = Phaser.Math.Distance.BetweenPoints(this.enemy, this.target);
 
-      if (distance < this.tolerance)
-      {
-          this.target = false;
-          this.acceleration = this.speed;
-          this.break = true;
+      if (distance < this.tolerance){
           
+          this.target = false;
+
           if(this.targets.length > 0 && !this.target){
-              
+
             this.moveTankToNext(this.targets[0]) 
             this.targets.shift();
               
           }else{
-            this.isDirected = false;
-          }
 
-          if(isNaN(this.enemy.x)){
-            console.log(this.id, 'cord mid:', this.enemy.x, this.enemy.y, this.enemy);
+            this.isDirected = false;
           }
       }
         
 
 
-      if (!this.break && this.enemy.body.speed > 0 && this.enemy.body.speed <  this.speed  )
-      {
+      if (this.break && this.acceleration < this.speed && this.target){ 
+
         this.enemy.rotation = this.enemy.body.angle;
         this.acceleration += this.accIncrement;
-
-          this.scene.physics.moveToObject(this.enemy, this.target, this.acceleration);
-
-          if(isNaN(this.enemy.x)){
-            console.log(this.id, 'cord if 1:', this.enemy.x, this.enemy.y);
-          }
+        this.scene.physics.moveToObject(this.enemy, this.target, this.acceleration);
           
       }else if (this.target){
+
+        if(this.break){
+          this.break = false;
+        }
+
         this.enemy.rotation = this.enemy.body.angle;
-        this.break = true;
-        this.acceleration = this.speed / 2;
+        this.scene.physics.moveToObject(this.enemy, this.target, this.speed);
 
-        if(isNaN(this.enemy.x)){
-          console.log(this.id, 'cord if 2 try no block');
-        }else{
-          this.scene.physics.moveToObject(this.enemy, this.target, this.speed);
-          // Interpolate velocity toward (0, 0), starting at 10px away
-          this.enemy.body.velocity.lerp(
-              Phaser.Math.Vector2.ZERO,
-              Phaser.Math.Clamp(1 - distance / 50, 0, 1)
-          );
-        }
-
-
-        if(isNaN(this.enemy.x)){
-          console.log(this.id, 'cord if 2:', this.enemy.x, this.enemy.y);
-        }
     }
     
-    
-    if(isNaN(this.enemy.x)){
-      console.log(this.id, 'cord post:', this.enemy.x, this.enemy.y);
-    }
-
-  }else{
-    this.break = false;
+  }else if(!this.break){
+    this.break = true;
+    this.acceleration = 1;
   }
 
 
-
-    
-    this.enemy.body.velocity.x *= 0.95;
-    this.enemy.body.velocity.y *= 0.95;
+    this.enemy.body.velocity.x *= this.friction;
+    this.enemy.body.velocity.y *= this.friction;
   
   
     if(this.enemy.hp <= 0){

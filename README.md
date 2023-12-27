@@ -81,20 +81,23 @@ sono arrivato al terzo test progressivo!
 
 ----
 24/12/2023 giorno 16
-  <li>enemie:  movimento e scelta automatica target </li>
+<li>enemie:  movimento e scelta automatica target </li>
 
 ----
-24/12/2023 giorno 16
+25/12/2023 giorno 17
 <li>presa di mira target immeditata cannoni </li>
 ----
 
-24/12/2023 giorno 17
+26/12/2023 giorno 18
 <li>bullet pool</li>
+
+----
+27/12/2023 giorno 19
 <li>completare pool per bullet nemici</li>
+<li>semplificare logica di movimento tank</li>
 da fare
 <li>texture dei bullet</li>
 <li>texture dei bottoni per incominciare a disegnare i livelli</li>
 <li>enegineering calcoli la vicinanza da un punto mediano rispetto alla base</li>
-<li>semplificare logica di movimento tank</li>
 
 

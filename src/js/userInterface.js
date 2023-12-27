@@ -135,7 +135,6 @@ export default class UserInterface {
         tank.tank.cannon.range = Math.floor(tank.tank.cannon.range);
         
       });
-      console.log(this.scene.tanksGrp1[2].tank.cannon.range);
     }
 
   }
