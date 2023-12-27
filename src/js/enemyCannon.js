@@ -1,16 +1,15 @@
-import Phaser from "phaser";
-import Bullet from './Bullet';
 import UpgradeTable from "./upgradeTable";
-
 import {calculateDistance,calculateRotationAngle,calculateIncrementBylevel} from './mathFunction';
 
 export default class cannon {
+
   constructor(scene, enemy, id){
 
     this.scene = scene;
     this.enemy = enemy;
     this.id = id;
     this.upgradeTable = UpgradeTable.getInstance();
+    this.scanCount = 0;
 
     this.damage = this.upgradeTable.cannonDamage[this.upgradeTable.cannonDamageLevel].dmg
 
@@ -22,8 +21,9 @@ export default class cannon {
     this.rof =               this.upgradeTable.cannonRof[this.upgradeTable.cannonRofLevel].rof;
     this.shotCharge =        this.upgradeTable.cannonRof[this.upgradeTable.cannonRofLevel].rof;
 
-    this.enemies = [];
+    this.tanks = [];
     this.target = null;
+    this.tankTarget = false;
     this.hookingAngle = 0;
     this.isShooting = false;
 
@@ -31,13 +31,9 @@ export default class cannon {
     this.cannon.displayWidth = 64;
     this.cannon.displayHeight = 64;
 
-    this.scanning = setInterval(() => {
-      this.scanForEnemies();
-    }, 1500);
-
-
     // create circle range 
     this.graphics = scene.add.graphics({ lineStyle: { width: 1, color: 0xF5FFF7 },    fillStyle: { color: 0xF5FFF7 , alpha:0.20 }});
+
     this.circle = new Phaser.Geom.Circle(this.enemy.x, this.enemy.y, this.range );
   
     // visualizza circle range 
@@ -51,26 +47,30 @@ export default class cannon {
     }
     // debug range -------------------------
     
-  }
-
-
+  }// constructor
 // ------------
-  scanForEnemies(){
+// lo scanning del cannone nemico si differenzia per
+// - scannerizza tank non enemy
+// - deve dare precedenza a bersagli tank rispetto a costruzioni
+  scanForTanks(){
 
+    try{
+
+    
     if(this.enemy.body){
 
-        if(this.scene.enemiesGrp.length > 0){
+        if(this.scene.tanksGrp1.length > 0){
           
-              let enemiesScanned = []
+              let tankScanned = []
               
-              this.scene.enemiesGrp.forEach(enemy => {
+              this.scene.tanksGrp1.forEach(tank => {
 
                 let distanceFromCannon =
-                Math.floor(calculateDistance(this.circle.x, this.circle.y, enemy.enemy.x, enemy.enemy.y));
+                Math.floor(calculateDistance(this.circle.x, this.circle.y, tank.tank.x, tank.tank.y));
               
                 if(distanceFromCannon < this.circle.radius){
                     
-                    enemiesScanned.push(enemy);
+                    tankScanned.push(tank);
                 
                 }else{
                   this.isShooting = false;
@@ -78,62 +78,163 @@ export default class cannon {
               
               });
             
-            if(enemiesScanned.length > 0){
-              this.enemies = enemiesScanned;
-              this.calculateClosestEnemy();
+            if(tankScanned.length > 0){
+
+              this.tankTarget = true;
+              this.tanks = tankScanned;
+              this.calculateClosestTank();
+
             }else{
+
               this.target = null;
+              this.tankTarget = false;
+              this.scanForBuild();
+
             }
+
         }else{
           this.isShooting = false;
           this.target = null;
+          this.tankTarget = false;
+          this.scanForBuild();
         }
-
-    }else{
-      clearInterval(this.scanning)
     }
+  } catch (error) {
+    console.error('Errore durante la scansione dei tank:', error);
+  }
+    
 
   }
-// ------------
-  calculateClosestEnemy(){
 
-    if(this.enemies.length > 0){
+  calculateClosestTank(){
+
+    if(this.tanks.length > 0){
         
-        let closestEnemy = this.enemies.reduce((closest, enemy) =>{
+        let closestTank = this.tanks.reduce((closest, tank) =>{
         
             const distanceTo = 
-                  Math.floor(calculateDistance(this.circle.x, this.circle.y,enemy.position[0],enemy.position[1]));
+                  Math.floor(calculateDistance(this.circle.x, this.circle.y,tank.tank.x,tank.tank.y));
           
             if(distanceTo < closest.distance){
-              return {enemy, distance: distanceTo };
+              return {tank, distance: distanceTo };
             }else{
               return closest;
             }
           
-            }, { enemy: null, distance: Infinity }).enemy;
-        
-        this.enemy = closestEnemy;
+            }, { tank: null, distance: Infinity }).tank;
+      
+        this.tank = closestTank;
         this.setHookingAngle();
     }
 
   }
+
+  scanForBuild(){
+
+    if(this.enemy.body){
+
+      if(this.scene.buildingsGrp.length > 0){
+
+        let buildingsScanned = [];
+
+        this.scene.buildingsGrp.forEach(building => {
+
+          if(building.gaiser){
+            
+            let distanceFromCannon =
+            Math.floor(calculateDistance(this.circle.x, this.circle.y, building.gaiser.x, building.gaiser.y));
+          
+            if(distanceFromCannon < this.circle.radius){
+                
+                buildingsScanned.push(building);
+                
+                
+            }else{
+              this.isShooting = false;
+            }
+          }
+        });
+
+        if(buildingsScanned.length > 0){
+          this.buildings = buildingsScanned;
+          this.calculateClosestBuilding();
+        }else{
+          this.enemy.enemyInstance.scanTargets('all');
+        }
+
+      }else{
+        this.isShooting = false;
+        this.target = null;
+        this.enemy.enemyInstance.scanTargets('all');
+      }
+
+    }else{
+      clearInterval(this.scanning)
+    }
+  }
+
+  calculateClosestBuilding(){
+    
+    if(this.buildings.length > 0){
+        
+        let closestBuilding= this.buildings.reduce((closest, building) =>{
+
+            const distanceTo = 
+                  Math.floor(calculateDistance(this.circle.x, this.circle.y,building.gaiser.x,building.gaiser.y));
+          
+            if(distanceTo < closest.distance){
+              return {building, distance: distanceTo };
+            }else{
+              return closest;
+            }
+          
+            }, { building: null, distance: Infinity }).building;
+
+        this.building = closestBuilding;
+
+        this.setHookingAngle();
+    }
+
+  }
+
 // ------------
   setHookingAngle(){
 
-    this.target = [Math.floor(this.enemy.enemy.x), Math.floor(this.enemy.enemy.y)];
+    if(this.tankTarget){
 
-    let angle =
-      Math.floor(calculateRotationAngle(this.cannon.x,this.cannon.y,this.target[0], this.target[1]));
+      this.target = [Math.floor(this.tank.tank.x), Math.floor(this.tank.tank.y)];
+      let angle =
+        Math.floor(calculateRotationAngle(this.cannon.x,this.cannon.y,this.target[0], this.target[1]));
+  
+      this.hookingAngle = angle;
 
-    this.hookingAngle = angle;
+    }else{
 
+      this.target = [Math.floor(this.building.gaiser.x), Math.floor(this.building.gaiser.y)];
+      let angle =
+        Math.floor(calculateRotationAngle(this.cannon.x,this.cannon.y,this.target[0], this.target[1]));
+  
+      this.hookingAngle = angle;
+
+    }
   }
+
 // ------------
   fire(){
-    const bullet = new Bullet(this.scene, this.cannon.x, this.cannon.y, this.cannon.angle, 750, 8, this.damage , 800 );
-    this.scene.bulletsGrp.push(bullet);
-    this.scene.bullets.add(bullet.bullet);
+
+    const bulletPool = this.scene.bulletPool;
+    const x = this.cannon.x;
+    const y = this.cannon.y;
+    const angle = this.cannon.angle;
+    const speed = 850;
+    const size = 8;
+    const damage = this.damage;
+    const lifeTime = 800;
+    const type = 'machineGun'
+
+    bulletPool.createEnemyBullet(x, y, angle, speed, size, damage, lifeTime, type);
   }
+  
 // ------------
   destroy() {
 
@@ -147,7 +248,6 @@ export default class cannon {
 
   }
 
-
 // ------------// ------------
   update(){
 
@@ -157,8 +257,14 @@ export default class cannon {
     this.circle.x = this.enemy.x;
     this.circle.y = this.enemy.y;
     this.circle.radius = this.range;
+    // scanning interval
+    this.scanCount ++ ;
+    if(this.scanCount === 240){
+      this.scanForTanks()
+      this.scanCount = 0;
+    }
 
-    // shot charging / reload
+    // reload intervall
     if(this.shotCharge <= this.rof){
       this.shotCharge ++;
     }else if (this.isShooting){
@@ -190,7 +296,7 @@ export default class cannon {
       if(angleDifference < 3 && angleDifference > -3 ){
 
           if(!this.isShooting){
-            
+
             this.isShooting = true ;
 
           }
@@ -204,7 +310,6 @@ export default class cannon {
           }
 
       }
-    
 
     }// <-- se abbiamo un target
 

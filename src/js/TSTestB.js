@@ -1,19 +1,14 @@
 import Phaser from "phaser";
-import FloatingNumbersPlugin from "./FloatingNumbersPlugin";
-import * as dat from 'dat.gui';
 import Stats from "stats.js";
 
-
-import {setUpFinder,findPath} from "./Astar";
-
+import FloatingNumbersPlugin    from "./FloatingNumbersPlugin";
+import {setUpFinder}            from "./Astar";
 import {initializeMathFunction} from './mathFunction';
-import CameraController from './cameraController';
-import SelectionRect from './selectionRect';
-import TankFactory from './tankFactory';
-import Engineering from './engineering';
-
-
-
+import CameraController         from './cameraController';
+import SelectionRect            from './selectionRect';
+import TankFactory              from './tankFactory';
+import Engineering              from './engineering';
+import BulletsPool              from './bulletsPool';
 
 export {config};
 
@@ -38,12 +33,7 @@ class setMapTest extends Phaser.Scene{
   this.enemiesGrp = [];
   this.enemies = [];
 
-  this.bulletsGrp = [];
-  this.bullets = [];
-  this.enemiesBullets = [];
-
   this.tankFactory = null;
-
 
   };
   
@@ -180,7 +170,7 @@ class setMapTest extends Phaser.Scene{
     this.tanks   = this.physics.add.group();
     this.enemies = this.physics.add.group();
     this.buildings = this.physics.add.group();
-    this.bullets = this.physics.add.group();
+    // this.bullets = this.physics.add.group();
     this.enemiesBullets = this.physics.add.group();
     
     this.ingBotty = new Engineering(this, [-100,+400])
@@ -201,6 +191,8 @@ class setMapTest extends Phaser.Scene{
     // this.tankFactory.createMultipleEnemies(1,[-800, +700]);
 
 
+    this.bulletPool = new BulletsPool(this);
+
     // setta collider tra gruppi fisici e wall ------------
     this.physics.add.collider(this.tanks);
     this.physics.add.collider(this.tanks, layer);
@@ -210,21 +202,30 @@ class setMapTest extends Phaser.Scene{
     this.physics.add.collider(this.enemies, layer);
 
 
-    this.physics.add.overlap(this.bullets, this.enemies, (bullet, enemy) => {
+    // this.physics.add.overlap(this.bullets, this.enemies, (bullet, enemy) => {
+    //   // Logica per la collisione tra proiettile e nemico
+    //   // enemy.body.setVelocity(0);
+    //   enemy.enemyInstance.takeDamage(bullet.bulletInstance.damage);
+    //   bullet.bulletInstance.explode();
+    // });
+
+    this.physics.add.overlap(this.bulletPool.userBulletsGroup, this.enemies, (bullet, enemy) => {
       // Logica per la collisione tra proiettile e nemico
       // enemy.body.setVelocity(0);
       enemy.enemyInstance.takeDamage(bullet.bulletInstance.damage);
       bullet.bulletInstance.explode();
     });
 
-    this.physics.add.overlap(this.enemiesBullets, this.tanks, (bullet, tank) => {
+
+
+    this.physics.add.overlap(this.bulletPool.enemyBulletsGroup, this.tanks, (bullet, tank) => {
       // Logica per la collisione tra proiettile del nemico e tank
       // tank.body.setVelocity(0);
       tank.tankInstance.takeDamage(bullet.bulletInstance.damage);
       bullet.bulletInstance.explode();
     });
 
-    this.physics.add.overlap(this.enemiesBullets, this.buildings, (bullet, building) => {
+    this.physics.add.overlap(this.bulletPool.enemyBulletsGroup, this.buildings, (bullet, building) => {
       // Logica per la collisione tra proiettile del nemico e tank
       // tank.body.setVelocity(0);
 
@@ -232,7 +233,7 @@ class setMapTest extends Phaser.Scene{
       bullet.bulletInstance.explode();
     });
 
-
+    
 
     // inizializza selettore tanks
     this.selectionRectManager = new SelectionRect(this, 
@@ -257,24 +258,22 @@ class setMapTest extends Phaser.Scene{
   };
   
   update(time, delta) {
+
     stats.begin();
     this.ingBotty.update();
-
     this.cameraController.update(delta);
+    this.bulletPool.update();
+
 
     this.tanksGrp1.forEach((tank,index) => {
       if (tank.isDestroyed()) {
-        // console.log('splice dead tank');
 
         this.tanksGrp1.splice(index, 1);
-        
       }else{
 
-        tank.update(); 
-
+        tank.update();
       }
     });
-
 
 
     this.enemiesGrp.forEach((enemy, index) => {
@@ -284,11 +283,11 @@ class setMapTest extends Phaser.Scene{
       }else{
 
         if(isNaN(enemy.enemy.x)){
-
-          console.warn('cord pre update:', enemy.enemy.x, enemy.id);
+          // prevenire l errore fatale (bug non trovato ancora)
+          console.warn('lost enemy:', enemy.enemy.x, enemy.id);
           this.enemiesGrp[index].destroy();
           this.enemiesGrp.splice(index, 1);
-          console.warn('splice & destroy:', enemy.enemy.x, enemy.id);
+          console.warn('splice & destroy:', enemy.id);
 
         }else{
           enemy.update(time);
@@ -299,21 +298,7 @@ class setMapTest extends Phaser.Scene{
 
 
 
-    if(this.bulletsGrp.length > 0){
-      this.bulletsGrp.forEach((bullet,index) => {
-        
-        if (bullet.isDestroyed()) {
-          // console.warn('splice dead bullet');
 
-          this.bulletsGrp.splice(index, 1);
-          
-        }else{
-  
-          bullet.update(); 
-  
-        }
-      });
-    }
 
     if(this.buildingsGrp.length > 0 ){
 

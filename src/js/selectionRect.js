@@ -157,7 +157,7 @@ export default class SelectionRect {
           
         if(!this.addMoreTarget){
             
-          this.sendTargetToTanks(250, pointer, true);
+          this.sendTargetToTanks(50, pointer, true);
             
         }else{ //click + ctrl dx move to after
           
@@ -168,23 +168,23 @@ export default class SelectionRect {
     }
 }
 
-
   isAnySelected(tanks){
     return tanks.some(tank => tank.isTankSelected === true);
   }
 
 
   sendTargetToTanks(intervall, pointer, moveOrPush){
-    const tileTarget =  fromPointerToTile(this.scene, pointer.x, pointer.y);
+    
+    const tileTargetInit =  fromPointerToTile(this.scene, pointer.x, pointer.y);
+    let tileTarget =  fromPointerToTile(this.scene, pointer.x, pointer.y);
 
-          console.log('TILE target xy',tileTarget, 'tile index', this.scene.grid[tileTarget[1]][tileTarget[0]] );
+          // console.log('TILE target xy',tileTarget, 'tile index', this.scene.grid[tileTarget[1]][tileTarget[0]] );
 
           if( ifTileInsideBound(tileTarget) && ifTileIsAllowed(tileTarget) ){
             
             let tankSelected = this.tanks.filter((tank) => tank.isTankSelected);
             let tanksCount = tankSelected.length
 
-            
             // distribuire i selezionati per distanza in linea d aria
             if(tanksCount > 1){
 
@@ -209,12 +209,11 @@ export default class SelectionRect {
 
                   if(tanksCount !== 0){
                       
-                      if(count % 4 === 0 && ifTileIsAllowedXY(tileTarget[0] , tileTarget[1] + sheddingY)){
+                      if(count % 8 === 0 && ifTileIsAllowedXY(tileTarget[0] , tileTarget[1] + sheddingY)){
+
+                        tileTarget = tileTargetInit;
                         sheddingX = 0;
-                        tileTarget[0] += sheddingX;
-                        tileTarget[1] += sheddingY;
-                        sheddingX ++;
-                        sheddingY ++
+                        sheddingY = 0;
 
                           if(tankSelected[count - 1].tank.body){
 
@@ -232,7 +231,7 @@ export default class SelectionRect {
                         tileTarget[0] += sheddingX;
                         tileTarget[1] += sheddingY;
                         sheddingX ++;
-                        sheddingY ++
+                        // sheddingY ++;
 
                         if(tankSelected[count - 1].tank.body){
 
@@ -249,8 +248,8 @@ export default class SelectionRect {
                       }else if( ifTileIsAllowedXY(tileTarget[0] - sheddingX , tileTarget[1] - sheddingY) ){
                         tileTarget[0] -= sheddingX;
                         tileTarget[1] -= sheddingY;
-                        sheddingX ++;
-                        sheddingY ++
+                        // sheddingX ++;
+                        sheddingY ++;
 
                           if(tankSelected[count - 1].tank.body){
 

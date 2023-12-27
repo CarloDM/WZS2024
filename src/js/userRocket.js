@@ -1,7 +1,4 @@
-import Phaser from "phaser";
-import Bullet from './Bullet';
 import UpgradeTable from "./upgradeTable";
-
 import {calculateDistance,calculateRotationAngle,calculateIncrementBylevel} from './mathFunction';
 
 export default class cannon {
@@ -10,37 +7,33 @@ export default class cannon {
     this.scene = scene;
     this.tank = tank;
     this.id = id;
+    this.scanCount = 0;
     this.upgradeTable = UpgradeTable.getInstance();
 
-    this.damage = this.upgradeTable.mgDamage[this.upgradeTable.mgDamageLevel].dmg
+    this.damage = this.upgradeTable.RocketDamage[this.upgradeTable.RocketDamageLevel].dmg
 
-    const range = calculateIncrementBylevel(260,this.upgradeTable.tanksRangeOfViewLevel,this.upgradeTable.tanksRangeOfView[1].incrementFactor );
+    const range = 
+      calculateIncrementBylevel(390,this.upgradeTable.tanksRangeOfViewLevel,this.upgradeTable.tanksRangeOfView[1].incrementFactor );
     this.range = range;
 
-    this.rotationVelocity =  this.upgradeTable.mgRof[this.upgradeTable.mgRofLevel].rot;
+    this.rotationVelocity =  this.upgradeTable.RocketRof[this.upgradeTable.RocketRofLevel].rot;
 
-    this.rof =               this.upgradeTable.mgRof[this.upgradeTable.mgRofLevel].rof;
-    this.shotCharge =        this.upgradeTable.mgRof[this.upgradeTable.mgRofLevel].rof;
+    this.rof =               this.upgradeTable.RocketRof[this.upgradeTable.RocketRofLevel].rof;
+    this.shotCharge =        this.upgradeTable.RocketRof[this.upgradeTable.RocketRofLevel].rof;
 
     this.enemies = [];
     this.target = null;
     this.hookingAngle = 0;
     this.isShooting = false;
 
-    this.cannon = scene.add.sprite(this.tank.x, this.tank.y, 'mg');
+    this.cannon = scene.add.sprite(this.tank.x, this.tank.y, 'rocket');
     this.cannon.displayWidth = 64;
     this.cannon.displayHeight = 64;
 
-    this.scanning = setInterval(() => {
-      this.scanForEnemies();
-    }, 1500);
-
-    
-
     // create circle range 
-    this.graphics = scene.add.graphics({ lineStyle: { width: 1, color: 0xF5FFF7 },    fillStyle: { color: 0xF5FFF7 , alpha:0.20 }});
+    this.graphics = scene.add.graphics({ lineStyle: { width: 1, color: 0x72D079 },    fillStyle: { color: 0x72D079 , alpha:0.1 }});
     this.circle = new Phaser.Geom.Circle(this.tank.x, this.tank.y, this.range );
-
+  
     // visualizza circle range 
     this.points = this.circle.getPoints(16);
   
@@ -100,10 +93,11 @@ export default class cannon {
 
     if(this.enemies.length > 0){
         
-        let closestEnemy = this.enemies.reduce((closest, enemy) =>{
+        let closestEnemy = 
+          this.enemies.reduce((closest, enemy) =>{
         
             const distanceTo = 
-                  Math.floor(calculateDistance(this.circle.x, this.circle.y,enemy.position[0],enemy.position[1]));
+              Math.floor(calculateDistance(this.circle.x, this.circle.y,enemy.position[0],enemy.position[1]));
           
             if(distanceTo < closest.distance){
               return {enemy, distance: distanceTo };
@@ -111,17 +105,18 @@ export default class cannon {
               return closest;
             }
           
-            }, { enemy: null, distance: Infinity }).enemy;
+          }, { enemy: null, distance: Infinity }).enemy;
       
         this.enemy = closestEnemy;
         this.setHookingAngle();
-    }
 
+    }
   }
 // ------------
   setHookingAngle(){
 
     this.target = [Math.floor(this.enemy.enemy.x), Math.floor(this.enemy.enemy.y)];
+
     let angle =
       Math.floor(calculateRotationAngle(this.cannon.x,this.cannon.y,this.target[0], this.target[1]));
 
@@ -129,14 +124,19 @@ export default class cannon {
 
   }
 // ------------
-  fire(){
-    const bullet = new Bullet(this.scene, this.cannon.x, this.cannon.y, this.cannon.angle,
-    850, 8, 
-    this.damage,
-    800);
 
-    this.scene.bulletsGrp.push(bullet);
-    this.scene.bullets.add(bullet.bullet);
+  fire(){
+    const bulletPool = this.scene.bulletPool;
+    const x = this.cannon.x;
+    const y = this.cannon.y;
+    const angle = this.cannon.angle;
+    const speed = 650;
+    const size = 8;
+    const damage = this.damage;
+    const lifeTime = 1200;
+    const type = 'rocket'
+
+    bulletPool.createUserBullet(x, y, angle, speed, size, damage, lifeTime, type);
   }
 // ------------
   destroy() {
@@ -151,10 +151,9 @@ export default class cannon {
 
   }
 
-
 // ------------// ------------
   update(){
-
+    
     // muovi cannone copiando cordinate tank
     this.cannon.x = this.tank.x;
     this.cannon.y = this.tank.y;
@@ -162,7 +161,14 @@ export default class cannon {
     this.circle.y = this.tank.y;
     this.circle.radius = this.range;
 
-    // shot charging / reload
+    // scanning interval
+    this.scanCount ++ ;
+    if(this.scanCount === 240){
+      this.scanForEnemies();
+      this.scanCount = 0;
+    }
+
+    // reload intervall
     if(this.shotCharge <= this.rof){
       this.shotCharge ++;
     }else if (this.isShooting){
@@ -173,9 +179,9 @@ export default class cannon {
 
     if(this.target){
     
-      //angolo di aggancio
+      //AGGIORNA ANGOLO DI ROTAZIONE MA VOLENDO FORSE SI PUOò FARE PIU LEGGERO ANCORA
       this.setHookingAngle();
-    
+
       // determina la differenza tra angolo cannone e angolo di aggancio
       const angleDifference = Math.floor( Phaser.Math.Angle.ShortestBetween(this.hookingAngle, this.cannon.angle));
       
@@ -208,10 +214,9 @@ export default class cannon {
           }
 
       }
+    
 
     }// <-- se abbiamo un target
-
-
 
 
     // debug range 

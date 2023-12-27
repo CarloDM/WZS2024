@@ -1,7 +1,4 @@
-import Phaser from "phaser";
-import Bullet from './Bullet';
 import UpgradeTable from "./upgradeTable";
-
 import {calculateDistance,calculateRotationAngle,calculateIncrementBylevel} from './mathFunction';
 
 export default class cannon {
@@ -10,39 +7,31 @@ export default class cannon {
     this.scene = scene;
     this.tank = tank;
     this.id = id;
+    this.scanCount = 0;
     this.upgradeTable = UpgradeTable.getInstance();
 
-    this.scanCount = 0;
-
-    this.damage = this.upgradeTable.RocketDamage[this.upgradeTable.RocketDamageLevel].dmg
+    this.damage = this.upgradeTable.cannonDamage[this.upgradeTable.cannonDamageLevel].dmg
 
     const range = 
-      calculateIncrementBylevel(390,this.upgradeTable.tanksRangeOfViewLevel,this.upgradeTable.tanksRangeOfView[1].incrementFactor );
+      calculateIncrementBylevel(320,this.upgradeTable.tanksRangeOfViewLevel,this.upgradeTable.tanksRangeOfView[1].incrementFactor );
     this.range = range;
 
-    this.rotationVelocity =  this.upgradeTable.RocketRof[this.upgradeTable.RocketRofLevel].rot;
+    this.rotationVelocity =  this.upgradeTable.cannonRof[this.upgradeTable.cannonRofLevel].rot;
 
-    this.rof =               this.upgradeTable.RocketRof[this.upgradeTable.RocketRofLevel].rof;
-    this.shotCharge =        this.upgradeTable.RocketRof[this.upgradeTable.RocketRofLevel].rof;
+    this.rof =               this.upgradeTable.cannonRof[this.upgradeTable.cannonRofLevel].rof;
+    this.shotCharge =        this.upgradeTable.cannonRof[this.upgradeTable.cannonRofLevel].rof;
 
     this.enemies = [];
     this.target = null;
     this.hookingAngle = 0;
     this.isShooting = false;
 
-    this.cannon = scene.add.sprite(this.tank.x, this.tank.y, 'rocket');
+    this.cannon = scene.add.sprite(this.tank.x, this.tank.y, 'cannon');
     this.cannon.displayWidth = 64;
     this.cannon.displayHeight = 64;
 
-    // this.scanning = setInterval(() => {
-    //   this.scanForEnemies();
-    // }, 1500);
-
-    
-
-
     // create circle range 
-    this.graphics = scene.add.graphics({ lineStyle: { width: 1, color: 0x72D079 },    fillStyle: { color: 0x72D079 , alpha:0.1 }});
+    this.graphics = scene.add.graphics({ lineStyle: { width: 1, color: 0xF5FFF7 },    fillStyle: { color: 0xF5FFF7 , alpha:0.20 }});
     this.circle = new Phaser.Geom.Circle(this.tank.x, this.tank.y, this.range );
   
     // visualizza circle range 
@@ -103,10 +92,10 @@ export default class cannon {
   calculateClosestEnemy(){
 
     if(this.enemies.length > 0){
-        
+
         let closestEnemy = 
           this.enemies.reduce((closest, enemy) =>{
-        
+          
             const distanceTo = 
               Math.floor(calculateDistance(this.circle.x, this.circle.y,enemy.position[0],enemy.position[1]));
           
@@ -117,7 +106,7 @@ export default class cannon {
             }
           
           }, { enemy: null, distance: Infinity }).enemy;
-      
+        
         this.enemy = closestEnemy;
         this.setHookingAngle();
 
@@ -135,10 +124,19 @@ export default class cannon {
 
   }
 // ------------
+
   fire(){
-    const bullet = new Bullet(this.scene, this.cannon.x, this.cannon.y, this.cannon.angle, 500, 8, this.damage , 1200 );
-    this.scene.bulletsGrp.push(bullet);
-    this.scene.bullets.add(bullet.bullet);
+    const bulletPool = this.scene.bulletPool;
+    const x = this.cannon.x;
+    const y = this.cannon.y;
+    const angle = this.cannon.angle;
+    const speed = 750;
+    const size = 8;
+    const damage = this.damage;
+    const lifeTime = 800;
+    const type = 'cannon'
+
+    bulletPool.createUserBullet(x, y, angle, speed, size, damage, lifeTime, type);
   }
 // ------------
   destroy() {
@@ -153,16 +151,8 @@ export default class cannon {
 
   }
 
-
 // ------------// ------------
   update(){
-
-    this.scanCount ++ ;
-    if(this.scanCount === 240){
-      this.scanForEnemies();
-      console.log('tank scan')
-      this.scanCount = 0;
-    }
 
     // muovi cannone copiando cordinate tank
     this.cannon.x = this.tank.x;
@@ -170,8 +160,15 @@ export default class cannon {
     this.circle.x = this.tank.x;
     this.circle.y = this.tank.y;
     this.circle.radius = this.range;
+    
+    // scanning interval
+    this.scanCount ++ ;
+    if(this.scanCount === 240){
+      this.scanForEnemies();
+      this.scanCount = 0;
+    }
 
-    // shot charging / reload
+    // reload intervall
     if(this.shotCharge <= this.rof){
       this.shotCharge ++;
     }else if (this.isShooting){
@@ -182,7 +179,6 @@ export default class cannon {
 
     if(this.target){
     
-
       //AGGIORNA ANGOLO DI ROTAZIONE MA VOLENDO FORSE SI PUOò FARE PIU LEGGERO ANCORA
       this.setHookingAngle();
 
@@ -221,8 +217,6 @@ export default class cannon {
     
 
     }// <-- se abbiamo un target
-
-
 
 
     // debug range 

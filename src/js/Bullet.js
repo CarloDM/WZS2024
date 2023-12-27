@@ -1,64 +1,67 @@
-export default class Bullet {
-  constructor(scene, x, y, rotation, speed ,size, damage, lifeTime){
+export default class Bullet extends Phaser.GameObjects.Sprite {
+
+  constructor(scene, x, y, type) {
+    super(scene, x, y, 'bullet');
+    scene.physics.world.enable(this);
     this.scene = scene;
-    this.rotation = rotation;
-    this.bullet = scene.add.sprite(x, y, 'bullet'); 
-    this.bullet.setScale(size);
-    this.velocity = scene.physics.velocityFromAngle(rotation, speed);
-    this.damage = damage;
-    // this.rotation = rotation;
-
-    this.bullet.setOrigin(0.5, 0.5);
-    this.bullet.displayWidth = size;
-    this.bullet.displayHeight = size;
-    
-    scene.physics.world.enable(this.bullet);
-    this.bullet.angle = this.rotation;
-    this.bullet.body.setCollideWorldBounds(true, 1, 1);
-    this.bullet.setInteractive();
-
-    this.bullet.body.setVelocity(this.velocity.x, this.velocity.y);
-    this.scene.add.existing(this.bullet);
-
-    this.bullet.bulletInstance = this;
-
-    setTimeout(() => {
-      this.explode();
-    }, lifeTime);
-
+    this.bulletInstance = this;
+    this.type = type;
   }//bullet constructor
 
-  explode() {
-    this.destroy(); // Chiamato quando l'animazione di esplosione è completata
-    const explosion = this.scene.add.sprite(this.bullet.x + this.velocity.x /30, this.bullet.y + this.velocity.y/30, 'explosion1')
-    .play('explosion')
-    .on('animationcomplete', () => {
-      explosion.destroy();
+  setProperties(angle, speed, size, damage, lifeTime ) {
+
+    this.angle = angle;
+    this.displayWidth = size;
+    this.displayHeight = size;
+    this.velocity = this.scene.physics.velocityFromAngle(angle, speed);
+    this.damage = damage;
+
+    this.body.setCollideWorldBounds(true, 1, 1);
+    this.body.setVelocity(this.velocity.x, this.velocity.y);
+
+    switch (this.type) {
+      case 'machineGun':
+        // this.setTexture('bulletMachineGun');
+        break;
+      case 'cannon':
+        // this.setTexture('bulletCannon');
+        break;
+      case 'rocket':
+        // this.setTexture('bulletRocket');
+        break;
+    }
+  
+
+    
+    this.scene.time.delayedCall(lifeTime, () => {
+    this.explode(); 
     });
 
   }
 
-  destroy() {
-    if(this.bullet.body){
-      this.bullet.body.destroy();
+  explode() {
+    if(this.active){
+      const explosion = this.scene.add.sprite(this.x + this.velocity.x /30, this.y + this.velocity.y/30, 'explosion1')
+      .play('explosion')
+      .on('animationcomplete', () => {
+        explosion.destroy();
+      });
+      this.destroy();
     }
-    this.bullet.destroy();
+  }
+
+  destroy() {
+    if(this.body){
+      this.body.destroy();
+    }
+    super.destroy();
   }
 
   isDestroyed() {
-    if(!this.bullet.active){
-      return true
-    }else{
-      return false
-    }
+    return !this.active;
   }
   
 
-  update() {
-  
-    if(this.bullet.body){
-      this.bullet.body.setVelocity(this.velocity.x,this.velocity.y);
-    }
-  }
+
   
 }//bullet class

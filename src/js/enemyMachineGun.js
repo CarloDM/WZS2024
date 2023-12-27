@@ -1,10 +1,8 @@
-import Phaser from "phaser";
-import Bullet from './Bullet';
 import UpgradeTable from "./upgradeTable";
-
 import {calculateDistance,calculateRotationAngle,calculateIncrementBylevel} from './mathFunction';
 
 export default class Mgun {
+
   constructor(scene, enemy, id){
 
     this.scene = scene;
@@ -33,22 +31,6 @@ export default class Mgun {
     this.cannon.displayWidth = 64;
     this.cannon.displayHeight = 64;
 
-    // lo scanning del nemico si differenzia per
-    // - scannerizza tank non enemy
-    // - deve dare precedenza a bersagli tank rispetto a costruzioni
-
-    // this.scanning = setInterval(() => {
-
-    //   if(isNaN(this.enemy.x)){
-    //     clearInterval(this.scanning);
-    //     console.log(this.enemy)
-    //   }else{
-    //     this.scanForTanks();
-    //   }
-    // }, 1500);
-
-    
-
     // create circle range 
     this.graphics = scene.add.graphics({ lineStyle: { width: 1, color: 0xED1871 },    fillStyle: { color: 0xED1871 , alpha:0.10 }});
     
@@ -65,12 +47,12 @@ export default class Mgun {
     }
     // debug range -------------------------
     
-  }
-
-
+  }// constructor
 // ------------
+// lo scanning del cannone nemico si differenzia per
+// - scannerizza tank non enemy
+// - deve dare precedenza a bersagli tank rispetto a costruzioni
   scanForTanks(){
-    console.log('scan for tanks');
 
     try{
 
@@ -240,17 +222,19 @@ export default class Mgun {
 // ------------
   fire(){
 
-    if(isNaN(this.enemy.x)){
-      console.log('fire wrong?:', this.enemy.x, this.id);}
+    const bulletPool = this.scene.bulletPool;
+    const x = this.cannon.x;
+    const y = this.cannon.y;
+    const angle = this.cannon.angle;
+    const speed = 850;
+    const size = 8;
+    const damage = this.damage;
+    const lifeTime = 800;
+    const type = 'machineGun'
 
-    const bullet = new Bullet(this.scene, this.cannon.x, this.cannon.y, this.cannon.angle,
-    850, 8, 
-    this.damage,
-    800);
-
-    this.scene.bulletsGrp.push(bullet);
-    this.scene.enemiesBullets.add(bullet.bullet);
+    bulletPool.createEnemyBullet(x, y, angle, speed, size, damage, lifeTime, type);
   }
+
 // ------------
   destroy() {
 
@@ -264,16 +248,8 @@ export default class Mgun {
 
   }
 
-
 // ------------// ------------
   update(){
-
-    this.scanCount ++ ;
-    if(this.scanCount === 240){
-      this.scanForTanks()
-      this.scanCount = 0;
-    }
-
 
     // muovi cannone copiando cordinate tank
     this.cannon.x = this.enemy.x;
@@ -281,11 +257,14 @@ export default class Mgun {
     this.circle.x = this.enemy.x;
     this.circle.y = this.enemy.y;
     this.circle.radius = this.range;
+    // scanning interval
+    this.scanCount ++ ;
+    if(this.scanCount === 240){
+      this.scanForTanks()
+      this.scanCount = 0;
+    }
 
-
-
-
-    // shot charging / reload
+    // reload intervall
     if(this.shotCharge <= this.rof){
       this.shotCharge ++;
     }else if (this.isShooting){

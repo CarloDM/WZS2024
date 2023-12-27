@@ -1,12 +1,9 @@
-import Phaser from "phaser";
-
-import Mg from "./machineGun";
-import Cannon from "./cannon";
-import Rocket from "./rocket";
+import Mg            from "./userMachineGun";
+import Cannon        from "./userCannon";
+import Rocket        from "./userRocket";
 import LifeReloadBar from "./lifeReloadBar";
-
+import {findPath}    from "./Astar";
 import {fromTileToTargetObj,fromPositionToTile} from "./mathFunction";
-import {findPath} from "./Astar";
 
 export default class Tank  {
   constructor( type, scene, id, position, hp, speed, target){
