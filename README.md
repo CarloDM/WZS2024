@@ -95,9 +95,15 @@ sono arrivato al terzo test progressivo!
 27/12/2023 giorno 19
 <li>completare pool per bullet nemici</li>
 <li>semplificare logica di movimento tank</li>
+<li>texture dei bottoni per incominciare a disegnare logiche di produzione e upgrade</li>
+
+----
+27/12/2023 giorno 20
+<li>produzione dei tank</li>
 da fare
+<li>calcolo e sottrazione costi energia tank</li>
+<li>avvio delle ricerche</li>
 <li>texture dei bullet</li>
-<li>texture dei bottoni per incominciare a disegnare i livelli</li>
 <li>enegineering calcoli la vicinanza da un punto mediano rispetto alla base</li>
 
 

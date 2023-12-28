@@ -86,6 +86,17 @@ class setMapTest extends Phaser.Scene{
     this.load.image('enemyRocket',       '/texture/enemy-rocket.png'); 
 
     this.load.image('btn',              '/texture/btn-test.png'); 
+    
+    this.load.spritesheet('btn1',       '/icon/btn1.png',
+    {frameWidth:64,frameHeight:64});
+    this.load.spritesheet('btn2',       '/icon/btn2.png',
+    {frameWidth:64,frameHeight:64});
+    this.load.spritesheet('btnBoost',   '/icon/btnBoost.png',
+    {frameWidth:64,frameHeight:64});
+    this.load.spritesheet('btnDeck',    '/icon/btnDeck.png',
+    {frameWidth:64,frameHeight:64});
+    this.load.spritesheet('btnUpgrade', '/icon/btnUpgrade.png',
+    {frameWidth:64,frameHeight:64});
 
 
     
@@ -167,8 +178,8 @@ class setMapTest extends Phaser.Scene{
 
 
     // inizializza gruppi fisici
-    this.tanks   = this.physics.add.group();
-    this.enemies = this.physics.add.group();
+    this.tanks     = this.physics.add.group();
+    this.enemies   = this.physics.add.group();
     this.buildings = this.physics.add.group();
 
     this.ingBotty = new Engineering(this, [-100,+400])

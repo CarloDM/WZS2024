@@ -2,7 +2,6 @@
 // singleTone class
 // il concetto di singleton è utile quando desideri assicurarti che ci sia una sola istanza di una classe in un'applicazione. 
 // Questo può essere particolarmente utile per situazioni in cui vuoi condividere dati o funzionalità globali in tutto il tuo programma.
-// per modificari i livelli di upgrade dovrò usare solo metodi interni a questa classe dimodo da rendere inequivocabile e condivisa la  condizione di livello upgrade raggiunto!
 
 class UpgradeTable {
   constructor(){
@@ -34,7 +33,7 @@ class UpgradeTable {
     
     this.tanksProductionSpeedLevel = 0;
     this.tanksProductionSpeed = [ 
-      {incrementFactor : 1,                         
+      {reductionFactor : 1,                         
         cost:0, time:0},
     ]
 

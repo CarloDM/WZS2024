@@ -178,7 +178,7 @@ export default class SelectionRect {
     const tileTargetInit =  fromPointerToTile(this.scene, pointer.x, pointer.y);
     let tileTarget =  fromPointerToTile(this.scene, pointer.x, pointer.y);
 
-          // console.log('TILE target xy',tileTarget, 'tile index', this.scene.grid[tileTarget[1]][tileTarget[0]] );
+          console.log('TILE target xy',tileTarget, 'tile index', this.scene.grid[tileTarget[1]][tileTarget[0]] );
 
           if( ifTileInsideBound(tileTarget) && ifTileIsAllowed(tileTarget) ){
             
