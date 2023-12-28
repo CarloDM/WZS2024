@@ -11,6 +11,7 @@ export default class TankFactory {
     this.enemyCount = 0;
     this.upgradeTable = UpgradeTable.getInstance();
     this.statusCounts = StatusCounts.getInstance();
+    
     this.mgTankCost = 100;
     this.cannonTankCost = 100;
     this.rocketTankCost = 100;
@@ -697,7 +698,7 @@ export default class TankFactory {
     this.upgradeTable.upgradeIdIsSearching[0] = true;
 
     const time = (this.upgradeTable.researchSpeed[this.upgradeTable.researchSpeedLevel].time * 1000) *
-          (this.upgradeTable.tanksProductionSpeed[this.upgradeTable.tanksProductionSpeedLevel].reductionFactor);
+          (this.upgradeTable.researchSpeed[this.upgradeTable.researchSpeedLevel].reductionFactor);
 
     switch (upgradeDeckID) {
       case 1:

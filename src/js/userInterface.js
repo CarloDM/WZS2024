@@ -133,66 +133,45 @@ export default class UserInterface {
     this.scene.tankFactory.tankFactoryIstance.createRocketTank(0,0);
   }
 
+  btnFunction3(){
+
+    if(this.upgradeTable.tanksSpeedTractionLevel < 10){
+      
+      console.log('fai upgrade di tank velocity & rangeview');
+      this.upgradeTable.tanksSpeedTractionLevel ++
+  
+      this.scene.tanksGrp1.forEach(tank => {
+  
+        tank.speed *= 
+          this.upgradeTable.tanksSpeedTraction[this.upgradeTable.tanksSpeedTractionLevel].incrementFactor;
+  
+        tank.speed = Math.floor(tank.speed);
+  
+      });
+  
+      this.upgradeTable.tanksRangeOfViewLevel ++
+      this.scene.tanksGrp1.forEach(tank => {
+        
+        tank.tank.cannon.range *=
+        this.upgradeTable.tanksRangeOfView[this.upgradeTable.tanksRangeOfViewLevel].incrementFactor;
+  
+        tank.tank.cannon.range = Math.floor(tank.tank.cannon.range);
+        
+      });
+    }
+
+  }
+
   clearUpgradeButtons(){
     if(this.upgrade1){
       [this.upgrade1,this.upgrade2, this.upgrade3,this.upgrade4,this.upgrade5,this.upgrade6,this.upgrade7,this.upgrade8,this.upgrade9,this.upgrade10,this.upgrade11,this.upgrade12,this.upgrade13,this.upgrade14,this.upgrade15,this.upgrade16 ].forEach(btn => {btn.destroy()});
     }
   }
 
-  blockButton(id){
-    switch (id) {
-      case 1:
-        this.buttonD.off('pointerup');
-
-        var time = (this.upgradeTable.researchSpeed[this.upgradeTable.researchSpeedLevel].time * 1000) *
-                    (this.upgradeTable.tanksProductionSpeed[this.upgradeTable.tanksProductionSpeedLevel].reductionFactor);
-                    
-        setTimeout(() => {
-          this.buttonD.on('pointerup' , () => this.btnFunction4(1), this);
-        }, time);
-
-        break;
-
-      case 2:
-        this.buttonE.off('pointerup');
-
-        var time = (this.upgradeTable.researchSpeed[this.upgradeTable.researchSpeedLevel].time * 1000) *
-                    (this.upgradeTable.tanksProductionSpeed[this.upgradeTable.tanksProductionSpeedLevel].reductionFactor);
-
-        setTimeout(() => {
-          this.buttonE.on('pointerup' , () => this.btnFunction4(2), this);
-        }, time);
-
-        break;
-      case 3:
-        this.buttonF.off('pointerup');
-
-        var time = (this.upgradeTable.researchSpeed[this.upgradeTable.researchSpeedLevel].time * 1000) *
-                    (this.upgradeTable.tanksProductionSpeed[this.upgradeTable.tanksProductionSpeedLevel].reductionFactor);
-
-        setTimeout(() => {
-          this.buttonF.on('pointerup' , () => this.btnFunction4(3), this);
-        }, time);
-
-        break;
-      case 4:
-        this.buttonG.off('pointerup');
-
-        var time = (this.upgradeTable.researchSpeed[this.upgradeTable.researchSpeedLevel].time * 1000) *
-                    (this.upgradeTable.tanksProductionSpeed[this.upgradeTable.tanksProductionSpeedLevel].reductionFactor);
-
-        setTimeout(() => {
-          this.buttonG.on('pointerup' , () => this.btnFunction4(4), this);
-        }, time);
-
-        break;
-
-    }
-  }
-
+// upgrades ---------
   btnFunction4(upgradeDeck){
     this.clearUpgradeButtons();
-    console.log(upgradeDeck)
+    console.log(upgradeDeck);
 
     this.upgrade1 =  
       this.scene.add.sprite(calculateProportionalWidth(32, 110, this.camera.worldView.width -  (50 / this.camera.zoom)),
@@ -280,10 +259,10 @@ export default class UserInterface {
 
     switch (choice) {
       case 1:
-        console.log('case 1');
+        console.log('case researchSpeed');
         this.scene.tankFactory.tankFactoryIstance.researchSpeed(upgradeDeckID);
         this.clearUpgradeButtons();
-        this.blockButton(upgradeDeckID)
+        this.blockButton(upgradeDeckID);
         break;
       case 2:
         
@@ -338,35 +317,63 @@ export default class UserInterface {
     }
   }
 
-  btnFunction3(){
+  blockButton(id){
 
-    if(this.upgradeTable.tanksSpeedTractionLevel < 10){
+    switch (id) {
       
-      console.log('fai upgrade di tank velocity & rangeview');
-      this.upgradeTable.tanksSpeedTractionLevel ++
-  
-      this.scene.tanksGrp1.forEach(tank => {
-  
-        tank.speed *= 
-          this.upgradeTable.tanksSpeedTraction[this.upgradeTable.tanksSpeedTractionLevel].incrementFactor;
-  
-        tank.speed = Math.floor(tank.speed);
-  
-      });
-  
-      this.upgradeTable.tanksRangeOfViewLevel ++
-      this.scene.tanksGrp1.forEach(tank => {
-        
-        tank.tank.cannon.range *=
-        this.upgradeTable.tanksRangeOfView[this.upgradeTable.tanksRangeOfViewLevel].incrementFactor;
-  
-        tank.tank.cannon.range = Math.floor(tank.tank.cannon.range);
-        
-      });
+      case 1:
+
+        this.buttonD.off('pointerup');
+
+        var time = (this.upgradeTable.researchSpeed[this.upgradeTable.researchSpeedLevel].time * 1000) *
+                    (this.upgradeTable.tanksProductionSpeed[this.upgradeTable.tanksProductionSpeedLevel].reductionFactor);
+                    
+        setTimeout(() => {
+          this.buttonD.on('pointerup' , () => this.btnFunction4(1), this);
+        }, time);
+
+        break;
+      case 2:
+
+        this.buttonE.off('pointerup');
+
+        var time = (this.upgradeTable.researchSpeed[this.upgradeTable.researchSpeedLevel].time * 1000) *
+                    (this.upgradeTable.tanksProductionSpeed[this.upgradeTable.tanksProductionSpeedLevel].reductionFactor);
+
+        setTimeout(() => {
+          this.buttonE.on('pointerup' , () => this.btnFunction4(2), this);
+        }, time);
+
+        break;
+      case 3:
+
+        this.buttonF.off('pointerup');
+
+        var time = (this.upgradeTable.researchSpeed[this.upgradeTable.researchSpeedLevel].time * 1000) *
+                    (this.upgradeTable.tanksProductionSpeed[this.upgradeTable.tanksProductionSpeedLevel].reductionFactor);
+
+        setTimeout(() => {
+          this.buttonF.on('pointerup' , () => this.btnFunction4(3), this);
+        }, time);
+
+        break;
+      case 4:
+
+        this.buttonG.off('pointerup');
+
+        var time = (this.upgradeTable.researchSpeed[this.upgradeTable.researchSpeedLevel].time * 1000) *
+                    (this.upgradeTable.tanksProductionSpeed[this.upgradeTable.tanksProductionSpeedLevel].reductionFactor);
+
+        setTimeout(() => {
+          this.buttonG.on('pointerup' , () => this.btnFunction4(4), this);
+        }, time);
+
+        break;
     }
-
   }
+// upgrades ---------
 
+// production tank --------------------------------
   btnFunctionDeck1(){
     if(this.statusCounts.btnDeck1 === 3)
     {this.statusCounts.btnDeck1 = 0;}
@@ -407,6 +414,7 @@ export default class UserInterface {
 
     this.scene.tankFactory.tankFactoryIstance.deck4Production();
     }
+// production tank --------------------------------
 
   update(){
     const zoom = this.camera.zoom;
