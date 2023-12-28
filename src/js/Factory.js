@@ -692,5 +692,88 @@ export default class TankFactory {
       }
   }
   // decks production----------
+  //  research upgrade
+  researchSpeed(upgradeDeckID){
+    this.upgradeTable.upgradeIdIsSearching[0] = true;
 
+    const time = (this.upgradeTable.researchSpeed[this.upgradeTable.researchSpeedLevel].time * 1000) *
+          (this.upgradeTable.tanksProductionSpeed[this.upgradeTable.tanksProductionSpeedLevel].reductionFactor);
+
+    switch (upgradeDeckID) {
+      case 1:
+
+      this.upgrade1TimeOut = setTimeout(() => {
+        clearInterval(this.upgrade1countDown);
+
+        this.upgradeTable.researchSpeedLevel ++;  
+        this.upgradeTable.upgradeIdIsSearching[0] = false;
+        console.log(this.upgradeTable.researchSpeedLevel);
+      }, time);
+
+        var cd = time /1000;
+
+        this.upgrade1countDown = setInterval(() => {
+          cd --;
+          console.log('up 1 count down', cd);
+        }, 1000);
+        break;
+      case 2:
+
+      this.upgrade2TimeOut = setTimeout(() => {
+        clearInterval(this.upgrade2countDown);
+
+        this.upgradeTable.researchSpeedLevel ++;  
+        this.upgradeTable.upgradeIdIsSearching[0] = false;
+        console.log(this.upgradeTable.researchSpeedLevel);
+      }, time);
+
+        var cd = time /1000;
+
+        this.upgrade2countDown = setInterval(() => {
+          cd --;
+          console.log('up 2 count down', cd);
+        }, 1000);
+        break;
+      case 3:
+
+      this.upgrade3TimeOut = setTimeout(() => {
+        clearInterval(this.upgrade3countDown);
+
+        this.upgradeTable.researchSpeedLevel ++;  
+        this.upgradeTable.upgradeIdIsSearching[0] = false;
+        console.log(this.upgradeTable.researchSpeedLevel);
+      }, time);
+
+        var cd = time /1000;
+
+        this.upgrade3countDown = setInterval(() => {
+          cd --;
+          console.log('up 3 count down', cd);
+        }, 1000);
+        break;
+      case 4:
+
+      this.upgrade4TimeOut = setTimeout(() => {
+        clearInterval(this.upgrade4countDown);
+
+        this.upgradeTable.researchSpeedLevel ++;  
+        this.upgradeTable.upgradeIdIsSearching[0] = false;
+        console.log(this.upgradeTable.researchSpeedLevel);
+      }, time);
+
+        var cd = time /1000;
+
+        this.upgrade4countDown = setInterval(() => {
+          cd --;
+          console.log('up 4 count down', cd);
+        }, 1000);
+        break;
+
+    }      
+
+
+
+
+
+  }
 };

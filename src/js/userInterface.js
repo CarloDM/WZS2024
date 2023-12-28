@@ -45,24 +45,33 @@ export default class UserInterface {
     this.buttonC.on('pointerup' ,this.btnFunction3, this);
     this.buttonC.setInteractive();
     this.container.add(this.buttonC);
-    //-- btn ------
+
+
+    //-- btn ------ upgrade
     this.buttonD = this.scene.add.sprite(0,0,'btnUpgrade');
     this.buttonD.setOrigin(0, 0);
-    this.buttonD.on('pointerup' ,this.btnFunction4, this);
+    this.buttonD.on('pointerup' , () => this.btnFunction4(1), this);
     this.buttonD.setInteractive();
     this.container.add(this.buttonD);
     //-- btn ------
     this.buttonE = this.scene.add.sprite(0,0,'btnUpgrade');
     this.buttonE.setOrigin(0, 0);
+    this.buttonE.on('pointerup' , () => this.btnFunction4(2), this);
+    this.buttonE.setInteractive();
     this.container.add(this.buttonE);
     //-- btn ------
     this.buttonF = this.scene.add.sprite(0,0,'btnUpgrade');
     this.buttonF.setOrigin(0, 0);
+    this.buttonF.on('pointerup' , () => this.btnFunction4(3), this);
+    this.buttonF.setInteractive();
     this.container.add(this.buttonF);
     //-- btn ------
     this.buttonG = this.scene.add.sprite(0,0,'btnUpgrade');
     this.buttonG.setOrigin(0, 0);
+    this.buttonG.on('pointerup' , () => this.btnFunction4(4), this);
+    this.buttonG.setInteractive();
     this.container.add(this.buttonG);
+
 
     //-- btn ------DECK
     this.buttonH = this.scene.add.sprite(0,0,'btnDeck', [this.statusCounts.btnDeck1]);
@@ -124,10 +133,209 @@ export default class UserInterface {
     this.scene.tankFactory.tankFactoryIstance.createRocketTank(0,0);
   }
 
-  btnFunction4(){
+  clearUpgradeButtons(){
+    if(this.upgrade1){
+      [this.upgrade1,this.upgrade2, this.upgrade3,this.upgrade4,this.upgrade5,this.upgrade6,this.upgrade7,this.upgrade8,this.upgrade9,this.upgrade10,this.upgrade11,this.upgrade12,this.upgrade13,this.upgrade14,this.upgrade15,this.upgrade16 ].forEach(btn => {btn.destroy()});
+    }
+  }
 
-    console.log('creare nuovo enemy');
-    this.scene.tankFactory.tankFactoryIstance.createEnemy([0,-1650]);
+  blockButton(id){
+    switch (id) {
+      case 1:
+        this.buttonD.off('pointerup');
+
+        var time = (this.upgradeTable.researchSpeed[this.upgradeTable.researchSpeedLevel].time * 1000) *
+                    (this.upgradeTable.tanksProductionSpeed[this.upgradeTable.tanksProductionSpeedLevel].reductionFactor);
+                    
+        setTimeout(() => {
+          this.buttonD.on('pointerup' , () => this.btnFunction4(1), this);
+        }, time);
+
+        break;
+
+      case 2:
+        this.buttonE.off('pointerup');
+
+        var time = (this.upgradeTable.researchSpeed[this.upgradeTable.researchSpeedLevel].time * 1000) *
+                    (this.upgradeTable.tanksProductionSpeed[this.upgradeTable.tanksProductionSpeedLevel].reductionFactor);
+
+        setTimeout(() => {
+          this.buttonE.on('pointerup' , () => this.btnFunction4(2), this);
+        }, time);
+
+        break;
+      case 3:
+        this.buttonF.off('pointerup');
+
+        var time = (this.upgradeTable.researchSpeed[this.upgradeTable.researchSpeedLevel].time * 1000) *
+                    (this.upgradeTable.tanksProductionSpeed[this.upgradeTable.tanksProductionSpeedLevel].reductionFactor);
+
+        setTimeout(() => {
+          this.buttonF.on('pointerup' , () => this.btnFunction4(3), this);
+        }, time);
+
+        break;
+      case 4:
+        this.buttonG.off('pointerup');
+
+        var time = (this.upgradeTable.researchSpeed[this.upgradeTable.researchSpeedLevel].time * 1000) *
+                    (this.upgradeTable.tanksProductionSpeed[this.upgradeTable.tanksProductionSpeedLevel].reductionFactor);
+
+        setTimeout(() => {
+          this.buttonG.on('pointerup' , () => this.btnFunction4(4), this);
+        }, time);
+
+        break;
+
+    }
+  }
+
+  btnFunction4(upgradeDeck){
+    this.clearUpgradeButtons();
+    console.log(upgradeDeck)
+
+    this.upgrade1 =  
+      this.scene.add.sprite(calculateProportionalWidth(32, 110, this.camera.worldView.width -  (50 / this.camera.zoom)),
+                            calculateProportionalWidth(79, 100, this.camera.worldView.height - (50 / this.camera.zoom)),'btn');
+    this.upgrade2 =  
+      this.scene.add.sprite(calculateProportionalWidth(32, 110, this.camera.worldView.width -  (50 / this.camera.zoom)),
+                            calculateProportionalWidth(69, 100, this.camera.worldView.height - (50 / this.camera.zoom)),'btn');
+    this.upgrade3 =  
+      this.scene.add.sprite(calculateProportionalWidth(32, 110, this.camera.worldView.width -  (50 / this.camera.zoom)),
+                            calculateProportionalWidth(59, 100, this.camera.worldView.height - (50 / this.camera.zoom)),'btn');
+    this.upgrade4 =  
+      this.scene.add.sprite(calculateProportionalWidth(32, 110, this.camera.worldView.width -  (50 / this.camera.zoom)),
+                            calculateProportionalWidth(49, 100, this.camera.worldView.height - (50 / this.camera.zoom)),'btn');
+    this.upgrade5 =  
+      this.scene.add.sprite(calculateProportionalWidth(42, 110, this.camera.worldView.width -  (50 / this.camera.zoom)),
+                            calculateProportionalWidth(79, 100, this.camera.worldView.height - (50 / this.camera.zoom)),'btn');
+    this.upgrade6 =  
+      this.scene.add.sprite(calculateProportionalWidth(42, 110, this.camera.worldView.width -  (50 / this.camera.zoom)),
+                            calculateProportionalWidth(69, 100, this.camera.worldView.height - (50 / this.camera.zoom)),'btn');
+    this.upgrade7 =  
+      this.scene.add.sprite(calculateProportionalWidth(42, 110, this.camera.worldView.width -  (50 / this.camera.zoom)),
+                            calculateProportionalWidth(59, 100, this.camera.worldView.height - (50 / this.camera.zoom)),'btn');
+    this.upgrade8 =  
+      this.scene.add.sprite(calculateProportionalWidth(52, 110, this.camera.worldView.width -  (50 / this.camera.zoom)),
+                            calculateProportionalWidth(79, 100, this.camera.worldView.height - (50 / this.camera.zoom)),'btn');
+    this.upgrade9 =  
+      this.scene.add.sprite(calculateProportionalWidth(52, 110, this.camera.worldView.width -  (50 / this.camera.zoom)),
+                            calculateProportionalWidth(69, 100, this.camera.worldView.height - (50 / this.camera.zoom)),'btn');
+    this.upgrade10 = 
+      this.scene.add.sprite(calculateProportionalWidth(52, 110, this.camera.worldView.width -  (50 / this.camera.zoom)),
+                            calculateProportionalWidth(59, 100, this.camera.worldView.height - (50 / this.camera.zoom)),'btn');
+    this.upgrade11 = 
+      this.scene.add.sprite(calculateProportionalWidth(62, 110, this.camera.worldView.width -  (50 / this.camera.zoom)),
+                            calculateProportionalWidth(79, 100, this.camera.worldView.height - (50 / this.camera.zoom)),'btn');
+    this.upgrade12 = 
+      this.scene.add.sprite(calculateProportionalWidth(62, 110, this.camera.worldView.width -  (50 / this.camera.zoom)),
+                            calculateProportionalWidth(69, 100, this.camera.worldView.height - (50 / this.camera.zoom)),'btn');
+    this.upgrade13 = 
+      this.scene.add.sprite(calculateProportionalWidth(62, 110, this.camera.worldView.width -  (50 / this.camera.zoom)),
+                            calculateProportionalWidth(59, 100, this.camera.worldView.height - (50 / this.camera.zoom)),'btn');
+    this.upgrade14 = 
+      this.scene.add.sprite(calculateProportionalWidth(72, 110, this.camera.worldView.width -  (50 / this.camera.zoom)),
+                            calculateProportionalWidth(79, 100, this.camera.worldView.height - (50 / this.camera.zoom)),'btn');
+    this.upgrade15 = 
+      this.scene.add.sprite(calculateProportionalWidth(72, 110, this.camera.worldView.width -  (50 / this.camera.zoom)),
+                            calculateProportionalWidth(69, 100, this.camera.worldView.height - (50 / this.camera.zoom)),'btn');
+    this.upgrade16 = 
+      this.scene.add.sprite(calculateProportionalWidth(72, 110, this.camera.worldView.width -  (50 / this.camera.zoom)),
+                            calculateProportionalWidth(59, 100, this.camera.worldView.height - (50 / this.camera.zoom)),'btn');
+
+    [this.upgrade1,this.upgrade2, this.upgrade3,this.upgrade4,this.upgrade5,this.upgrade6,this.upgrade7,
+      this.upgrade8,this.upgrade9,this.upgrade10,this.upgrade11,this.upgrade12,this.upgrade13,this.upgrade14,
+      this.upgrade15,this.upgrade16 ].forEach( btn  => {
+      btn.displayWidth = 75 / this.camera.zoom;
+      btn.displayHeight = 75 / this.camera.zoom;
+      btn.setInteractive();
+      this.container.add(btn);
+    });
+
+    if(!this.upgradeTable.upgradeIdIsSearching[0]){
+      this.upgrade1.on( 'pointerup' , () => this.makeUpgrade(1, upgradeDeck),  this);
+    }else{}
+    this.upgrade2.on( 'pointerup' , () => this.makeUpgrade(2),  this);
+    this.upgrade3.on( 'pointerup' , () => this.makeUpgrade(3),  this);
+    this.upgrade4.on( 'pointerup' , () => this.makeUpgrade(4),  this);
+    this.upgrade5.on( 'pointerup' , () => this.makeUpgrade(5),  this);
+    this.upgrade6.on( 'pointerup' , () => this.makeUpgrade(6),  this);
+    this.upgrade7.on( 'pointerup' , () => this.makeUpgrade(7),  this);
+    this.upgrade8.on( 'pointerup' , () => this.makeUpgrade(8),  this);
+    this.upgrade9.on( 'pointerup' , () => this.makeUpgrade(9),  this);
+    this.upgrade10.on('pointerup' , () => this.makeUpgrade(10), this);
+    this.upgrade11.on('pointerup' , () => this.makeUpgrade(11), this);
+    this.upgrade12.on('pointerup' , () => this.makeUpgrade(12), this);
+    this.upgrade13.on('pointerup' , () => this.makeUpgrade(13), this);
+    this.upgrade14.on('pointerup' , () => this.makeUpgrade(14), this);
+    this.upgrade15.on('pointerup' , () => this.makeUpgrade(15), this);
+    this.upgrade16.on('pointerup' , () => this.makeUpgrade(16), this);
+
+    // this.container.add(this.upgrade1,this.upgrade2 );
+    // console.log('creare nuovo enemy');
+    // this.scene.tankFactory.tankFactoryIstance.createEnemy([0,-1650]);
+  }
+
+  makeUpgrade(choice, upgradeDeckID){
+
+    switch (choice) {
+      case 1:
+        console.log('case 1');
+        this.scene.tankFactory.tankFactoryIstance.researchSpeed(upgradeDeckID);
+        this.clearUpgradeButtons();
+        this.blockButton(upgradeDeckID)
+        break;
+      case 2:
+        
+        break;
+      case 3:
+        
+        break;
+      case 4:
+        
+        break;
+      case 5:
+        
+        break;
+      case 6:
+        
+        break;
+      case 7:
+        
+        break;
+      case 8:
+        
+        break;
+      case 9:
+        
+        break;
+      case 10:
+        
+        break;
+      case 11:
+        
+        break;
+      case 12:
+        
+        break;
+      case 13:
+        
+        break;
+      case 14:
+        
+        break;
+      case 15:
+        
+        break;
+      case 16:
+        
+        break;
+      case 17:
+        
+        break;
+    
+
+    }
   }
 
   btnFunction3(){
@@ -201,7 +409,11 @@ export default class UserInterface {
     }
 
   update(){
-    const zoom = this.camera.zoom
+    const zoom = this.camera.zoom;
+    
+    if(this.zoom !== zoom){
+      this.clearUpgradeButtons();
+    }
 
     this.container.x = this.camera.worldView.x + 25 / zoom;
     this.container.y = this.camera.worldView.y + 25 / zoom;
@@ -223,7 +435,6 @@ export default class UserInterface {
     this.buttonB.x = calculateProportionalWidth(12, 110, this.camera.worldView.width - (50 / this.camera.zoom));
     this.buttonB.y = calculateProportionalWidth(89, 100, this.camera.worldView.height - (50 / this.camera.zoom));
 
-    
     this.buttonC.displayWidth = 75 /zoom;
     this.buttonC.displayHeight = 75 /zoom;
     this.buttonC.x = calculateProportionalWidth(22, 110, this.camera.worldView.width - (50 / this.camera.zoom));
@@ -277,6 +488,6 @@ export default class UserInterface {
     this.buttonM.x = calculateProportionalWidth(102, 110, this.camera.worldView.width - (50 / this.camera.zoom));
     this.buttonM.y = calculateProportionalWidth(89, 100, this.camera.worldView.height - (50 / this.camera.zoom));
 
-
+    this.zoom = this.camera.zoom ;
   }
 }

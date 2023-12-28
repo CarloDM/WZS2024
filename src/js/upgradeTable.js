@@ -6,11 +6,20 @@
 class UpgradeTable {
   constructor(){
 
+
+    this.upgradeIdIsSearching = [
+      false,false,false,false,
+      false,false,false,false,
+      false,false,false,false,
+      false,false,false,false,
+    ]
+
+
     // upgrade generali
     this.researchSpeedLevel = 0;
     this.researchSpeed = [
       {reductionFactor : 1,                         
-        cost:100, time:60},
+        cost:100, time:20},
     ]
     
     this.energyEfficiencyLevel = 0;
@@ -91,8 +100,6 @@ class UpgradeTable {
       {incrementFactor : 1.055,                         
         cost:619, time:371},
     ]
-
-
 
     // upgrade specifici----
 

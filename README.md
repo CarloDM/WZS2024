@@ -98,11 +98,13 @@ sono arrivato al terzo test progressivo!
 <li>texture dei bottoni per incominciare a disegnare logiche di produzione e upgrade</li>
 
 ----
-27/12/2023 giorno 20
+28/12/2023 giorno 20
 <li>produzione dei tank</li>
+<li>avvio delle ricerche upgrade logica di base funzionante in UI</li>
 da fare
+<li>ricerca upgrade estendere a tutti gli upgrade possibili</li>
 <li>calcolo e sottrazione costi energia tank</li>
-<li>avvio delle ricerche</li>
+<li>condizione di mancanza di energia</li>
 <li>texture dei bullet</li>
 <li>enegineering calcoli la vicinanza da un punto mediano rispetto alla base</li>
 

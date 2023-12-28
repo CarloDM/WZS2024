@@ -1,6 +1,4 @@
-
 // singleTone class
-
 
 class StatusCounts {
   constructor(){
@@ -27,6 +25,18 @@ class StatusCounts {
     
     this.btnDeck4 = 0;
     this.deck4IsProductive = false;
+    
+    this.upgrade1ResIndex = 0;
+    this.upgrade1IsProductive = false;
+
+    this.upgrade2ResIndex = 0;
+    this.upgrade2IsProductive = false;
+
+    this.upgrade3ResIndex = 0;
+    this.upgrade3IsProductive = false;
+    
+    this.upgrade4ResIndex = 0;
+    this.upgrade4IsProductive = false;
 
 
 
