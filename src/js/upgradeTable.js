@@ -12,6 +12,7 @@ class UpgradeTable {
       false,false,false,false,
       false,false,false,false,
       false,false,false,false,
+      false
     ]
 
 
@@ -28,9 +29,15 @@ class UpgradeTable {
         cost:100, time:60},
     ]
     
-    this.engineerEfficiencyLevel = 0;
+    this.engineerEfficiencyLevel  = 0;
     this.engineerEfficiency = [
       {mooveFactor : 60,  constructionTimeFactor: 2, 
+        cost:100, time:60 },
+    ]
+
+    this.buildingsArmorLevel  = 0;
+    this.buildingsArmor = [
+      {armorFactor : 1, 
         cost:100, time:60 },
     ]
     
@@ -43,14 +50,14 @@ class UpgradeTable {
     this.tanksProductionSpeedLevel = 0;
     this.tanksProductionSpeed = [ 
       {reductionFactor : 1,                         
-        cost:0, time:0},
+        cost:100, time:60},
     ]
 
     this.tanksSpeedTractionLevel = 0;
         // incremento del costo 20% incremento del tempo 20%
     this.tanksSpeedTraction = [ 
       {incrementFactor : 1,                         
-        cost:0, time:0},
+        cost:100, time:60},
         
       {incrementFactor : 1.11,                         
         cost:120, time:72},
@@ -77,7 +84,7 @@ class UpgradeTable {
     this.tanksRangeOfViewLevel = 0;
     this.tanksRangeOfView = [
       {incrementFactor : 1,                         
-        cost:0, time:0},
+        cost:0, time:60},
 
       {incrementFactor : 1.055,                         
         cost:120, time:72},
@@ -135,7 +142,7 @@ class UpgradeTable {
     this.mgRofLevel = 0;
     this.mgRof=[
       {rof : 20, rot: 0.7,
-      cost:0, time:0},
+      cost:100, time:60},
 
       {rof : 18.5, rot: 0.95,
       cost:150, time:60},
@@ -172,7 +179,7 @@ class UpgradeTable {
     this.cannonDamageLevel = 0;
     this.cannonDamage =[
       {dmg : 15,
-      cost:0, time:0},
+      cost:100, time:60},
 
       {dmg : 38,
       cost:100, time:60},
@@ -200,7 +207,7 @@ class UpgradeTable {
     this.cannonRofLevel = 0;
     this.cannonRof=[
       {rof : 120, rot: 0.35,
-        cost:0, time:0},
+        cost:100, time:60},
 
       {rof : 114, rot: 0.45,
         cost:150, time:60},
@@ -235,7 +242,7 @@ class UpgradeTable {
     this.RocketDamageLevel = 0;
     this.RocketDamage =[
       {dmg : 25,
-      cost:0, time:0},
+      cost:100, time:60},
 
       {dmg : 42.5,
       cost:100, time:60},

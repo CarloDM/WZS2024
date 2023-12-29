@@ -101,8 +101,11 @@ sono arrivato al terzo test progressivo!
 28/12/2023 giorno 20
 <li>produzione dei tank</li>
 <li>avvio delle ricerche upgrade logica di base funzionante in UI</li>
-da fare
+
+----
+29/12/2023 giorno 21
 <li>ricerca upgrade estendere a tutti gli upgrade possibili</li>
+    DA FARE
 <li>calcolo e sottrazione costi energia tank & upgrade</li>
 <li>condizione di mancanza di energia</li>
 <li>texture dei bullet</li>

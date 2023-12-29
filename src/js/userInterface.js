@@ -105,6 +105,7 @@ export default class UserInterface {
 
     this.container.setDepth(999)
     this.scene.add.existing(this.container);
+    this.istance = this;
   }
 
   btnFunction(){
@@ -161,14 +162,14 @@ export default class UserInterface {
     }
 
   }
+// upgrades ---------
 
   clearUpgradeButtons(){
     if(this.upgrade1){
-      [this.upgrade1,this.upgrade2, this.upgrade3,this.upgrade4,this.upgrade5,this.upgrade6,this.upgrade7,this.upgrade8,this.upgrade9,this.upgrade10,this.upgrade11,this.upgrade12,this.upgrade13,this.upgrade14,this.upgrade15,this.upgrade16 ].forEach(btn => {btn.destroy()});
+      [this.upgrade1,this.upgrade2, this.upgrade3,this.upgrade4,this.upgrade5,this.upgrade6,this.upgrade7,this.upgrade8,this.upgrade9,this.upgrade10,this.upgrade11,this.upgrade12,this.upgrade13,this.upgrade14,this.upgrade15,this.upgrade16,this.upgrade17 ].forEach(btn => {btn.destroy()});
     }
   }
 
-// upgrades ---------
   btnFunction4(upgradeDeck){
     this.clearUpgradeButtons();
     console.log(upgradeDeck);
@@ -221,10 +222,13 @@ export default class UserInterface {
     this.upgrade16 = 
       this.scene.add.sprite(calculateProportionalWidth(72, 110, this.camera.worldView.width -  (50 / this.camera.zoom)),
                             calculateProportionalWidth(59, 100, this.camera.worldView.height - (50 / this.camera.zoom)),'btn');
+    this.upgrade17 = 
+      this.scene.add.sprite(calculateProportionalWidth(72, 110, this.camera.worldView.width -  (50 / this.camera.zoom)),
+                            calculateProportionalWidth(49, 100, this.camera.worldView.height - (50 / this.camera.zoom)),'btn');
 
     [this.upgrade1,this.upgrade2, this.upgrade3,this.upgrade4,this.upgrade5,this.upgrade6,this.upgrade7,
       this.upgrade8,this.upgrade9,this.upgrade10,this.upgrade11,this.upgrade12,this.upgrade13,this.upgrade14,
-      this.upgrade15,this.upgrade16 ].forEach( btn  => {
+      this.upgrade15,this.upgrade16, this.upgrade17 ].forEach( btn  => {
       btn.displayWidth = 75 / this.camera.zoom;
       btn.displayHeight = 75 / this.camera.zoom;
       btn.setInteractive();
@@ -232,23 +236,74 @@ export default class UserInterface {
     });
 
     if(!this.upgradeTable.upgradeIdIsSearching[0]){
-      this.upgrade1.on( 'pointerup' , () => this.makeUpgrade(1, upgradeDeck),  this);
+      this.upgrade1.on( 'pointerup' , () => this.makeUpgrade(1, upgradeDeck),this);
     }else{}
-    this.upgrade2.on( 'pointerup' , () => this.makeUpgrade(2),  this);
-    this.upgrade3.on( 'pointerup' , () => this.makeUpgrade(3),  this);
-    this.upgrade4.on( 'pointerup' , () => this.makeUpgrade(4),  this);
-    this.upgrade5.on( 'pointerup' , () => this.makeUpgrade(5),  this);
-    this.upgrade6.on( 'pointerup' , () => this.makeUpgrade(6),  this);
-    this.upgrade7.on( 'pointerup' , () => this.makeUpgrade(7),  this);
-    this.upgrade8.on( 'pointerup' , () => this.makeUpgrade(8),  this);
-    this.upgrade9.on( 'pointerup' , () => this.makeUpgrade(9),  this);
-    this.upgrade10.on('pointerup' , () => this.makeUpgrade(10), this);
-    this.upgrade11.on('pointerup' , () => this.makeUpgrade(11), this);
-    this.upgrade12.on('pointerup' , () => this.makeUpgrade(12), this);
-    this.upgrade13.on('pointerup' , () => this.makeUpgrade(13), this);
-    this.upgrade14.on('pointerup' , () => this.makeUpgrade(14), this);
-    this.upgrade15.on('pointerup' , () => this.makeUpgrade(15), this);
-    this.upgrade16.on('pointerup' , () => this.makeUpgrade(16), this);
+
+    if(!this.upgradeTable.upgradeIdIsSearching[1]){
+      this.upgrade2.on( 'pointerup' , () => this.makeUpgrade(2, upgradeDeck),this);
+    }else{}
+    
+    if(!this.upgradeTable.upgradeIdIsSearching[2]){
+      this.upgrade3.on( 'pointerup' , () => this.makeUpgrade(3, upgradeDeck),this);
+    }else{}
+
+    if(!this.upgradeTable.upgradeIdIsSearching[3]){
+      this.upgrade4.on( 'pointerup' , () => this.makeUpgrade(4, upgradeDeck),this);
+    }else{}
+
+    if(!this.upgradeTable.upgradeIdIsSearching[4]){
+      this.upgrade5.on( 'pointerup' , () => this.makeUpgrade(5, upgradeDeck),this);
+    }else{}
+
+    if(!this.upgradeTable.upgradeIdIsSearching[5]){
+      this.upgrade6.on( 'pointerup' , () => this.makeUpgrade(6, upgradeDeck),this);
+    }else{}
+
+    if(!this.upgradeTable.upgradeIdIsSearching[6]){
+      this.upgrade7.on( 'pointerup' , () => this.makeUpgrade(7, upgradeDeck),this);
+    }else{}
+
+    if(!this.upgradeTable.upgradeIdIsSearching[7]){
+      this.upgrade8.on( 'pointerup' , () => this.makeUpgrade(8, upgradeDeck),this);
+    }else{}
+
+    if(!this.upgradeTable.upgradeIdIsSearching[8]){
+      this.upgrade9.on( 'pointerup' , () => this.makeUpgrade(9, upgradeDeck),this);
+    }else{}
+
+    if(!this.upgradeTable.upgradeIdIsSearching[9]){
+      this.upgrade10.on( 'pointerup' , () => this.makeUpgrade(10, upgradeDeck),this);
+    }else{}
+
+    if(!this.upgradeTable.upgradeIdIsSearching[10]){
+      this.upgrade11.on( 'pointerup' , () => this.makeUpgrade(11, upgradeDeck),this);
+    }else{}
+
+    if(!this.upgradeTable.upgradeIdIsSearching[11]){
+      this.upgrade12.on( 'pointerup' , () => this.makeUpgrade(12, upgradeDeck),this);
+    }else{}
+
+    if(!this.upgradeTable.upgradeIdIsSearching[12]){
+      this.upgrade13.on( 'pointerup' , () => this.makeUpgrade(13, upgradeDeck),this);
+    }else{}
+
+    if(!this.upgradeTable.upgradeIdIsSearching[13]){
+      this.upgrade14.on( 'pointerup' , () => this.makeUpgrade(14, upgradeDeck),this);
+    }else{}
+
+    if(!this.upgradeTable.upgradeIdIsSearching[14]){
+      this.upgrade15.on( 'pointerup' , () => this.makeUpgrade(15, upgradeDeck),this);
+    }else{}
+
+    if(!this.upgradeTable.upgradeIdIsSearching[15]){
+      this.upgrade16.on( 'pointerup' , () => this.makeUpgrade(16, upgradeDeck),this);
+    }else{}
+
+    if(!this.upgradeTable.upgradeIdIsSearching[16]){
+      this.upgrade17.on( 'pointerup' , () => this.makeUpgrade(17, upgradeDeck),this);
+    }else{}
+
+
 
     // this.container.add(this.upgrade1,this.upgrade2 );
     // console.log('creare nuovo enemy');
@@ -262,112 +317,123 @@ export default class UserInterface {
         console.log('case researchSpeed');
         this.scene.tankFactory.tankFactoryIstance.researchSpeed(upgradeDeckID);
         this.clearUpgradeButtons();
-        this.blockButton(upgradeDeckID);
         break;
       case 2:
-        
+        console.log('case energyEfficiency');
+        this.scene.tankFactory.tankFactoryIstance.energyEfficiency(upgradeDeckID);
+        this.clearUpgradeButtons();
         break;
       case 3:
-        
+        console.log('case engineerEfficiency');
+        this.scene.tankFactory.tankFactoryIstance.engineerEfficiency(upgradeDeckID);
+        this.clearUpgradeButtons();
         break;
       case 4:
-        
+        console.log('case buildingsArmor');
+        this.scene.tankFactory.tankFactoryIstance.buildingsArmor(upgradeDeckID);
+        this.clearUpgradeButtons();
         break;
       case 5:
-        
+        console.log('case boostSpeed');
+        this.scene.tankFactory.tankFactoryIstance.boostSpeed(upgradeDeckID);
+        this.clearUpgradeButtons();
         break;
       case 6:
-        
+        console.log('case tanksProductionSpeed');
+        this.scene.tankFactory.tankFactoryIstance.tanksProductionSpeed(upgradeDeckID);
+        this.clearUpgradeButtons();
         break;
       case 7:
-        
+        console.log('case tanksSpeedTraction');
+        this.scene.tankFactory.tankFactoryIstance.tanksSpeedTraction(upgradeDeckID);
+        this.clearUpgradeButtons();
         break;
       case 8:
-        
+        console.log('case tanksRangeOfView');
+        this.scene.tankFactory.tankFactoryIstance.tanksRangeOfView(upgradeDeckID);
+        this.clearUpgradeButtons();
         break;
       case 9:
-        
+        console.log('case mgDamage');
+        this.scene.tankFactory.tankFactoryIstance.mgDamage(upgradeDeckID);
+        this.clearUpgradeButtons();
         break;
       case 10:
-        
+        console.log('case mgRof');
+        this.scene.tankFactory.tankFactoryIstance.mgRof(upgradeDeckID);
+        this.clearUpgradeButtons();
         break;
       case 11:
-        
+        console.log('case mgHp');
+        this.scene.tankFactory.tankFactoryIstance.mgHp(upgradeDeckID);
+        this.clearUpgradeButtons();
         break;
       case 12:
-        
+        console.log('case cannonDamage');
+        this.scene.tankFactory.tankFactoryIstance.cannonDamage(upgradeDeckID);
+        this.clearUpgradeButtons();
         break;
       case 13:
-        
+        console.log('case cannonRof');
+        this.scene.tankFactory.tankFactoryIstance.cannonRof(upgradeDeckID);
+        this.clearUpgradeButtons();
         break;
       case 14:
-        
+        console.log('case cannonHp');
+        this.scene.tankFactory.tankFactoryIstance.cannonHp(upgradeDeckID);
+        this.clearUpgradeButtons();
         break;
       case 15:
-        
+        console.log('case RocketDamage');
+        this.scene.tankFactory.tankFactoryIstance.RocketDamage(upgradeDeckID);
+        this.clearUpgradeButtons();
         break;
       case 16:
-        
+        console.log('case RocketRof');
+        this.scene.tankFactory.tankFactoryIstance.RocketRof(upgradeDeckID);
+        this.clearUpgradeButtons();
         break;
       case 17:
-        
+        console.log('case RocketHp');
+        this.scene.tankFactory.tankFactoryIstance.RocketHp(upgradeDeckID);
+        this.clearUpgradeButtons();
         break;
     
 
     }
   }
 
-  blockButton(id){
+  blockButton(id, onOff){
 
     switch (id) {
       
       case 1:
-
+      if(onOff){
         this.buttonD.off('pointerup');
-
-        var time = (this.upgradeTable.researchSpeed[this.upgradeTable.researchSpeedLevel].time * 1000) *
-                    (this.upgradeTable.tanksProductionSpeed[this.upgradeTable.tanksProductionSpeedLevel].reductionFactor);
-                    
-        setTimeout(() => {
-          this.buttonD.on('pointerup' , () => this.btnFunction4(1), this);
-        }, time);
-
+      }else{
+        this.buttonD.on('pointerup' , () => this.btnFunction4(1), this);
+      }
         break;
       case 2:
-
-        this.buttonE.off('pointerup');
-
-        var time = (this.upgradeTable.researchSpeed[this.upgradeTable.researchSpeedLevel].time * 1000) *
-                    (this.upgradeTable.tanksProductionSpeed[this.upgradeTable.tanksProductionSpeedLevel].reductionFactor);
-
-        setTimeout(() => {
+        if(onOff){
+          this.buttonE.off('pointerup');
+        }else{
           this.buttonE.on('pointerup' , () => this.btnFunction4(2), this);
-        }, time);
-
+        }
         break;
       case 3:
-
-        this.buttonF.off('pointerup');
-
-        var time = (this.upgradeTable.researchSpeed[this.upgradeTable.researchSpeedLevel].time * 1000) *
-                    (this.upgradeTable.tanksProductionSpeed[this.upgradeTable.tanksProductionSpeedLevel].reductionFactor);
-
-        setTimeout(() => {
+        if(onOff){
+          this.buttonF.off('pointerup');
+        }else{
           this.buttonF.on('pointerup' , () => this.btnFunction4(3), this);
-        }, time);
-
+        }
         break;
       case 4:
-
-        this.buttonG.off('pointerup');
-
-        var time = (this.upgradeTable.researchSpeed[this.upgradeTable.researchSpeedLevel].time * 1000) *
-                    (this.upgradeTable.tanksProductionSpeed[this.upgradeTable.tanksProductionSpeedLevel].reductionFactor);
-
-        setTimeout(() => {
+        if(onOff){
+          this.buttonG.off('pointerup');
+        }else{
           this.buttonG.on('pointerup' , () => this.btnFunction4(4), this);
-        }, time);
-
+        }
         break;
     }
   }

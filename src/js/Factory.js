@@ -695,10 +695,13 @@ export default class TankFactory {
   // decks production----------
   //  research upgrade
   researchSpeed(upgradeDeckID){
-    this.upgradeTable.upgradeIdIsSearching[0] = true;
 
+    this.upgradeTable.upgradeIdIsSearching[0] = true;
+    
     const time = (this.upgradeTable.researchSpeed[this.upgradeTable.researchSpeedLevel].time * 1000) *
-          (this.upgradeTable.researchSpeed[this.upgradeTable.researchSpeedLevel].reductionFactor);
+    (this.upgradeTable.researchSpeed[this.upgradeTable.researchSpeedLevel].reductionFactor);
+    
+    this.scene.cameraController.userInterface.istance.blockButton(upgradeDeckID, true);
 
     switch (upgradeDeckID) {
       case 1:
@@ -709,6 +712,7 @@ export default class TankFactory {
         this.upgradeTable.researchSpeedLevel ++;  
         this.upgradeTable.upgradeIdIsSearching[0] = false;
         console.log(this.upgradeTable.researchSpeedLevel);
+        this.scene.cameraController.userInterface.istance.blockButton(upgradeDeckID, false);
       }, time);
 
         var cd = time /1000;
@@ -726,6 +730,7 @@ export default class TankFactory {
         this.upgradeTable.researchSpeedLevel ++;  
         this.upgradeTable.upgradeIdIsSearching[0] = false;
         console.log(this.upgradeTable.researchSpeedLevel);
+        this.scene.cameraController.userInterface.istance.blockButton(upgradeDeckID, false);
       }, time);
 
         var cd = time /1000;
@@ -743,6 +748,7 @@ export default class TankFactory {
         this.upgradeTable.researchSpeedLevel ++;  
         this.upgradeTable.upgradeIdIsSearching[0] = false;
         console.log(this.upgradeTable.researchSpeedLevel);
+        this.scene.cameraController.userInterface.istance.blockButton(upgradeDeckID, false);
       }, time);
 
         var cd = time /1000;
@@ -760,6 +766,7 @@ export default class TankFactory {
         this.upgradeTable.researchSpeedLevel ++;  
         this.upgradeTable.upgradeIdIsSearching[0] = false;
         console.log(this.upgradeTable.researchSpeedLevel);
+        this.scene.cameraController.userInterface.istance.blockButton(upgradeDeckID, false);
       }, time);
 
         var cd = time /1000;
@@ -772,9 +779,1397 @@ export default class TankFactory {
 
     }      
 
+  }
+  energyEfficiency(upgradeDeckID){
 
+    this.upgradeTable.upgradeIdIsSearching[1] = true;
+    
+    const time = (this.upgradeTable.energyEfficiency[this.upgradeTable.energyEfficiencyLevel].time * 1000) *
+    (this.upgradeTable.researchSpeed[this.upgradeTable.researchSpeedLevel].reductionFactor);
+    
+    this.scene.cameraController.userInterface.istance.blockButton(upgradeDeckID, true);
+    console.log(time,upgradeDeckID);
+    
+    switch (upgradeDeckID) {
+      case 1:
+      console.log(upgradeDeckID);
+      this.upgrade1TimeOut = setTimeout(() => {
+        clearInterval(this.upgrade1countDown);
 
+        this.upgradeTable.energyEfficiencyLevel ++;  
+        this.upgradeTable.upgradeIdIsSearching[1] = false;
 
+        this.scene.cameraController.userInterface.istance.blockButton(upgradeDeckID, false);
+      }, time);
+
+        var cd = time /1000;
+
+        this.upgrade1countDown = setInterval(() => {
+          cd --;
+          console.log('up 1 count down', cd);
+        }, 1000);
+        break;
+      case 2:
+
+      this.upgrade2TimeOut = setTimeout(() => {
+        clearInterval(this.upgrade2countDown);
+
+        this.upgradeTable.energyEfficiencyLevel ++;  
+        this.upgradeTable.upgradeIdIsSearching[1] = false;
+
+        this.scene.cameraController.userInterface.istance.blockButton(upgradeDeckID, false);
+      }, time);
+
+        var cd = time /1000;
+
+        this.upgrade2countDown = setInterval(() => {
+          cd --;
+          console.log('up 2 count down', cd);
+        }, 1000);
+        break;
+      case 3:
+
+      this.upgrade3TimeOut = setTimeout(() => {
+        clearInterval(this.upgrade3countDown);
+
+        this.upgradeTable.energyEfficiencyLevel ++;  
+        this.upgradeTable.upgradeIdIsSearching[1] = false;
+
+        this.scene.cameraController.userInterface.istance.blockButton(upgradeDeckID, false);
+      }, time);
+
+        var cd = time /1000;
+
+        this.upgrade3countDown = setInterval(() => {
+          cd --;
+          console.log('up 3 count down', cd);
+        }, 1000);
+        break;
+      case 4:
+
+      this.upgrade4TimeOut = setTimeout(() => {
+        clearInterval(this.upgrade4countDown);
+
+        this.upgradeTable.energyEfficiencyLevel ++;  
+        this.upgradeTable.upgradeIdIsSearching[1] = false;
+
+        this.scene.cameraController.userInterface.istance.blockButton(upgradeDeckID, false);
+      }, time);
+
+        var cd = time /1000;
+
+        this.upgrade4countDown = setInterval(() => {
+          cd --;
+          console.log('up 4 count down', cd);
+        }, 1000);
+        break;
+
+    }      
+
+  }
+  engineerEfficiency(upgradeDeckID){
+
+    this.upgradeTable.upgradeIdIsSearching[2] = true;
+    
+    const time = (this.upgradeTable.engineerEfficiency[this.upgradeTable.engineerEfficiencyLevel].time * 1000) *
+    (this.upgradeTable.researchSpeed[this.upgradeTable.researchSpeedLevel].reductionFactor);
+    
+    this.scene.cameraController.userInterface.istance.blockButton(upgradeDeckID, true);
+    console.log(time,upgradeDeckID);
+    
+    switch (upgradeDeckID) {
+      case 1:
+      console.log(upgradeDeckID);
+      this.upgrade1TimeOut = setTimeout(() => {
+        clearInterval(this.upgrade1countDown);
+
+        this.upgradeTable.engineerEfficiencyLevel ++;  
+        this.upgradeTable.upgradeIdIsSearching[2] = false;
+
+        this.scene.cameraController.userInterface.istance.blockButton(upgradeDeckID, false);
+      }, time);
+
+        var cd = time /1000;
+
+        this.upgrade1countDown = setInterval(() => {
+          cd --;
+          console.log('up 1 count down', cd);
+        }, 1000);
+        break;
+      case 2:
+
+      this.upgrade2TimeOut = setTimeout(() => {
+        clearInterval(this.upgrade2countDown);
+
+        this.upgradeTable.engineerEfficiencyLevel ++;  
+        this.upgradeTable.upgradeIdIsSearching[2] = false;
+
+        this.scene.cameraController.userInterface.istance.blockButton(upgradeDeckID, false);
+      }, time);
+
+        var cd = time /1000;
+
+        this.upgrade2countDown = setInterval(() => {
+          cd --;
+          console.log('up 2 count down', cd);
+        }, 1000);
+        break;
+      case 3:
+
+      this.upgrade3TimeOut = setTimeout(() => {
+        clearInterval(this.upgrade3countDown);
+
+        this.upgradeTable.engineerEfficiencyLevel ++;  
+        this.upgradeTable.upgradeIdIsSearching[2] = false;
+
+        this.scene.cameraController.userInterface.istance.blockButton(upgradeDeckID, false);
+      }, time);
+
+        var cd = time /1000;
+
+        this.upgrade3countDown = setInterval(() => {
+          cd --;
+          console.log('up 3 count down', cd);
+        }, 1000);
+        break;
+      case 4:
+
+      this.upgrade4TimeOut = setTimeout(() => {
+        clearInterval(this.upgrade4countDown);
+
+        this.upgradeTable.engineerEfficiencyLevel ++;  
+        this.upgradeTable.upgradeIdIsSearching[2] = false;
+
+        this.scene.cameraController.userInterface.istance.blockButton(upgradeDeckID, false);
+      }, time);
+
+        var cd = time /1000;
+
+        this.upgrade4countDown = setInterval(() => {
+          cd --;
+          console.log('up 4 count down', cd);
+        }, 1000);
+        break;
+
+    }      
+
+  }
+  buildingsArmor(upgradeDeckID){
+
+    this.upgradeTable.upgradeIdIsSearching[3] = true;
+    
+    const time = (this.upgradeTable.buildingsArmor[this.upgradeTable.buildingsArmorLevel].time * 1000) *
+    (this.upgradeTable.researchSpeed[this.upgradeTable.researchSpeedLevel].reductionFactor);
+    
+    this.scene.cameraController.userInterface.istance.blockButton(upgradeDeckID, true);
+    console.log(time,upgradeDeckID);
+    
+    switch (upgradeDeckID) {
+      case 1:
+      console.log(upgradeDeckID);
+      this.upgrade1TimeOut = setTimeout(() => {
+        clearInterval(this.upgrade1countDown);
+
+        this.upgradeTable.buildingsArmorLevel ++;  
+        this.upgradeTable.upgradeIdIsSearching[3] = false;
+
+        this.scene.cameraController.userInterface.istance.blockButton(upgradeDeckID, false);
+      }, time);
+
+        var cd = time /1000;
+
+        this.upgrade1countDown = setInterval(() => {
+          cd --;
+          console.log('up 1 count down', cd);
+        }, 1000);
+        break;
+      case 2:
+
+      this.upgrade2TimeOut = setTimeout(() => {
+        clearInterval(this.upgrade2countDown);
+
+        this.upgradeTable.buildingsArmorLevel ++;  
+        this.upgradeTable.upgradeIdIsSearching[3] = false;
+
+        this.scene.cameraController.userInterface.istance.blockButton(upgradeDeckID, false);
+      }, time);
+
+        var cd = time /1000;
+
+        this.upgrade2countDown = setInterval(() => {
+          cd --;
+          console.log('up 2 count down', cd);
+        }, 1000);
+        break;
+      case 3:
+
+      this.upgrade3TimeOut = setTimeout(() => {
+        clearInterval(this.upgrade3countDown);
+
+        this.upgradeTable.buildingsArmorLevel ++;  
+        this.upgradeTable.upgradeIdIsSearching[3] = false;
+
+        this.scene.cameraController.userInterface.istance.blockButton(upgradeDeckID, false);
+      }, time);
+
+        var cd = time /1000;
+
+        this.upgrade3countDown = setInterval(() => {
+          cd --;
+          console.log('up 3 count down', cd);
+        }, 1000);
+        break;
+      case 4:
+
+      this.upgrade4TimeOut = setTimeout(() => {
+        clearInterval(this.upgrade4countDown);
+
+        this.upgradeTable.buildingsArmorLevel ++;  
+        this.upgradeTable.upgradeIdIsSearching[3] = false;
+
+        this.scene.cameraController.userInterface.istance.blockButton(upgradeDeckID, false);
+      }, time);
+
+        var cd = time /1000;
+
+        this.upgrade4countDown = setInterval(() => {
+          cd --;
+          console.log('up 4 count down', cd);
+        }, 1000);
+        break;
+
+    }      
+
+  }
+  boostSpeed(upgradeDeckID){
+
+    this.upgradeTable.upgradeIdIsSearching[4] = true;
+    
+    const time = (this.upgradeTable.boostSpeed[this.upgradeTable.boostSpeedLevel].time * 1000) *
+    (this.upgradeTable.researchSpeed[this.upgradeTable.researchSpeedLevel].reductionFactor);
+    
+    this.scene.cameraController.userInterface.istance.blockButton(upgradeDeckID, true);
+    console.log(time,upgradeDeckID);
+    
+    switch (upgradeDeckID) {
+      case 1:
+      console.log(upgradeDeckID);
+      this.upgrade1TimeOut = setTimeout(() => {
+        clearInterval(this.upgrade1countDown);
+
+        this.upgradeTable.boostSpeedLevel ++;  
+        this.upgradeTable.upgradeIdIsSearching[4] = false;
+
+        this.scene.cameraController.userInterface.istance.blockButton(upgradeDeckID, false);
+      }, time);
+
+        var cd = time /1000;
+
+        this.upgrade1countDown = setInterval(() => {
+          cd --;
+          console.log('up 1 count down', cd);
+        }, 1000);
+        break;
+      case 2:
+
+      this.upgrade2TimeOut = setTimeout(() => {
+        clearInterval(this.upgrade2countDown);
+
+        this.upgradeTable.boostSpeedLevel ++;  
+        this.upgradeTable.upgradeIdIsSearching[4] = false;
+
+        this.scene.cameraController.userInterface.istance.blockButton(upgradeDeckID, false);
+      }, time);
+
+        var cd = time /1000;
+
+        this.upgrade2countDown = setInterval(() => {
+          cd --;
+          console.log('up 2 count down', cd);
+        }, 1000);
+        break;
+      case 3:
+
+      this.upgrade3TimeOut = setTimeout(() => {
+        clearInterval(this.upgrade3countDown);
+
+        this.upgradeTable.boostSpeedLevel ++;  
+        this.upgradeTable.upgradeIdIsSearching[4] = false;
+
+        this.scene.cameraController.userInterface.istance.blockButton(upgradeDeckID, false);
+      }, time);
+
+        var cd = time /1000;
+
+        this.upgrade3countDown = setInterval(() => {
+          cd --;
+          console.log('up 3 count down', cd);
+        }, 1000);
+        break;
+      case 4:
+
+      this.upgrade4TimeOut = setTimeout(() => {
+        clearInterval(this.upgrade4countDown);
+
+        this.upgradeTable.boostSpeedLevel ++;  
+        this.upgradeTable.upgradeIdIsSearching[4] = false;
+
+        this.scene.cameraController.userInterface.istance.blockButton(upgradeDeckID, false);
+      }, time);
+
+        var cd = time /1000;
+
+        this.upgrade4countDown = setInterval(() => {
+          cd --;
+          console.log('up 4 count down', cd);
+        }, 1000);
+        break;
+
+    }      
+
+  }
+  tanksProductionSpeed(upgradeDeckID){
+
+    this.upgradeTable.upgradeIdIsSearching[5] = true;
+    
+    const time = (this.upgradeTable.tanksProductionSpeed[this.upgradeTable.tanksProductionSpeedLevel].time * 1000) *
+    (this.upgradeTable.researchSpeed[this.upgradeTable.researchSpeedLevel].reductionFactor);
+    
+    this.scene.cameraController.userInterface.istance.blockButton(upgradeDeckID, true);
+    console.log(time,upgradeDeckID);
+    
+    switch (upgradeDeckID) {
+      case 1:
+      console.log(upgradeDeckID);
+      this.upgrade1TimeOut = setTimeout(() => {
+        clearInterval(this.upgrade1countDown);
+
+        this.upgradeTable.tanksProductionSpeedLevel ++;  
+        this.upgradeTable.upgradeIdIsSearching[5] = false;
+
+        this.scene.cameraController.userInterface.istance.blockButton(upgradeDeckID, false);
+      }, time);
+
+        var cd = time /1000;
+
+        this.upgrade1countDown = setInterval(() => {
+          cd --;
+          console.log('up 1 count down', cd);
+        }, 1000);
+        break;
+      case 2:
+
+      this.upgrade2TimeOut = setTimeout(() => {
+        clearInterval(this.upgrade2countDown);
+
+        this.upgradeTable.tanksProductionSpeedLevel ++;  
+        this.upgradeTable.upgradeIdIsSearching[5] = false;
+
+        this.scene.cameraController.userInterface.istance.blockButton(upgradeDeckID, false);
+      }, time);
+
+        var cd = time /1000;
+
+        this.upgrade2countDown = setInterval(() => {
+          cd --;
+          console.log('up 2 count down', cd);
+        }, 1000);
+        break;
+      case 3:
+
+      this.upgrade3TimeOut = setTimeout(() => {
+        clearInterval(this.upgrade3countDown);
+
+        this.upgradeTable.tanksProductionSpeedLevel ++;  
+        this.upgradeTable.upgradeIdIsSearching[5] = false;
+
+        this.scene.cameraController.userInterface.istance.blockButton(upgradeDeckID, false);
+      }, time);
+
+        var cd = time /1000;
+
+        this.upgrade3countDown = setInterval(() => {
+          cd --;
+          console.log('up 3 count down', cd);
+        }, 1000);
+        break;
+      case 4:
+
+      this.upgrade4TimeOut = setTimeout(() => {
+        clearInterval(this.upgrade4countDown);
+
+        this.upgradeTable.tanksProductionSpeedLevel ++;  
+        this.upgradeTable.upgradeIdIsSearching[5] = false;
+
+        this.scene.cameraController.userInterface.istance.blockButton(upgradeDeckID, false);
+      }, time);
+
+        var cd = time /1000;
+
+        this.upgrade4countDown = setInterval(() => {
+          cd --;
+          console.log('up 4 count down', cd);
+        }, 1000);
+        break;
+
+    }      
+
+  }
+  tanksSpeedTraction(upgradeDeckID){
+
+    this.upgradeTable.upgradeIdIsSearching[6] = true;
+    
+    const time = (this.upgradeTable.tanksSpeedTraction[this.upgradeTable.tanksSpeedTractionLevel].time * 1000) *
+    (this.upgradeTable.researchSpeed[this.upgradeTable.researchSpeedLevel].reductionFactor);
+    
+    this.scene.cameraController.userInterface.istance.blockButton(upgradeDeckID, true);
+    console.log(time,upgradeDeckID);
+    
+    switch (upgradeDeckID) {
+      case 1:
+      console.log(upgradeDeckID);
+      this.upgrade1TimeOut = setTimeout(() => {
+        clearInterval(this.upgrade1countDown);
+
+        this.upgradeTable.tanksSpeedTractionLevel ++;  
+        this.upgradeTable.upgradeIdIsSearching[6] = false;
+
+        this.scene.cameraController.userInterface.istance.blockButton(upgradeDeckID, false);
+      }, time);
+
+        var cd = time /1000;
+
+        this.upgrade1countDown = setInterval(() => {
+          cd --;
+          console.log('up 1 count down', cd);
+        }, 1000);
+        break;
+      case 2:
+
+      this.upgrade2TimeOut = setTimeout(() => {
+        clearInterval(this.upgrade2countDown);
+
+        this.upgradeTable.tanksSpeedTractionLevel ++;  
+        this.upgradeTable.upgradeIdIsSearching[6] = false;
+
+        this.scene.cameraController.userInterface.istance.blockButton(upgradeDeckID, false);
+      }, time);
+
+        var cd = time /1000;
+
+        this.upgrade2countDown = setInterval(() => {
+          cd --;
+          console.log('up 2 count down', cd);
+        }, 1000);
+        break;
+      case 3:
+
+      this.upgrade3TimeOut = setTimeout(() => {
+        clearInterval(this.upgrade3countDown);
+
+        this.upgradeTable.tanksSpeedTractionLevel ++;  
+        this.upgradeTable.upgradeIdIsSearching[6] = false;
+
+        this.scene.cameraController.userInterface.istance.blockButton(upgradeDeckID, false);
+      }, time);
+
+        var cd = time /1000;
+
+        this.upgrade3countDown = setInterval(() => {
+          cd --;
+          console.log('up 3 count down', cd);
+        }, 1000);
+        break;
+      case 4:
+
+      this.upgrade4TimeOut = setTimeout(() => {
+        clearInterval(this.upgrade4countDown);
+
+        this.upgradeTable.tanksSpeedTractionLevel ++;  
+        this.upgradeTable.upgradeIdIsSearching[6] = false;
+
+        this.scene.cameraController.userInterface.istance.blockButton(upgradeDeckID, false);
+      }, time);
+
+        var cd = time /1000;
+
+        this.upgrade4countDown = setInterval(() => {
+          cd --;
+          console.log('up 4 count down', cd);
+        }, 1000);
+        break;
+
+    }      
+
+  }
+  tanksRangeOfView(upgradeDeckID){
+
+    this.upgradeTable.upgradeIdIsSearching[7] = true;
+    
+    const time = (this.upgradeTable.tanksRangeOfView[this.upgradeTable.tanksRangeOfViewLevel].time * 1000) *
+    (this.upgradeTable.researchSpeed[this.upgradeTable.researchSpeedLevel].reductionFactor);
+    
+    this.scene.cameraController.userInterface.istance.blockButton(upgradeDeckID, true);
+    console.log(time,upgradeDeckID);
+    
+    switch (upgradeDeckID) {
+      case 1:
+      console.log(upgradeDeckID);
+      this.upgrade1TimeOut = setTimeout(() => {
+        clearInterval(this.upgrade1countDown);
+
+        this.upgradeTable.tanksRangeOfViewLevel ++;  
+        this.upgradeTable.upgradeIdIsSearching[6] = false;
+
+        this.scene.cameraController.userInterface.istance.blockButton(upgradeDeckID, false);
+      }, time);
+
+        var cd = time /1000;
+
+        this.upgrade1countDown = setInterval(() => {
+          cd --;
+          console.log('up 1 count down', cd);
+        }, 1000);
+        break;
+      case 2:
+
+      this.upgrade2TimeOut = setTimeout(() => {
+        clearInterval(this.upgrade2countDown);
+
+        this.upgradeTable.tanksRangeOfViewLevel ++;  
+        this.upgradeTable.upgradeIdIsSearching[7] = false;
+
+        this.scene.cameraController.userInterface.istance.blockButton(upgradeDeckID, false);
+      }, time);
+
+        var cd = time /1000;
+
+        this.upgrade2countDown = setInterval(() => {
+          cd --;
+          console.log('up 2 count down', cd);
+        }, 1000);
+        break;
+      case 3:
+
+      this.upgrade3TimeOut = setTimeout(() => {
+        clearInterval(this.upgrade3countDown);
+
+        this.upgradeTable.tanksRangeOfViewLevel ++;  
+        this.upgradeTable.upgradeIdIsSearching[7] = false;
+
+        this.scene.cameraController.userInterface.istance.blockButton(upgradeDeckID, false);
+      }, time);
+
+        var cd = time /1000;
+
+        this.upgrade3countDown = setInterval(() => {
+          cd --;
+          console.log('up 3 count down', cd);
+        }, 1000);
+        break;
+      case 4:
+
+      this.upgrade4TimeOut = setTimeout(() => {
+        clearInterval(this.upgrade4countDown);
+
+        this.upgradeTable.tanksRangeOfViewLevel ++;  
+        this.upgradeTable.upgradeIdIsSearching[7] = false;
+
+        this.scene.cameraController.userInterface.istance.blockButton(upgradeDeckID, false);
+      }, time);
+
+        var cd = time /1000;
+
+        this.upgrade4countDown = setInterval(() => {
+          cd --;
+          console.log('up 4 count down', cd);
+        }, 1000);
+        break;
+
+    }      
+
+  }
+  mgDamage(upgradeDeckID){
+
+    this.upgradeTable.upgradeIdIsSearching[8] = true;
+    
+    const time = (this.upgradeTable.mgDamage[this.upgradeTable.mgDamageLevel].time * 1000) *
+    (this.upgradeTable.researchSpeed[this.upgradeTable.researchSpeedLevel].reductionFactor);
+    
+    this.scene.cameraController.userInterface.istance.blockButton(upgradeDeckID, true);
+    console.log(time,upgradeDeckID);
+    
+    switch (upgradeDeckID) {
+      case 1:
+      console.log(upgradeDeckID);
+      this.upgrade1TimeOut = setTimeout(() => {
+        clearInterval(this.upgrade1countDown);
+
+        this.upgradeTable.mgDamageLevel ++;  
+        this.upgradeTable.upgradeIdIsSearching[8] = false;
+
+        this.scene.cameraController.userInterface.istance.blockButton(upgradeDeckID, false);
+      }, time);
+
+        var cd = time /1000;
+
+        this.upgrade1countDown = setInterval(() => {
+          cd --;
+          console.log('up 1 count down', cd);
+        }, 1000);
+        break;
+      case 2:
+
+      this.upgrade2TimeOut = setTimeout(() => {
+        clearInterval(this.upgrade2countDown);
+
+        this.upgradeTable.mgDamageLevel ++;  
+        this.upgradeTable.upgradeIdIsSearching[8] = false;
+
+        this.scene.cameraController.userInterface.istance.blockButton(upgradeDeckID, false);
+      }, time);
+
+        var cd = time /1000;
+
+        this.upgrade2countDown = setInterval(() => {
+          cd --;
+          console.log('up 2 count down', cd);
+        }, 1000);
+        break;
+      case 3:
+
+      this.upgrade3TimeOut = setTimeout(() => {
+        clearInterval(this.upgrade3countDown);
+
+        this.upgradeTable.mgDamageLevel ++;  
+        this.upgradeTable.upgradeIdIsSearching[8] = false;
+
+        this.scene.cameraController.userInterface.istance.blockButton(upgradeDeckID, false);
+      }, time);
+
+        var cd = time /1000;
+
+        this.upgrade3countDown = setInterval(() => {
+          cd --;
+          console.log('up 3 count down', cd);
+        }, 1000);
+        break;
+      case 4:
+
+      this.upgrade4TimeOut = setTimeout(() => {
+        clearInterval(this.upgrade4countDown);
+
+        this.upgradeTable.mgDamageLevel ++;  
+        this.upgradeTable.upgradeIdIsSearching[8] = false;
+
+        this.scene.cameraController.userInterface.istance.blockButton(upgradeDeckID, false);
+      }, time);
+
+        var cd = time /1000;
+
+        this.upgrade4countDown = setInterval(() => {
+          cd --;
+          console.log('up 4 count down', cd);
+        }, 1000);
+        break;
+
+    }      
+
+  }
+  mgRof(upgradeDeckID){
+
+    this.upgradeTable.upgradeIdIsSearching[9] = true;
+    
+    const time = (this.upgradeTable.mgRof[this.upgradeTable.mgRofLevel].time * 1000) *
+    (this.upgradeTable.researchSpeed[this.upgradeTable.researchSpeedLevel].reductionFactor);
+    
+    this.scene.cameraController.userInterface.istance.blockButton(upgradeDeckID, true);
+    console.log(time,upgradeDeckID);
+    
+    switch (upgradeDeckID) {
+      case 1:
+      console.log(upgradeDeckID);
+      this.upgrade1TimeOut = setTimeout(() => {
+        clearInterval(this.upgrade1countDown);
+
+        this.upgradeTable.mgRofLevel ++;  
+        this.upgradeTable.upgradeIdIsSearching[9] = false;
+
+        this.scene.cameraController.userInterface.istance.blockButton(upgradeDeckID, false);
+      }, time);
+
+        var cd = time /1000;
+
+        this.upgrade1countDown = setInterval(() => {
+          cd --;
+          console.log('up 1 count down', cd);
+        }, 1000);
+        break;
+      case 2:
+
+      this.upgrade2TimeOut = setTimeout(() => {
+        clearInterval(this.upgrade2countDown);
+
+        this.upgradeTable.mgRofLevel ++;  
+        this.upgradeTable.upgradeIdIsSearching[9] = false;
+
+        this.scene.cameraController.userInterface.istance.blockButton(upgradeDeckID, false);
+      }, time);
+
+        var cd = time /1000;
+
+        this.upgrade2countDown = setInterval(() => {
+          cd --;
+          console.log('up 2 count down', cd);
+        }, 1000);
+        break;
+      case 3:
+
+      this.upgrade3TimeOut = setTimeout(() => {
+        clearInterval(this.upgrade3countDown);
+
+        this.upgradeTable.mgRofLevel ++;  
+        this.upgradeTable.upgradeIdIsSearching[9] = false;
+
+        this.scene.cameraController.userInterface.istance.blockButton(upgradeDeckID, false);
+      }, time);
+
+        var cd = time /1000;
+
+        this.upgrade3countDown = setInterval(() => {
+          cd --;
+          console.log('up 3 count down', cd);
+        }, 1000);
+        break;
+      case 4:
+
+      this.upgrade4TimeOut = setTimeout(() => {
+        clearInterval(this.upgrade4countDown);
+
+        this.upgradeTable.mgRofLevel ++;  
+        this.upgradeTable.upgradeIdIsSearching[9] = false;
+
+        this.scene.cameraController.userInterface.istance.blockButton(upgradeDeckID, false);
+      }, time);
+
+        var cd = time /1000;
+
+        this.upgrade4countDown = setInterval(() => {
+          cd --;
+          console.log('up 4 count down', cd);
+        }, 1000);
+        break;
+
+    }      
+
+  }
+  mgHp(upgradeDeckID){
+
+    this.upgradeTable.upgradeIdIsSearching[10] = true;
+    
+    const time = (this.upgradeTable.mgHp[this.upgradeTable.mgHpLevel].time * 1000) *
+    (this.upgradeTable.researchSpeed[this.upgradeTable.researchSpeedLevel].reductionFactor);
+    
+    this.scene.cameraController.userInterface.istance.blockButton(upgradeDeckID, true);
+    console.log(time,upgradeDeckID);
+    
+    switch (upgradeDeckID) {
+      case 1:
+      console.log(upgradeDeckID);
+      this.upgrade1TimeOut = setTimeout(() => {
+        clearInterval(this.upgrade1countDown);
+
+        this.upgradeTable.mgHpLevel ++;  
+        this.upgradeTable.upgradeIdIsSearching[10] = false;
+
+        this.scene.cameraController.userInterface.istance.blockButton(upgradeDeckID, false);
+      }, time);
+
+        var cd = time /1000;
+
+        this.upgrade1countDown = setInterval(() => {
+          cd --;
+          console.log('up 1 count down', cd);
+        }, 1000);
+        break;
+      case 2:
+
+      this.upgrade2TimeOut = setTimeout(() => {
+        clearInterval(this.upgrade2countDown);
+
+        this.upgradeTable.mgHpLevel ++;  
+        this.upgradeTable.upgradeIdIsSearching[10] = false;
+
+        this.scene.cameraController.userInterface.istance.blockButton(upgradeDeckID, false);
+      }, time);
+
+        var cd = time /1000;
+
+        this.upgrade2countDown = setInterval(() => {
+          cd --;
+          console.log('up 2 count down', cd);
+        }, 1000);
+        break;
+      case 3:
+
+      this.upgrade3TimeOut = setTimeout(() => {
+        clearInterval(this.upgrade3countDown);
+
+        this.upgradeTable.mgHpLevel ++;  
+        this.upgradeTable.upgradeIdIsSearching[10] = false;
+
+        this.scene.cameraController.userInterface.istance.blockButton(upgradeDeckID, false);
+      }, time);
+
+        var cd = time /1000;
+
+        this.upgrade3countDown = setInterval(() => {
+          cd --;
+          console.log('up 3 count down', cd);
+        }, 1000);
+        break;
+      case 4:
+
+      this.upgrade4TimeOut = setTimeout(() => {
+        clearInterval(this.upgrade4countDown);
+
+        this.upgradeTable.mgHpLevel ++;  
+        this.upgradeTable.upgradeIdIsSearching[10] = false;
+
+        this.scene.cameraController.userInterface.istance.blockButton(upgradeDeckID, false);
+      }, time);
+
+        var cd = time /1000;
+
+        this.upgrade4countDown = setInterval(() => {
+          cd --;
+          console.log('up 4 count down', cd);
+        }, 1000);
+        break;
+
+    }      
+
+  }
+  cannonDamage(upgradeDeckID){
+
+    this.upgradeTable.upgradeIdIsSearching[11] = true;
+    
+    const time = (this.upgradeTable.cannonDamage[this.upgradeTable.cannonDamageLevel].time * 1000) *
+    (this.upgradeTable.researchSpeed[this.upgradeTable.researchSpeedLevel].reductionFactor);
+    
+    this.scene.cameraController.userInterface.istance.blockButton(upgradeDeckID, true);
+    console.log(time,upgradeDeckID);
+    
+    switch (upgradeDeckID) {
+      case 1:
+      console.log(upgradeDeckID);
+      this.upgrade1TimeOut = setTimeout(() => {
+        clearInterval(this.upgrade1countDown);
+
+        this.upgradeTable.cannonDamageLevel ++;  
+        this.upgradeTable.upgradeIdIsSearching[11] = false;
+
+        this.scene.cameraController.userInterface.istance.blockButton(upgradeDeckID, false);
+      }, time);
+
+        var cd = time /1000;
+
+        this.upgrade1countDown = setInterval(() => {
+          cd --;
+          console.log('up 1 count down', cd);
+        }, 1000);
+        break;
+      case 2:
+
+      this.upgrade2TimeOut = setTimeout(() => {
+        clearInterval(this.upgrade2countDown);
+
+        this.upgradeTable.cannonDamageLevel ++;  
+        this.upgradeTable.upgradeIdIsSearching[11] = false;
+
+        this.scene.cameraController.userInterface.istance.blockButton(upgradeDeckID, false);
+      }, time);
+
+        var cd = time /1000;
+
+        this.upgrade2countDown = setInterval(() => {
+          cd --;
+          console.log('up 2 count down', cd);
+        }, 1000);
+        break;
+      case 3:
+
+      this.upgrade3TimeOut = setTimeout(() => {
+        clearInterval(this.upgrade3countDown);
+
+        this.upgradeTable.cannonDamageLevel ++;  
+        this.upgradeTable.upgradeIdIsSearching[11] = false;
+
+        this.scene.cameraController.userInterface.istance.blockButton(upgradeDeckID, false);
+      }, time);
+
+        var cd = time /1000;
+
+        this.upgrade3countDown = setInterval(() => {
+          cd --;
+          console.log('up 3 count down', cd);
+        }, 1000);
+        break;
+      case 4:
+
+      this.upgrade4TimeOut = setTimeout(() => {
+        clearInterval(this.upgrade4countDown);
+
+        this.upgradeTable.cannonDamageLevel ++;  
+        this.upgradeTable.upgradeIdIsSearching[11] = false;
+
+        this.scene.cameraController.userInterface.istance.blockButton(upgradeDeckID, false);
+      }, time);
+
+        var cd = time /1000;
+
+        this.upgrade4countDown = setInterval(() => {
+          cd --;
+          console.log('up 4 count down', cd);
+        }, 1000);
+        break;
+
+    }      
+
+  }
+  cannonRof(upgradeDeckID){
+
+    this.upgradeTable.upgradeIdIsSearching[12] = true;
+    
+    const time = (this.upgradeTable.cannonRof[this.upgradeTable.cannonRofLevel].time * 1000) *
+    (this.upgradeTable.researchSpeed[this.upgradeTable.researchSpeedLevel].reductionFactor);
+    
+    this.scene.cameraController.userInterface.istance.blockButton(upgradeDeckID, true);
+    console.log(time,upgradeDeckID);
+    
+    switch (upgradeDeckID) {
+      case 1:
+      console.log(upgradeDeckID);
+      this.upgrade1TimeOut = setTimeout(() => {
+        clearInterval(this.upgrade1countDown);
+
+        this.upgradeTable.cannonRofLevel ++;  
+        this.upgradeTable.upgradeIdIsSearching[12] = false;
+
+        this.scene.cameraController.userInterface.istance.blockButton(upgradeDeckID, false);
+      }, time);
+
+        var cd = time /1000;
+
+        this.upgrade1countDown = setInterval(() => {
+          cd --;
+          console.log('up 1 count down', cd);
+        }, 1000);
+        break;
+      case 2:
+
+      this.upgrade2TimeOut = setTimeout(() => {
+        clearInterval(this.upgrade2countDown);
+
+        this.upgradeTable.cannonRofLevel ++;  
+        this.upgradeTable.upgradeIdIsSearching[12] = false;
+
+        this.scene.cameraController.userInterface.istance.blockButton(upgradeDeckID, false);
+      }, time);
+
+        var cd = time /1000;
+
+        this.upgrade2countDown = setInterval(() => {
+          cd --;
+          console.log('up 2 count down', cd);
+        }, 1000);
+        break;
+      case 3:
+
+      this.upgrade3TimeOut = setTimeout(() => {
+        clearInterval(this.upgrade3countDown);
+
+        this.upgradeTable.cannonRofLevel ++;  
+        this.upgradeTable.upgradeIdIsSearching[12] = false;
+
+        this.scene.cameraController.userInterface.istance.blockButton(upgradeDeckID, false);
+      }, time);
+
+        var cd = time /1000;
+
+        this.upgrade3countDown = setInterval(() => {
+          cd --;
+          console.log('up 3 count down', cd);
+        }, 1000);
+        break;
+      case 4:
+
+      this.upgrade4TimeOut = setTimeout(() => {
+        clearInterval(this.upgrade4countDown);
+
+        this.upgradeTable.cannonRofLevel ++;  
+        this.upgradeTable.upgradeIdIsSearching[12] = false;
+
+        this.scene.cameraController.userInterface.istance.blockButton(upgradeDeckID, false);
+      }, time);
+
+        var cd = time /1000;
+
+        this.upgrade4countDown = setInterval(() => {
+          cd --;
+          console.log('up 4 count down', cd);
+        }, 1000);
+        break;
+
+    }      
+
+  }
+  cannonHp(upgradeDeckID){
+
+    this.upgradeTable.upgradeIdIsSearching[13] = true;
+    
+    const time = (this.upgradeTable.cannonHp[this.upgradeTable.cannonHpLevel].time * 1000) *
+    (this.upgradeTable.researchSpeed[this.upgradeTable.researchSpeedLevel].reductionFactor);
+    
+    this.scene.cameraController.userInterface.istance.blockButton(upgradeDeckID, true);
+    console.log(time,upgradeDeckID);
+    
+    switch (upgradeDeckID) {
+      case 1:
+      console.log(upgradeDeckID);
+      this.upgrade1TimeOut = setTimeout(() => {
+        clearInterval(this.upgrade1countDown);
+
+        this.upgradeTable.cannonHpLevel ++;  
+        this.upgradeTable.upgradeIdIsSearching[13] = false;
+
+        this.scene.cameraController.userInterface.istance.blockButton(upgradeDeckID, false);
+      }, time);
+
+        var cd = time /1000;
+
+        this.upgrade1countDown = setInterval(() => {
+          cd --;
+          console.log('up 1 count down', cd);
+        }, 1000);
+        break;
+      case 2:
+
+      this.upgrade2TimeOut = setTimeout(() => {
+        clearInterval(this.upgrade2countDown);
+
+        this.upgradeTable.cannonHpLevel ++;  
+        this.upgradeTable.upgradeIdIsSearching[13] = false;
+
+        this.scene.cameraController.userInterface.istance.blockButton(upgradeDeckID, false);
+      }, time);
+
+        var cd = time /1000;
+
+        this.upgrade2countDown = setInterval(() => {
+          cd --;
+          console.log('up 2 count down', cd);
+        }, 1000);
+        break;
+      case 3:
+
+      this.upgrade3TimeOut = setTimeout(() => {
+        clearInterval(this.upgrade3countDown);
+
+        this.upgradeTable.cannonHpLevel ++;  
+        this.upgradeTable.upgradeIdIsSearching[13] = false;
+
+        this.scene.cameraController.userInterface.istance.blockButton(upgradeDeckID, false);
+      }, time);
+
+        var cd = time /1000;
+
+        this.upgrade3countDown = setInterval(() => {
+          cd --;
+          console.log('up 3 count down', cd);
+        }, 1000);
+        break;
+      case 4:
+
+      this.upgrade4TimeOut = setTimeout(() => {
+        clearInterval(this.upgrade4countDown);
+
+        this.upgradeTable.cannonHpLevel ++;  
+        this.upgradeTable.upgradeIdIsSearching[13] = false;
+
+        this.scene.cameraController.userInterface.istance.blockButton(upgradeDeckID, false);
+      }, time);
+
+        var cd = time /1000;
+
+        this.upgrade4countDown = setInterval(() => {
+          cd --;
+          console.log('up 4 count down', cd);
+        }, 1000);
+        break;
+
+    }      
+
+  }
+  RocketDamage(upgradeDeckID){
+
+    this.upgradeTable.upgradeIdIsSearching[14] = true;
+    
+    const time = (this.upgradeTable.RocketDamage[this.upgradeTable.RocketDamageLevel].time * 1000) *
+    (this.upgradeTable.researchSpeed[this.upgradeTable.researchSpeedLevel].reductionFactor);
+    
+    this.scene.cameraController.userInterface.istance.blockButton(upgradeDeckID, true);
+    console.log(time,upgradeDeckID);
+    
+    switch (upgradeDeckID) {
+      case 1:
+      console.log(upgradeDeckID);
+      this.upgrade1TimeOut = setTimeout(() => {
+        clearInterval(this.upgrade1countDown);
+
+        this.upgradeTable.RocketDamageLevel ++;  
+        this.upgradeTable.upgradeIdIsSearching[14] = false;
+
+        this.scene.cameraController.userInterface.istance.blockButton(upgradeDeckID, false);
+      }, time);
+
+        var cd = time /1000;
+
+        this.upgrade1countDown = setInterval(() => {
+          cd --;
+          console.log('up 1 count down', cd);
+        }, 1000);
+        break;
+      case 2:
+
+      this.upgrade2TimeOut = setTimeout(() => {
+        clearInterval(this.upgrade2countDown);
+
+        this.upgradeTable.RocketDamageLevel ++;  
+        this.upgradeTable.upgradeIdIsSearching[14] = false;
+
+        this.scene.cameraController.userInterface.istance.blockButton(upgradeDeckID, false);
+      }, time);
+
+        var cd = time /1000;
+
+        this.upgrade2countDown = setInterval(() => {
+          cd --;
+          console.log('up 2 count down', cd);
+        }, 1000);
+        break;
+      case 3:
+
+      this.upgrade3TimeOut = setTimeout(() => {
+        clearInterval(this.upgrade3countDown);
+
+        this.upgradeTable.RocketDamageLevel ++;  
+        this.upgradeTable.upgradeIdIsSearching[14] = false;
+
+        this.scene.cameraController.userInterface.istance.blockButton(upgradeDeckID, false);
+      }, time);
+
+        var cd = time /1000;
+
+        this.upgrade3countDown = setInterval(() => {
+          cd --;
+          console.log('up 3 count down', cd);
+        }, 1000);
+        break;
+      case 4:
+
+      this.upgrade4TimeOut = setTimeout(() => {
+        clearInterval(this.upgrade4countDown);
+
+        this.upgradeTable.RocketDamageLevel ++;  
+        this.upgradeTable.upgradeIdIsSearching[14] = false;
+
+        this.scene.cameraController.userInterface.istance.blockButton(upgradeDeckID, false);
+      }, time);
+
+        var cd = time /1000;
+
+        this.upgrade4countDown = setInterval(() => {
+          cd --;
+          console.log('up 4 count down', cd);
+        }, 1000);
+        break;
+
+    }      
+
+  }
+  RocketRof(upgradeDeckID){
+
+    this.upgradeTable.upgradeIdIsSearching[15] = true;
+    
+    const time = (this.upgradeTable.RocketRof[this.upgradeTable.RocketRofLevel].time * 1000) *
+    (this.upgradeTable.researchSpeed[this.upgradeTable.researchSpeedLevel].reductionFactor);
+    
+    this.scene.cameraController.userInterface.istance.blockButton(upgradeDeckID, true);
+    console.log(time,upgradeDeckID);
+    
+    switch (upgradeDeckID) {
+      case 1:
+      console.log(upgradeDeckID);
+      this.upgrade1TimeOut = setTimeout(() => {
+        clearInterval(this.upgrade1countDown);
+
+        this.upgradeTable.RocketRofLevel ++;  
+        this.upgradeTable.upgradeIdIsSearching[15] = false;
+
+        this.scene.cameraController.userInterface.istance.blockButton(upgradeDeckID, false);
+      }, time);
+
+        var cd = time /1000;
+
+        this.upgrade1countDown = setInterval(() => {
+          cd --;
+          console.log('up 1 count down', cd);
+        }, 1000);
+        break;
+      case 2:
+
+      this.upgrade2TimeOut = setTimeout(() => {
+        clearInterval(this.upgrade2countDown);
+
+        this.upgradeTable.RocketRofLevel ++;  
+        this.upgradeTable.upgradeIdIsSearching[15] = false;
+
+        this.scene.cameraController.userInterface.istance.blockButton(upgradeDeckID, false);
+      }, time);
+
+        var cd = time /1000;
+
+        this.upgrade2countDown = setInterval(() => {
+          cd --;
+          console.log('up 2 count down', cd);
+        }, 1000);
+        break;
+      case 3:
+
+      this.upgrade3TimeOut = setTimeout(() => {
+        clearInterval(this.upgrade3countDown);
+
+        this.upgradeTable.RocketRofLevel ++;  
+        this.upgradeTable.upgradeIdIsSearching[15] = false;
+
+        this.scene.cameraController.userInterface.istance.blockButton(upgradeDeckID, false);
+      }, time);
+
+        var cd = time /1000;
+
+        this.upgrade3countDown = setInterval(() => {
+          cd --;
+          console.log('up 3 count down', cd);
+        }, 1000);
+        break;
+      case 4:
+
+      this.upgrade4TimeOut = setTimeout(() => {
+        clearInterval(this.upgrade4countDown);
+
+        this.upgradeTable.RocketRofLevel ++;  
+        this.upgradeTable.upgradeIdIsSearching[15] = false;
+
+        this.scene.cameraController.userInterface.istance.blockButton(upgradeDeckID, false);
+      }, time);
+
+        var cd = time /1000;
+
+        this.upgrade4countDown = setInterval(() => {
+          cd --;
+          console.log('up 4 count down', cd);
+        }, 1000);
+        break;
+
+    }      
+
+  }
+  RocketHp(upgradeDeckID){
+
+    this.upgradeTable.upgradeIdIsSearching[16] = true;
+    
+    const time = (this.upgradeTable.RocketHp[this.upgradeTable.RocketHpLevel].time * 1000) *
+    (this.upgradeTable.researchSpeed[this.upgradeTable.researchSpeedLevel].reductionFactor);
+    
+    this.scene.cameraController.userInterface.istance.blockButton(upgradeDeckID, true);
+    console.log(time,upgradeDeckID);
+    
+    switch (upgradeDeckID) {
+      case 1:
+      console.log(upgradeDeckID);
+      this.upgrade1TimeOut = setTimeout(() => {
+        clearInterval(this.upgrade1countDown);
+
+        this.upgradeTable.RocketHpLevel ++;  
+        this.upgradeTable.upgradeIdIsSearching[16] = false;
+
+        this.scene.cameraController.userInterface.istance.blockButton(upgradeDeckID, false);
+      }, time);
+
+        var cd = time /1000;
+
+        this.upgrade1countDown = setInterval(() => {
+          cd --;
+          console.log('up 1 count down', cd);
+        }, 1000);
+        break;
+      case 2:
+
+      this.upgrade2TimeOut = setTimeout(() => {
+        clearInterval(this.upgrade2countDown);
+
+        this.upgradeTable.RocketHpLevel ++;  
+        this.upgradeTable.upgradeIdIsSearching[16] = false;
+
+        this.scene.cameraController.userInterface.istance.blockButton(upgradeDeckID, false);
+      }, time);
+
+        var cd = time /1000;
+
+        this.upgrade2countDown = setInterval(() => {
+          cd --;
+          console.log('up 2 count down', cd);
+        }, 1000);
+        break;
+      case 3:
+
+      this.upgrade3TimeOut = setTimeout(() => {
+        clearInterval(this.upgrade3countDown);
+
+        this.upgradeTable.RocketHpLevel ++;  
+        this.upgradeTable.upgradeIdIsSearching[16] = false;
+
+        this.scene.cameraController.userInterface.istance.blockButton(upgradeDeckID, false);
+      }, time);
+
+        var cd = time /1000;
+
+        this.upgrade3countDown = setInterval(() => {
+          cd --;
+          console.log('up 3 count down', cd);
+        }, 1000);
+        break;
+      case 4:
+
+      this.upgrade4TimeOut = setTimeout(() => {
+        clearInterval(this.upgrade4countDown);
+
+        this.upgradeTable.RocketHpLevel ++;  
+        this.upgradeTable.upgradeIdIsSearching[16] = false;
+
+        this.scene.cameraController.userInterface.istance.blockButton(upgradeDeckID, false);
+      }, time);
+
+        var cd = time /1000;
+
+        this.upgrade4countDown = setInterval(() => {
+          cd --;
+          console.log('up 4 count down', cd);
+        }, 1000);
+        break;
+
+    }      
 
   }
 };
