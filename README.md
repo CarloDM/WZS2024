@@ -105,6 +105,7 @@ sono arrivato al terzo test progressivo!
 ----
 29/12/2023 giorno 21
 <li>ricerca upgrade estendere a tutti gli upgrade possibili</li>
+<li>texture bottoni upgrade & inserire Text del count down </li>
     DA FARE
 <li>calcolo e sottrazione costi energia tank & upgrade</li>
 <li>condizione di mancanza di energia</li>

@@ -98,6 +98,25 @@ class setMapTest extends Phaser.Scene{
     this.load.spritesheet('btnUpgrade', '/icon/btnUpgrade.png',
     {frameWidth:64,frameHeight:64});
 
+    this.load.image('upResSpeed',      '/icon/up-resSpeed.png'); 
+    this.load.image('upEnergy',        '/icon/up-enEfficiency.png'); 
+    this.load.image('upEngineering',   '/icon/up-engineerEfficiency.png'); 
+    this.load.image('upBuildings',     '/icon/up-buildingsArmor.png'); 
+    this.load.image('upBoost',         '/icon/up-boostSpeed.png'); 
+    this.load.image('upProduction',    '/icon/up-ProductionSpeed.png'); 
+    this.load.image('upSpeedTraction', '/icon/up-SpeedTraction.png'); 
+    this.load.image('upRangeOfView',   '/icon/up-RangeOfView.png'); 
+    this.load.image('upMgDmg',         '/icon/up-mgDamage.png'); 
+    this.load.image('upMgRof',         '/icon/up-mgRof.png'); 
+    this.load.image('upMgHp',          '/icon/up-mgHp.png'); 
+    this.load.image('upCannonDmg',     '/icon/up-cannonDamage.png'); 
+    this.load.image('upCannonRof',     '/icon/up-cannonRof.png'); 
+    this.load.image('upCannonHp',      '/icon/up-cannonHp.png'); 
+    this.load.image('upBRocketDmg',    '/icon/up-RocketDamage.png'); 
+    this.load.image('upRocketRof',     '/icon/up-RocketRof.png'); 
+    this.load.image('upRocketHp',      '/icon/up-RocketHp.png'); 
+
+
 
     
   };// preload end ------------------------------------------------------------------/

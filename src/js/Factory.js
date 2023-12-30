@@ -1,3 +1,4 @@
+import Phaser from "phaser";
 import Tank from './tank';
 import Enemy from "./enemy";
 import Gaiser from "./gaiser";
@@ -692,6 +693,24 @@ export default class TankFactory {
         clearInterval(this.deck4Timeout);
       }
   }
+  upgradeCountDown(cd, deck){
+    switch (deck) {
+      case 1:
+        this.statusCounts.upgrade1Cd = cd;
+        break;
+      case 2:
+        this.statusCounts.upgrade2Cd = cd;
+        break;
+      case 3:
+        this.statusCounts.upgrade3Cd = cd;
+        break;
+      case 4:
+        this.statusCounts.upgrade4Cd = cd;
+        break;
+;
+    }
+
+  }
   // decks production----------
   //  research upgrade
   researchSpeed(upgradeDeckID){
@@ -705,25 +724,27 @@ export default class TankFactory {
 
     switch (upgradeDeckID) {
       case 1:
-
+      this.scene.cameraController.userInterface.buttonD.setTexture('upResSpeed');
       this.upgrade1TimeOut = setTimeout(() => {
         clearInterval(this.upgrade1countDown);
 
         this.upgradeTable.researchSpeedLevel ++;  
         this.upgradeTable.upgradeIdIsSearching[0] = false;
-        console.log(this.upgradeTable.researchSpeedLevel);
         this.scene.cameraController.userInterface.istance.blockButton(upgradeDeckID, false);
+        this.scene.cameraController.userInterface.buttonD.setTexture('btnUpgrade');
+        this.statusCounts.upgrade1Cd = ' '
       }, time);
 
         var cd = time /1000;
 
         this.upgrade1countDown = setInterval(() => {
           cd --;
+          this.upgradeCountDown(cd,upgradeDeckID);
           console.log('up 1 count down', cd);
         }, 1000);
         break;
       case 2:
-
+      this.scene.cameraController.userInterface.buttonE.setTexture('upResSpeed');
       this.upgrade2TimeOut = setTimeout(() => {
         clearInterval(this.upgrade2countDown);
 
@@ -731,17 +752,20 @@ export default class TankFactory {
         this.upgradeTable.upgradeIdIsSearching[0] = false;
         console.log(this.upgradeTable.researchSpeedLevel);
         this.scene.cameraController.userInterface.istance.blockButton(upgradeDeckID, false);
+        this.scene.cameraController.userInterface.buttonE.setTexture('btnUpgrade');
+        this.statusCounts.upgrade2Cd = ' '
       }, time);
 
         var cd = time /1000;
 
         this.upgrade2countDown = setInterval(() => {
           cd --;
+          this.upgradeCountDown(cd,upgradeDeckID);
           console.log('up 2 count down', cd);
         }, 1000);
         break;
       case 3:
-
+      this.scene.cameraController.userInterface.buttonF.setTexture('upResSpeed');
       this.upgrade3TimeOut = setTimeout(() => {
         clearInterval(this.upgrade3countDown);
 
@@ -749,17 +773,20 @@ export default class TankFactory {
         this.upgradeTable.upgradeIdIsSearching[0] = false;
         console.log(this.upgradeTable.researchSpeedLevel);
         this.scene.cameraController.userInterface.istance.blockButton(upgradeDeckID, false);
+        this.scene.cameraController.userInterface.buttonF.setTexture('btnUpgrade');
+        this.statusCounts.upgrade3Cd = ' '
       }, time);
 
         var cd = time /1000;
 
         this.upgrade3countDown = setInterval(() => {
           cd --;
+          this.upgradeCountDown(cd,upgradeDeckID);
           console.log('up 3 count down', cd);
         }, 1000);
         break;
       case 4:
-
+      this.scene.cameraController.userInterface.buttonG.setTexture('upResSpeed');
       this.upgrade4TimeOut = setTimeout(() => {
         clearInterval(this.upgrade4countDown);
 
@@ -767,12 +794,15 @@ export default class TankFactory {
         this.upgradeTable.upgradeIdIsSearching[0] = false;
         console.log(this.upgradeTable.researchSpeedLevel);
         this.scene.cameraController.userInterface.istance.blockButton(upgradeDeckID, false);
+        this.scene.cameraController.userInterface.buttonG.setTexture('btnUpgrade');
+        this.statusCounts.upgrade4Cd = ' '
       }, time);
 
         var cd = time /1000;
 
         this.upgrade4countDown = setInterval(() => {
           cd --;
+          this.upgradeCountDown(cd,upgradeDeckID);
           console.log('up 4 count down', cd);
         }, 1000);
         break;
@@ -792,7 +822,7 @@ export default class TankFactory {
     
     switch (upgradeDeckID) {
       case 1:
-      console.log(upgradeDeckID);
+              this.scene.cameraController.userInterface.buttonD.setTexture('upEnergy');
       this.upgrade1TimeOut = setTimeout(() => {
         clearInterval(this.upgrade1countDown);
 
@@ -800,16 +830,20 @@ export default class TankFactory {
         this.upgradeTable.upgradeIdIsSearching[1] = false;
 
         this.scene.cameraController.userInterface.istance.blockButton(upgradeDeckID, false);
+        this.scene.cameraController.userInterface.buttonD.setTexture('btnUpgrade');
+        this.statusCounts.upgrade1Cd = ' '
       }, time);
 
         var cd = time /1000;
 
         this.upgrade1countDown = setInterval(() => {
           cd --;
+          this.upgradeCountDown(cd,upgradeDeckID);
           console.log('up 1 count down', cd);
         }, 1000);
         break;
       case 2:
+              this.scene.cameraController.userInterface.buttonE.setTexture('upEnergy');
 
       this.upgrade2TimeOut = setTimeout(() => {
         clearInterval(this.upgrade2countDown);
@@ -818,16 +852,20 @@ export default class TankFactory {
         this.upgradeTable.upgradeIdIsSearching[1] = false;
 
         this.scene.cameraController.userInterface.istance.blockButton(upgradeDeckID, false);
+        this.scene.cameraController.userInterface.buttonE.setTexture('btnUpgrade');
+        this.statusCounts.upgrade2Cd = ' '
       }, time);
 
         var cd = time /1000;
 
         this.upgrade2countDown = setInterval(() => {
           cd --;
+          this.upgradeCountDown(cd,upgradeDeckID);
           console.log('up 2 count down', cd);
         }, 1000);
         break;
       case 3:
+              this.scene.cameraController.userInterface.buttonE.setTexture('upEnergy');
 
       this.upgrade3TimeOut = setTimeout(() => {
         clearInterval(this.upgrade3countDown);
@@ -836,16 +874,21 @@ export default class TankFactory {
         this.upgradeTable.upgradeIdIsSearching[1] = false;
 
         this.scene.cameraController.userInterface.istance.blockButton(upgradeDeckID, false);
+        this.scene.cameraController.userInterface.buttonF.setTexture('btnUpgrade');
+        this.statusCounts.upgrade3Cd = ' '
       }, time);
 
         var cd = time /1000;
 
         this.upgrade3countDown = setInterval(() => {
           cd --;
+          this.upgradeCountDown(cd,upgradeDeckID);
+          this.statusCounts.upgrade3Cd = cd;
           console.log('up 3 count down', cd);
         }, 1000);
         break;
       case 4:
+              this.scene.cameraController.userInterface.buttonE.setTexture('upEnergy');
 
       this.upgrade4TimeOut = setTimeout(() => {
         clearInterval(this.upgrade4countDown);
@@ -854,12 +897,16 @@ export default class TankFactory {
         this.upgradeTable.upgradeIdIsSearching[1] = false;
 
         this.scene.cameraController.userInterface.istance.blockButton(upgradeDeckID, false);
+        this.scene.cameraController.userInterface.buttonG.setTexture('btnUpgrade');
+        this.statusCounts.upgrade4Cd = ' '
       }, time);
 
         var cd = time /1000;
 
         this.upgrade4countDown = setInterval(() => {
           cd --;
+          this.upgradeCountDown(cd,upgradeDeckID);
+          this.statusCounts.upgrade4Cd = cd;
           console.log('up 4 count down', cd);
         }, 1000);
         break;
@@ -879,6 +926,7 @@ export default class TankFactory {
     
     switch (upgradeDeckID) {
       case 1:
+              this.scene.cameraController.userInterface.buttonD.setTexture('upEngineering');
       console.log(upgradeDeckID);
       this.upgrade1TimeOut = setTimeout(() => {
         clearInterval(this.upgrade1countDown);
@@ -887,16 +935,20 @@ export default class TankFactory {
         this.upgradeTable.upgradeIdIsSearching[2] = false;
 
         this.scene.cameraController.userInterface.istance.blockButton(upgradeDeckID, false);
+        this.scene.cameraController.userInterface.buttonD.setTexture('btnUpgrade');
+        this.statusCounts.upgrade1Cd = ' '
       }, time);
 
         var cd = time /1000;
 
         this.upgrade1countDown = setInterval(() => {
           cd --;
+          this.upgradeCountDown(cd,upgradeDeckID);
           console.log('up 1 count down', cd);
         }, 1000);
         break;
       case 2:
+              this.scene.cameraController.userInterface.buttonE.setTexture('upEngineering');
 
       this.upgrade2TimeOut = setTimeout(() => {
         clearInterval(this.upgrade2countDown);
@@ -905,16 +957,20 @@ export default class TankFactory {
         this.upgradeTable.upgradeIdIsSearching[2] = false;
 
         this.scene.cameraController.userInterface.istance.blockButton(upgradeDeckID, false);
+        this.scene.cameraController.userInterface.buttonE.setTexture('btnUpgrade');
+        this.statusCounts.upgrade2Cd = ' '
       }, time);
 
         var cd = time /1000;
 
         this.upgrade2countDown = setInterval(() => {
           cd --;
+          this.upgradeCountDown(cd,upgradeDeckID);
           console.log('up 2 count down', cd);
         }, 1000);
         break;
       case 3:
+              this.scene.cameraController.userInterface.buttonF.setTexture('upEngineering');
 
       this.upgrade3TimeOut = setTimeout(() => {
         clearInterval(this.upgrade3countDown);
@@ -923,16 +979,20 @@ export default class TankFactory {
         this.upgradeTable.upgradeIdIsSearching[2] = false;
 
         this.scene.cameraController.userInterface.istance.blockButton(upgradeDeckID, false);
+        this.scene.cameraController.userInterface.buttonF.setTexture('btnUpgrade');
+        this.statusCounts.upgrade3Cd = ' '
       }, time);
 
         var cd = time /1000;
 
         this.upgrade3countDown = setInterval(() => {
           cd --;
+          this.upgradeCountDown(cd,upgradeDeckID);
           console.log('up 3 count down', cd);
         }, 1000);
         break;
       case 4:
+              this.scene.cameraController.userInterface.buttonG.setTexture('upEngineering');
 
       this.upgrade4TimeOut = setTimeout(() => {
         clearInterval(this.upgrade4countDown);
@@ -941,12 +1001,15 @@ export default class TankFactory {
         this.upgradeTable.upgradeIdIsSearching[2] = false;
 
         this.scene.cameraController.userInterface.istance.blockButton(upgradeDeckID, false);
+        this.scene.cameraController.userInterface.buttonG.setTexture('btnUpgrade');
+        this.statusCounts.upgrade4Cd = ' '
       }, time);
 
         var cd = time /1000;
 
         this.upgrade4countDown = setInterval(() => {
           cd --;
+          this.upgradeCountDown(cd,upgradeDeckID);
           console.log('up 4 count down', cd);
         }, 1000);
         break;
@@ -966,6 +1029,7 @@ export default class TankFactory {
     
     switch (upgradeDeckID) {
       case 1:
+              this.scene.cameraController.userInterface.buttonD.setTexture('upBuildings');
       console.log(upgradeDeckID);
       this.upgrade1TimeOut = setTimeout(() => {
         clearInterval(this.upgrade1countDown);
@@ -974,16 +1038,20 @@ export default class TankFactory {
         this.upgradeTable.upgradeIdIsSearching[3] = false;
 
         this.scene.cameraController.userInterface.istance.blockButton(upgradeDeckID, false);
+        this.scene.cameraController.userInterface.buttonD.setTexture('btnUpgrade');
+        this.statusCounts.upgrade1Cd = ' '
       }, time);
 
         var cd = time /1000;
 
         this.upgrade1countDown = setInterval(() => {
           cd --;
+          this.upgradeCountDown(cd,upgradeDeckID);
           console.log('up 1 count down', cd);
         }, 1000);
         break;
       case 2:
+              this.scene.cameraController.userInterface.buttonE.setTexture('upBuildings');
 
       this.upgrade2TimeOut = setTimeout(() => {
         clearInterval(this.upgrade2countDown);
@@ -992,16 +1060,20 @@ export default class TankFactory {
         this.upgradeTable.upgradeIdIsSearching[3] = false;
 
         this.scene.cameraController.userInterface.istance.blockButton(upgradeDeckID, false);
+        this.scene.cameraController.userInterface.buttonE.setTexture('btnUpgrade');
+        this.statusCounts.upgrade2Cd = ' '
       }, time);
 
         var cd = time /1000;
 
         this.upgrade2countDown = setInterval(() => {
           cd --;
+          this.upgradeCountDown(cd,upgradeDeckID);
           console.log('up 2 count down', cd);
         }, 1000);
         break;
       case 3:
+              this.scene.cameraController.userInterface.buttonF.setTexture('upBuildings');
 
       this.upgrade3TimeOut = setTimeout(() => {
         clearInterval(this.upgrade3countDown);
@@ -1010,16 +1082,20 @@ export default class TankFactory {
         this.upgradeTable.upgradeIdIsSearching[3] = false;
 
         this.scene.cameraController.userInterface.istance.blockButton(upgradeDeckID, false);
+        this.scene.cameraController.userInterface.buttonF.setTexture('btnUpgrade');
+        this.statusCounts.upgrade3Cd = ' '
       }, time);
 
         var cd = time /1000;
 
         this.upgrade3countDown = setInterval(() => {
           cd --;
+          this.upgradeCountDown(cd,upgradeDeckID);
           console.log('up 3 count down', cd);
         }, 1000);
         break;
       case 4:
+              this.scene.cameraController.userInterface.buttonG.setTexture('upBuildings');
 
       this.upgrade4TimeOut = setTimeout(() => {
         clearInterval(this.upgrade4countDown);
@@ -1028,12 +1104,15 @@ export default class TankFactory {
         this.upgradeTable.upgradeIdIsSearching[3] = false;
 
         this.scene.cameraController.userInterface.istance.blockButton(upgradeDeckID, false);
+        this.scene.cameraController.userInterface.buttonG.setTexture('btnUpgrade');
+        this.statusCounts.upgrade4Cd = ' '
       }, time);
 
         var cd = time /1000;
 
         this.upgrade4countDown = setInterval(() => {
           cd --;
+          this.upgradeCountDown(cd,upgradeDeckID);
           console.log('up 4 count down', cd);
         }, 1000);
         break;
@@ -1053,6 +1132,7 @@ export default class TankFactory {
     
     switch (upgradeDeckID) {
       case 1:
+              this.scene.cameraController.userInterface.buttonD.setTexture('upBoost');
       console.log(upgradeDeckID);
       this.upgrade1TimeOut = setTimeout(() => {
         clearInterval(this.upgrade1countDown);
@@ -1061,16 +1141,20 @@ export default class TankFactory {
         this.upgradeTable.upgradeIdIsSearching[4] = false;
 
         this.scene.cameraController.userInterface.istance.blockButton(upgradeDeckID, false);
+        this.scene.cameraController.userInterface.buttonD.setTexture('btnUpgrade');
+        this.statusCounts.upgrade1Cd = ' '
       }, time);
 
         var cd = time /1000;
 
         this.upgrade1countDown = setInterval(() => {
           cd --;
+          this.upgradeCountDown(cd,upgradeDeckID);
           console.log('up 1 count down', cd);
         }, 1000);
         break;
       case 2:
+              this.scene.cameraController.userInterface.buttonE.setTexture('upBoost');
 
       this.upgrade2TimeOut = setTimeout(() => {
         clearInterval(this.upgrade2countDown);
@@ -1079,16 +1163,20 @@ export default class TankFactory {
         this.upgradeTable.upgradeIdIsSearching[4] = false;
 
         this.scene.cameraController.userInterface.istance.blockButton(upgradeDeckID, false);
+        this.scene.cameraController.userInterface.buttonE.setTexture('btnUpgrade');
+        this.statusCounts.upgrade2Cd = ' '
       }, time);
 
         var cd = time /1000;
 
         this.upgrade2countDown = setInterval(() => {
           cd --;
+          this.upgradeCountDown(cd,upgradeDeckID);
           console.log('up 2 count down', cd);
         }, 1000);
         break;
       case 3:
+              this.scene.cameraController.userInterface.buttonF.setTexture('upBoost');
 
       this.upgrade3TimeOut = setTimeout(() => {
         clearInterval(this.upgrade3countDown);
@@ -1097,16 +1185,20 @@ export default class TankFactory {
         this.upgradeTable.upgradeIdIsSearching[4] = false;
 
         this.scene.cameraController.userInterface.istance.blockButton(upgradeDeckID, false);
+        this.scene.cameraController.userInterface.buttonf.setTexture('btnUpgrade');
+        this.statusCounts.upgrade3Cd = ' '
       }, time);
 
         var cd = time /1000;
 
         this.upgrade3countDown = setInterval(() => {
           cd --;
+          this.upgradeCountDown(cd,upgradeDeckID);
           console.log('up 3 count down', cd);
         }, 1000);
         break;
       case 4:
+              this.scene.cameraController.userInterface.buttonG.setTexture('upBoost');
 
       this.upgrade4TimeOut = setTimeout(() => {
         clearInterval(this.upgrade4countDown);
@@ -1115,12 +1207,15 @@ export default class TankFactory {
         this.upgradeTable.upgradeIdIsSearching[4] = false;
 
         this.scene.cameraController.userInterface.istance.blockButton(upgradeDeckID, false);
+        this.scene.cameraController.userInterface.buttonG.setTexture('btnUpgrade');
+        this.statusCounts.upgrade4Cd = ' '
       }, time);
 
         var cd = time /1000;
 
         this.upgrade4countDown = setInterval(() => {
           cd --;
+          this.upgradeCountDown(cd,upgradeDeckID);
           console.log('up 4 count down', cd);
         }, 1000);
         break;
@@ -1140,6 +1235,7 @@ export default class TankFactory {
     
     switch (upgradeDeckID) {
       case 1:
+              this.scene.cameraController.userInterface.buttonD.setTexture('upProduction');
       console.log(upgradeDeckID);
       this.upgrade1TimeOut = setTimeout(() => {
         clearInterval(this.upgrade1countDown);
@@ -1148,16 +1244,20 @@ export default class TankFactory {
         this.upgradeTable.upgradeIdIsSearching[5] = false;
 
         this.scene.cameraController.userInterface.istance.blockButton(upgradeDeckID, false);
+        this.scene.cameraController.userInterface.buttonD.setTexture('btnUpgrade');
+        this.statusCounts.upgrade1Cd = ' '
       }, time);
 
         var cd = time /1000;
 
         this.upgrade1countDown = setInterval(() => {
           cd --;
+          this.upgradeCountDown(cd,upgradeDeckID);
           console.log('up 1 count down', cd);
         }, 1000);
         break;
       case 2:
+              this.scene.cameraController.userInterface.buttonE.setTexture('upProduction');
 
       this.upgrade2TimeOut = setTimeout(() => {
         clearInterval(this.upgrade2countDown);
@@ -1166,16 +1266,20 @@ export default class TankFactory {
         this.upgradeTable.upgradeIdIsSearching[5] = false;
 
         this.scene.cameraController.userInterface.istance.blockButton(upgradeDeckID, false);
+        this.scene.cameraController.userInterface.buttonE.setTexture('btnUpgrade');
+        this.statusCounts.upgrade2Cd = ' '
       }, time);
 
         var cd = time /1000;
 
         this.upgrade2countDown = setInterval(() => {
           cd --;
+          this.upgradeCountDown(cd,upgradeDeckID);
           console.log('up 2 count down', cd);
         }, 1000);
         break;
       case 3:
+              this.scene.cameraController.userInterface.buttonF.setTexture('upProduction');
 
       this.upgrade3TimeOut = setTimeout(() => {
         clearInterval(this.upgrade3countDown);
@@ -1184,16 +1288,20 @@ export default class TankFactory {
         this.upgradeTable.upgradeIdIsSearching[5] = false;
 
         this.scene.cameraController.userInterface.istance.blockButton(upgradeDeckID, false);
+        this.scene.cameraController.userInterface.buttonF.setTexture('btnUpgrade');
+        this.statusCounts.upgrade3Cd = ' '
       }, time);
 
         var cd = time /1000;
 
         this.upgrade3countDown = setInterval(() => {
           cd --;
+          this.upgradeCountDown(cd,upgradeDeckID);
           console.log('up 3 count down', cd);
         }, 1000);
         break;
       case 4:
+              this.scene.cameraController.userInterface.buttonG.setTexture('upProduction');
 
       this.upgrade4TimeOut = setTimeout(() => {
         clearInterval(this.upgrade4countDown);
@@ -1202,12 +1310,15 @@ export default class TankFactory {
         this.upgradeTable.upgradeIdIsSearching[5] = false;
 
         this.scene.cameraController.userInterface.istance.blockButton(upgradeDeckID, false);
+        this.scene.cameraController.userInterface.buttonG.setTexture('btnUpgrade');
+        this.statusCounts.upgrade4Cd = ' '
       }, time);
 
         var cd = time /1000;
 
         this.upgrade4countDown = setInterval(() => {
           cd --;
+          this.upgradeCountDown(cd,upgradeDeckID);
           console.log('up 4 count down', cd);
         }, 1000);
         break;
@@ -1227,6 +1338,7 @@ export default class TankFactory {
     
     switch (upgradeDeckID) {
       case 1:
+              this.scene.cameraController.userInterface.buttonD.setTexture('upSpeedTraction');
       console.log(upgradeDeckID);
       this.upgrade1TimeOut = setTimeout(() => {
         clearInterval(this.upgrade1countDown);
@@ -1235,16 +1347,20 @@ export default class TankFactory {
         this.upgradeTable.upgradeIdIsSearching[6] = false;
 
         this.scene.cameraController.userInterface.istance.blockButton(upgradeDeckID, false);
+        this.scene.cameraController.userInterface.buttonD.setTexture('btnUpgrade');
+        this.statusCounts.upgrade1Cd = ' '
       }, time);
 
         var cd = time /1000;
 
         this.upgrade1countDown = setInterval(() => {
           cd --;
+          this.upgradeCountDown(cd,upgradeDeckID);
           console.log('up 1 count down', cd);
         }, 1000);
         break;
       case 2:
+              this.scene.cameraController.userInterface.buttonE.setTexture('upSpeedTraction');
 
       this.upgrade2TimeOut = setTimeout(() => {
         clearInterval(this.upgrade2countDown);
@@ -1253,16 +1369,20 @@ export default class TankFactory {
         this.upgradeTable.upgradeIdIsSearching[6] = false;
 
         this.scene.cameraController.userInterface.istance.blockButton(upgradeDeckID, false);
+        this.scene.cameraController.userInterface.buttonE.setTexture('btnUpgrade');
+        this.statusCounts.upgrade2Cd = ' '
       }, time);
 
         var cd = time /1000;
 
         this.upgrade2countDown = setInterval(() => {
           cd --;
+          this.upgradeCountDown(cd,upgradeDeckID);
           console.log('up 2 count down', cd);
         }, 1000);
         break;
       case 3:
+              this.scene.cameraController.userInterface.buttonF.setTexture('upSpeedTraction');
 
       this.upgrade3TimeOut = setTimeout(() => {
         clearInterval(this.upgrade3countDown);
@@ -1271,16 +1391,20 @@ export default class TankFactory {
         this.upgradeTable.upgradeIdIsSearching[6] = false;
 
         this.scene.cameraController.userInterface.istance.blockButton(upgradeDeckID, false);
+        this.scene.cameraController.userInterface.buttonF.setTexture('btnUpgrade');
+        this.statusCounts.upgrade3Cd = ' '
       }, time);
 
         var cd = time /1000;
 
         this.upgrade3countDown = setInterval(() => {
           cd --;
+          this.upgradeCountDown(cd,upgradeDeckID);
           console.log('up 3 count down', cd);
         }, 1000);
         break;
       case 4:
+              this.scene.cameraController.userInterface.buttonG.setTexture('upSpeedTraction');
 
       this.upgrade4TimeOut = setTimeout(() => {
         clearInterval(this.upgrade4countDown);
@@ -1289,12 +1413,15 @@ export default class TankFactory {
         this.upgradeTable.upgradeIdIsSearching[6] = false;
 
         this.scene.cameraController.userInterface.istance.blockButton(upgradeDeckID, false);
+        this.scene.cameraController.userInterface.buttonG.setTexture('btnUpgrade');
+        this.statusCounts.upgrade4Cd = ' '
       }, time);
 
         var cd = time /1000;
 
         this.upgrade4countDown = setInterval(() => {
           cd --;
+          this.upgradeCountDown(cd,upgradeDeckID);
           console.log('up 4 count down', cd);
         }, 1000);
         break;
@@ -1314,24 +1441,30 @@ export default class TankFactory {
     
     switch (upgradeDeckID) {
       case 1:
-      console.log(upgradeDeckID);
-      this.upgrade1TimeOut = setTimeout(() => {
+        this.scene.cameraController.userInterface.buttonD.setTexture('upRangeOfView');
+
+        console.log(upgradeDeckID);
+        this.upgrade1TimeOut = setTimeout(() => {
         clearInterval(this.upgrade1countDown);
 
         this.upgradeTable.tanksRangeOfViewLevel ++;  
         this.upgradeTable.upgradeIdIsSearching[6] = false;
 
         this.scene.cameraController.userInterface.istance.blockButton(upgradeDeckID, false);
+        this.scene.cameraController.userInterface.buttonD.setTexture('btnUpgrade');
+        this.statusCounts.upgrade1Cd = ' '
       }, time);
 
         var cd = time /1000;
 
         this.upgrade1countDown = setInterval(() => {
           cd --;
+          this.upgradeCountDown(cd,upgradeDeckID);
           console.log('up 1 count down', cd);
         }, 1000);
         break;
       case 2:
+              this.scene.cameraController.userInterface.buttonE.setTexture('upRangeOfView');
 
       this.upgrade2TimeOut = setTimeout(() => {
         clearInterval(this.upgrade2countDown);
@@ -1340,16 +1473,20 @@ export default class TankFactory {
         this.upgradeTable.upgradeIdIsSearching[7] = false;
 
         this.scene.cameraController.userInterface.istance.blockButton(upgradeDeckID, false);
+        this.scene.cameraController.userInterface.buttonE.setTexture('btnUpgrade');
+        this.statusCounts.upgrade2Cd = ' '
       }, time);
 
         var cd = time /1000;
 
         this.upgrade2countDown = setInterval(() => {
           cd --;
+          this.upgradeCountDown(cd,upgradeDeckID);
           console.log('up 2 count down', cd);
         }, 1000);
         break;
       case 3:
+              this.scene.cameraController.userInterface.buttonF.setTexture('upRangeOfView');
 
       this.upgrade3TimeOut = setTimeout(() => {
         clearInterval(this.upgrade3countDown);
@@ -1358,16 +1495,20 @@ export default class TankFactory {
         this.upgradeTable.upgradeIdIsSearching[7] = false;
 
         this.scene.cameraController.userInterface.istance.blockButton(upgradeDeckID, false);
+        this.scene.cameraController.userInterface.buttonF.setTexture('btnUpgrade');
+        this.statusCounts.upgrade3Cd = ' '
       }, time);
 
         var cd = time /1000;
 
         this.upgrade3countDown = setInterval(() => {
           cd --;
+          this.upgradeCountDown(cd,upgradeDeckID);
           console.log('up 3 count down', cd);
         }, 1000);
         break;
       case 4:
+              this.scene.cameraController.userInterface.buttonG.setTexture('upRangeOfView');
 
       this.upgrade4TimeOut = setTimeout(() => {
         clearInterval(this.upgrade4countDown);
@@ -1376,12 +1517,15 @@ export default class TankFactory {
         this.upgradeTable.upgradeIdIsSearching[7] = false;
 
         this.scene.cameraController.userInterface.istance.blockButton(upgradeDeckID, false);
+        this.scene.cameraController.userInterface.buttonG.setTexture('btnUpgrade');
+        this.statusCounts.upgrade4Cd = ' '
       }, time);
 
         var cd = time /1000;
 
         this.upgrade4countDown = setInterval(() => {
           cd --;
+          this.upgradeCountDown(cd,upgradeDeckID);
           console.log('up 4 count down', cd);
         }, 1000);
         break;
@@ -1401,6 +1545,7 @@ export default class TankFactory {
     
     switch (upgradeDeckID) {
       case 1:
+              this.scene.cameraController.userInterface.buttonD.setTexture('upMgDmg');
       console.log(upgradeDeckID);
       this.upgrade1TimeOut = setTimeout(() => {
         clearInterval(this.upgrade1countDown);
@@ -1409,16 +1554,20 @@ export default class TankFactory {
         this.upgradeTable.upgradeIdIsSearching[8] = false;
 
         this.scene.cameraController.userInterface.istance.blockButton(upgradeDeckID, false);
+        this.scene.cameraController.userInterface.buttonD.setTexture('btnUpgrade');
+        this.statusCounts.upgrade1Cd = ' '
       }, time);
 
         var cd = time /1000;
 
         this.upgrade1countDown = setInterval(() => {
           cd --;
+          this.upgradeCountDown(cd,upgradeDeckID);
           console.log('up 1 count down', cd);
         }, 1000);
         break;
       case 2:
+              this.scene.cameraController.userInterface.buttonE.setTexture('upMgDmg');
 
       this.upgrade2TimeOut = setTimeout(() => {
         clearInterval(this.upgrade2countDown);
@@ -1427,16 +1576,20 @@ export default class TankFactory {
         this.upgradeTable.upgradeIdIsSearching[8] = false;
 
         this.scene.cameraController.userInterface.istance.blockButton(upgradeDeckID, false);
+        this.scene.cameraController.userInterface.buttonE.setTexture('btnUpgrade');
+        this.statusCounts.upgrade2Cd = ' '
       }, time);
 
         var cd = time /1000;
 
         this.upgrade2countDown = setInterval(() => {
           cd --;
+          this.upgradeCountDown(cd,upgradeDeckID);
           console.log('up 2 count down', cd);
         }, 1000);
         break;
       case 3:
+              this.scene.cameraController.userInterface.buttonF.setTexture('upMgDmg');
 
       this.upgrade3TimeOut = setTimeout(() => {
         clearInterval(this.upgrade3countDown);
@@ -1445,16 +1598,20 @@ export default class TankFactory {
         this.upgradeTable.upgradeIdIsSearching[8] = false;
 
         this.scene.cameraController.userInterface.istance.blockButton(upgradeDeckID, false);
+        this.scene.cameraController.userInterface.buttonF.setTexture('btnUpgrade');
+        this.statusCounts.upgrade3Cd = ' '
       }, time);
 
         var cd = time /1000;
 
         this.upgrade3countDown = setInterval(() => {
           cd --;
+          this.upgradeCountDown(cd,upgradeDeckID);
           console.log('up 3 count down', cd);
         }, 1000);
         break;
       case 4:
+              this.scene.cameraController.userInterface.buttonG.setTexture('upMgDmg');
 
       this.upgrade4TimeOut = setTimeout(() => {
         clearInterval(this.upgrade4countDown);
@@ -1463,12 +1620,15 @@ export default class TankFactory {
         this.upgradeTable.upgradeIdIsSearching[8] = false;
 
         this.scene.cameraController.userInterface.istance.blockButton(upgradeDeckID, false);
+        this.scene.cameraController.userInterface.buttonG.setTexture('btnUpgrade');
+        this.statusCounts.upgrade4Cd = ' '
       }, time);
 
         var cd = time /1000;
 
         this.upgrade4countDown = setInterval(() => {
           cd --;
+          this.upgradeCountDown(cd,upgradeDeckID);
           console.log('up 4 count down', cd);
         }, 1000);
         break;
@@ -1488,6 +1648,7 @@ export default class TankFactory {
     
     switch (upgradeDeckID) {
       case 1:
+              this.scene.cameraController.userInterface.buttonD.setTexture('upMgRof');
       console.log(upgradeDeckID);
       this.upgrade1TimeOut = setTimeout(() => {
         clearInterval(this.upgrade1countDown);
@@ -1496,16 +1657,20 @@ export default class TankFactory {
         this.upgradeTable.upgradeIdIsSearching[9] = false;
 
         this.scene.cameraController.userInterface.istance.blockButton(upgradeDeckID, false);
+        this.scene.cameraController.userInterface.buttonD.setTexture('btnUpgrade');
+        this.statusCounts.upgrade1Cd = ' '
       }, time);
 
         var cd = time /1000;
 
         this.upgrade1countDown = setInterval(() => {
           cd --;
+          this.upgradeCountDown(cd,upgradeDeckID);
           console.log('up 1 count down', cd);
         }, 1000);
         break;
       case 2:
+              this.scene.cameraController.userInterface.buttonE.setTexture('upMgRof');
 
       this.upgrade2TimeOut = setTimeout(() => {
         clearInterval(this.upgrade2countDown);
@@ -1514,16 +1679,20 @@ export default class TankFactory {
         this.upgradeTable.upgradeIdIsSearching[9] = false;
 
         this.scene.cameraController.userInterface.istance.blockButton(upgradeDeckID, false);
+        this.scene.cameraController.userInterface.buttonE.setTexture('btnUpgrade');
+        this.statusCounts.upgrade2Cd = ' '
       }, time);
 
         var cd = time /1000;
 
         this.upgrade2countDown = setInterval(() => {
           cd --;
+          this.upgradeCountDown(cd,upgradeDeckID);
           console.log('up 2 count down', cd);
         }, 1000);
         break;
       case 3:
+              this.scene.cameraController.userInterface.buttonF.setTexture('upMgRof');
 
       this.upgrade3TimeOut = setTimeout(() => {
         clearInterval(this.upgrade3countDown);
@@ -1532,16 +1701,20 @@ export default class TankFactory {
         this.upgradeTable.upgradeIdIsSearching[9] = false;
 
         this.scene.cameraController.userInterface.istance.blockButton(upgradeDeckID, false);
+        this.scene.cameraController.userInterface.buttonF.setTexture('btnUpgrade');
+        this.statusCounts.upgrade3Cd = ' '
       }, time);
 
         var cd = time /1000;
 
         this.upgrade3countDown = setInterval(() => {
           cd --;
+          this.upgradeCountDown(cd,upgradeDeckID);
           console.log('up 3 count down', cd);
         }, 1000);
         break;
       case 4:
+              this.scene.cameraController.userInterface.buttonG.setTexture('upMgRof');
 
       this.upgrade4TimeOut = setTimeout(() => {
         clearInterval(this.upgrade4countDown);
@@ -1550,12 +1723,15 @@ export default class TankFactory {
         this.upgradeTable.upgradeIdIsSearching[9] = false;
 
         this.scene.cameraController.userInterface.istance.blockButton(upgradeDeckID, false);
+        this.scene.cameraController.userInterface.buttonG.setTexture('btnUpgrade');
+        this.statusCounts.upgrade4Cd = ' '
       }, time);
 
         var cd = time /1000;
 
         this.upgrade4countDown = setInterval(() => {
           cd --;
+          this.upgradeCountDown(cd,upgradeDeckID);
           console.log('up 4 count down', cd);
         }, 1000);
         break;
@@ -1575,6 +1751,7 @@ export default class TankFactory {
     
     switch (upgradeDeckID) {
       case 1:
+              this.scene.cameraController.userInterface.buttonD.setTexture('upMgHp');
       console.log(upgradeDeckID);
       this.upgrade1TimeOut = setTimeout(() => {
         clearInterval(this.upgrade1countDown);
@@ -1583,16 +1760,20 @@ export default class TankFactory {
         this.upgradeTable.upgradeIdIsSearching[10] = false;
 
         this.scene.cameraController.userInterface.istance.blockButton(upgradeDeckID, false);
+        this.scene.cameraController.userInterface.buttonD.setTexture('btnUpgrade');
+        this.statusCounts.upgrade1Cd = ' '
       }, time);
 
         var cd = time /1000;
 
         this.upgrade1countDown = setInterval(() => {
           cd --;
+          this.upgradeCountDown(cd,upgradeDeckID);
           console.log('up 1 count down', cd);
         }, 1000);
         break;
       case 2:
+              this.scene.cameraController.userInterface.buttonE.setTexture('upMgHp');
 
       this.upgrade2TimeOut = setTimeout(() => {
         clearInterval(this.upgrade2countDown);
@@ -1601,16 +1782,20 @@ export default class TankFactory {
         this.upgradeTable.upgradeIdIsSearching[10] = false;
 
         this.scene.cameraController.userInterface.istance.blockButton(upgradeDeckID, false);
+        this.scene.cameraController.userInterface.buttonE.setTexture('btnUpgrade');
+        this.statusCounts.upgrade2Cd = ' '
       }, time);
 
         var cd = time /1000;
 
         this.upgrade2countDown = setInterval(() => {
           cd --;
+          this.upgradeCountDown(cd,upgradeDeckID);
           console.log('up 2 count down', cd);
         }, 1000);
         break;
       case 3:
+              this.scene.cameraController.userInterface.buttonF.setTexture('upMgHp');
 
       this.upgrade3TimeOut = setTimeout(() => {
         clearInterval(this.upgrade3countDown);
@@ -1619,16 +1804,20 @@ export default class TankFactory {
         this.upgradeTable.upgradeIdIsSearching[10] = false;
 
         this.scene.cameraController.userInterface.istance.blockButton(upgradeDeckID, false);
+        this.scene.cameraController.userInterface.buttonF.setTexture('btnUpgrade');
+        this.statusCounts.upgrade3Cd = ' '
       }, time);
 
         var cd = time /1000;
 
         this.upgrade3countDown = setInterval(() => {
           cd --;
+          this.upgradeCountDown(cd,upgradeDeckID);
           console.log('up 3 count down', cd);
         }, 1000);
         break;
       case 4:
+              this.scene.cameraController.userInterface.buttonG.setTexture('upMgHp');
 
       this.upgrade4TimeOut = setTimeout(() => {
         clearInterval(this.upgrade4countDown);
@@ -1637,12 +1826,15 @@ export default class TankFactory {
         this.upgradeTable.upgradeIdIsSearching[10] = false;
 
         this.scene.cameraController.userInterface.istance.blockButton(upgradeDeckID, false);
+        this.scene.cameraController.userInterface.buttonG.setTexture('btnUpgrade');
+        this.statusCounts.upgrade4Cd = ' '
       }, time);
 
         var cd = time /1000;
 
         this.upgrade4countDown = setInterval(() => {
           cd --;
+          this.upgradeCountDown(cd,upgradeDeckID);
           console.log('up 4 count down', cd);
         }, 1000);
         break;
@@ -1662,6 +1854,7 @@ export default class TankFactory {
     
     switch (upgradeDeckID) {
       case 1:
+              this.scene.cameraController.userInterface.buttonD.setTexture('upCannonDmg');
       console.log(upgradeDeckID);
       this.upgrade1TimeOut = setTimeout(() => {
         clearInterval(this.upgrade1countDown);
@@ -1670,16 +1863,20 @@ export default class TankFactory {
         this.upgradeTable.upgradeIdIsSearching[11] = false;
 
         this.scene.cameraController.userInterface.istance.blockButton(upgradeDeckID, false);
+        this.scene.cameraController.userInterface.buttonD.setTexture('btnUpgrade');
+        this.statusCounts.upgrade1Cd = ' '
       }, time);
 
         var cd = time /1000;
 
         this.upgrade1countDown = setInterval(() => {
           cd --;
+          this.upgradeCountDown(cd,upgradeDeckID);
           console.log('up 1 count down', cd);
         }, 1000);
         break;
       case 2:
+              this.scene.cameraController.userInterface.buttonE.setTexture('upCannonDmg');
 
       this.upgrade2TimeOut = setTimeout(() => {
         clearInterval(this.upgrade2countDown);
@@ -1688,16 +1885,20 @@ export default class TankFactory {
         this.upgradeTable.upgradeIdIsSearching[11] = false;
 
         this.scene.cameraController.userInterface.istance.blockButton(upgradeDeckID, false);
+        this.scene.cameraController.userInterface.buttonE.setTexture('btnUpgrade');
+        this.statusCounts.upgrade2Cd = ' '
       }, time);
 
         var cd = time /1000;
 
         this.upgrade2countDown = setInterval(() => {
           cd --;
+          this.upgradeCountDown(cd,upgradeDeckID);
           console.log('up 2 count down', cd);
         }, 1000);
         break;
       case 3:
+              this.scene.cameraController.userInterface.buttonF.setTexture('upCannonDmg');
 
       this.upgrade3TimeOut = setTimeout(() => {
         clearInterval(this.upgrade3countDown);
@@ -1706,16 +1907,20 @@ export default class TankFactory {
         this.upgradeTable.upgradeIdIsSearching[11] = false;
 
         this.scene.cameraController.userInterface.istance.blockButton(upgradeDeckID, false);
+        this.scene.cameraController.userInterface.buttonF.setTexture('btnUpgrade');
+        this.statusCounts.upgrade3Cd = ' '
       }, time);
 
         var cd = time /1000;
 
         this.upgrade3countDown = setInterval(() => {
           cd --;
+          this.upgradeCountDown(cd,upgradeDeckID);
           console.log('up 3 count down', cd);
         }, 1000);
         break;
       case 4:
+              this.scene.cameraController.userInterface.buttonG.setTexture('upCannonDmg');
 
       this.upgrade4TimeOut = setTimeout(() => {
         clearInterval(this.upgrade4countDown);
@@ -1724,12 +1929,15 @@ export default class TankFactory {
         this.upgradeTable.upgradeIdIsSearching[11] = false;
 
         this.scene.cameraController.userInterface.istance.blockButton(upgradeDeckID, false);
+        this.scene.cameraController.userInterface.buttonG.setTexture('btnUpgrade');
+        this.statusCounts.upgrade4Cd = ' '
       }, time);
 
         var cd = time /1000;
 
         this.upgrade4countDown = setInterval(() => {
           cd --;
+          this.upgradeCountDown(cd,upgradeDeckID);
           console.log('up 4 count down', cd);
         }, 1000);
         break;
@@ -1749,6 +1957,7 @@ export default class TankFactory {
     
     switch (upgradeDeckID) {
       case 1:
+      this.scene.cameraController.userInterface.buttonD.setTexture('upCannonRof');
       console.log(upgradeDeckID);
       this.upgrade1TimeOut = setTimeout(() => {
         clearInterval(this.upgrade1countDown);
@@ -1757,17 +1966,20 @@ export default class TankFactory {
         this.upgradeTable.upgradeIdIsSearching[12] = false;
 
         this.scene.cameraController.userInterface.istance.blockButton(upgradeDeckID, false);
+        this.scene.cameraController.userInterface.buttonD.setTexture('btnUpgrade');
+        this.statusCounts.upgrade1Cd = ' '
       }, time);
 
         var cd = time /1000;
 
         this.upgrade1countDown = setInterval(() => {
           cd --;
+          this.upgradeCountDown(cd,upgradeDeckID);
           console.log('up 1 count down', cd);
         }, 1000);
         break;
       case 2:
-
+      this.scene.cameraController.userInterface.buttonE.setTexture('upCannonRof');
       this.upgrade2TimeOut = setTimeout(() => {
         clearInterval(this.upgrade2countDown);
 
@@ -1775,16 +1987,20 @@ export default class TankFactory {
         this.upgradeTable.upgradeIdIsSearching[12] = false;
 
         this.scene.cameraController.userInterface.istance.blockButton(upgradeDeckID, false);
+        this.scene.cameraController.userInterface.buttonE.setTexture('btnUpgrade');
+        this.statusCounts.upgrade2Cd = ' '
       }, time);
 
         var cd = time /1000;
 
         this.upgrade2countDown = setInterval(() => {
           cd --;
+          this.upgradeCountDown(cd,upgradeDeckID);
           console.log('up 2 count down', cd);
         }, 1000);
         break;
       case 3:
+        this.scene.cameraController.userInterface.buttonF.setTexture('upCannonRof');
 
       this.upgrade3TimeOut = setTimeout(() => {
         clearInterval(this.upgrade3countDown);
@@ -1793,16 +2009,20 @@ export default class TankFactory {
         this.upgradeTable.upgradeIdIsSearching[12] = false;
 
         this.scene.cameraController.userInterface.istance.blockButton(upgradeDeckID, false);
+        this.scene.cameraController.userInterface.buttonF.setTexture('btnUpgrade');
+        this.statusCounts.upgrade3Cd = ' '
       }, time);
 
         var cd = time /1000;
 
         this.upgrade3countDown = setInterval(() => {
           cd --;
+          this.upgradeCountDown(cd,upgradeDeckID);
           console.log('up 3 count down', cd);
         }, 1000);
         break;
       case 4:
+        this.scene.cameraController.userInterface.buttonG.setTexture('upCannonRof');
 
       this.upgrade4TimeOut = setTimeout(() => {
         clearInterval(this.upgrade4countDown);
@@ -1811,12 +2031,15 @@ export default class TankFactory {
         this.upgradeTable.upgradeIdIsSearching[12] = false;
 
         this.scene.cameraController.userInterface.istance.blockButton(upgradeDeckID, false);
+        this.scene.cameraController.userInterface.buttonG.setTexture('btnUpgrade');
+        this.statusCounts.upgrade4Cd = ' '
       }, time);
 
         var cd = time /1000;
 
         this.upgrade4countDown = setInterval(() => {
           cd --;
+          this.upgradeCountDown(cd,upgradeDeckID);
           console.log('up 4 count down', cd);
         }, 1000);
         break;
@@ -1836,6 +2059,7 @@ export default class TankFactory {
     
     switch (upgradeDeckID) {
       case 1:
+        this.scene.cameraController.userInterface.buttonD.setTexture('upCannonHp');
       console.log(upgradeDeckID);
       this.upgrade1TimeOut = setTimeout(() => {
         clearInterval(this.upgrade1countDown);
@@ -1844,16 +2068,20 @@ export default class TankFactory {
         this.upgradeTable.upgradeIdIsSearching[13] = false;
 
         this.scene.cameraController.userInterface.istance.blockButton(upgradeDeckID, false);
+        this.scene.cameraController.userInterface.buttonD.setTexture('btnUpgrade');
+        this.statusCounts.upgrade1Cd = ' '
       }, time);
 
         var cd = time /1000;
 
         this.upgrade1countDown = setInterval(() => {
           cd --;
+          this.upgradeCountDown(cd,upgradeDeckID);
           console.log('up 1 count down', cd);
         }, 1000);
         break;
       case 2:
+        this.scene.cameraController.userInterface.buttonE.setTexture('upCannonHp');
 
       this.upgrade2TimeOut = setTimeout(() => {
         clearInterval(this.upgrade2countDown);
@@ -1862,16 +2090,20 @@ export default class TankFactory {
         this.upgradeTable.upgradeIdIsSearching[13] = false;
 
         this.scene.cameraController.userInterface.istance.blockButton(upgradeDeckID, false);
+        this.scene.cameraController.userInterface.buttonE.setTexture('btnUpgrade');
+        this.statusCounts.upgrade2Cd = ' '
       }, time);
 
         var cd = time /1000;
 
         this.upgrade2countDown = setInterval(() => {
           cd --;
+          this.upgradeCountDown(cd,upgradeDeckID);
           console.log('up 2 count down', cd);
         }, 1000);
         break;
       case 3:
+        this.scene.cameraController.userInterface.buttonF.setTexture('upCannonHp');
 
       this.upgrade3TimeOut = setTimeout(() => {
         clearInterval(this.upgrade3countDown);
@@ -1880,16 +2112,20 @@ export default class TankFactory {
         this.upgradeTable.upgradeIdIsSearching[13] = false;
 
         this.scene.cameraController.userInterface.istance.blockButton(upgradeDeckID, false);
+        this.scene.cameraController.userInterface.buttonF.setTexture('btnUpgrade');
+        this.statusCounts.upgrade3Cd = ' '
       }, time);
 
         var cd = time /1000;
 
         this.upgrade3countDown = setInterval(() => {
           cd --;
+          this.upgradeCountDown(cd,upgradeDeckID);
           console.log('up 3 count down', cd);
         }, 1000);
         break;
       case 4:
+        this.scene.cameraController.userInterface.buttonG.setTexture('upCannonHp');
 
       this.upgrade4TimeOut = setTimeout(() => {
         clearInterval(this.upgrade4countDown);
@@ -1898,12 +2134,15 @@ export default class TankFactory {
         this.upgradeTable.upgradeIdIsSearching[13] = false;
 
         this.scene.cameraController.userInterface.istance.blockButton(upgradeDeckID, false);
+        this.scene.cameraController.userInterface.buttonG.setTexture('btnUpgrade');
+        this.statusCounts.upgrade4Cd = ' '
       }, time);
 
         var cd = time /1000;
 
         this.upgrade4countDown = setInterval(() => {
           cd --;
+          this.upgradeCountDown(cd,upgradeDeckID);
           console.log('up 4 count down', cd);
         }, 1000);
         break;
@@ -1923,6 +2162,7 @@ export default class TankFactory {
     
     switch (upgradeDeckID) {
       case 1:
+        this.scene.cameraController.userInterface.buttonD.setTexture('upBRocketDmg');
       console.log(upgradeDeckID);
       this.upgrade1TimeOut = setTimeout(() => {
         clearInterval(this.upgrade1countDown);
@@ -1931,16 +2171,20 @@ export default class TankFactory {
         this.upgradeTable.upgradeIdIsSearching[14] = false;
 
         this.scene.cameraController.userInterface.istance.blockButton(upgradeDeckID, false);
+        this.scene.cameraController.userInterface.buttonD.setTexture('btnUpgrade');
+        this.statusCounts.upgrade1Cd = ' '
       }, time);
 
         var cd = time /1000;
 
         this.upgrade1countDown = setInterval(() => {
           cd --;
+          this.upgradeCountDown(cd,upgradeDeckID);
           console.log('up 1 count down', cd);
         }, 1000);
         break;
       case 2:
+        this.scene.cameraController.userInterface.buttonE.setTexture('upBRocketDmg');
 
       this.upgrade2TimeOut = setTimeout(() => {
         clearInterval(this.upgrade2countDown);
@@ -1949,17 +2193,20 @@ export default class TankFactory {
         this.upgradeTable.upgradeIdIsSearching[14] = false;
 
         this.scene.cameraController.userInterface.istance.blockButton(upgradeDeckID, false);
+        this.scene.cameraController.userInterface.buttonE.setTexture('btnUpgrade');
+        this.statusCounts.upgrade2Cd = ' '
       }, time);
 
         var cd = time /1000;
 
         this.upgrade2countDown = setInterval(() => {
           cd --;
+          this.upgradeCountDown(cd,upgradeDeckID);
           console.log('up 2 count down', cd);
         }, 1000);
         break;
       case 3:
-
+        this.scene.cameraController.userInterface.buttonF.setTexture('upBRocketDmg');
       this.upgrade3TimeOut = setTimeout(() => {
         clearInterval(this.upgrade3countDown);
 
@@ -1967,16 +2214,20 @@ export default class TankFactory {
         this.upgradeTable.upgradeIdIsSearching[14] = false;
 
         this.scene.cameraController.userInterface.istance.blockButton(upgradeDeckID, false);
+        this.scene.cameraController.userInterface.buttonF.setTexture('btnUpgrade');
+        this.statusCounts.upgrade3Cd = ' '
       }, time);
 
         var cd = time /1000;
 
         this.upgrade3countDown = setInterval(() => {
           cd --;
+          this.upgradeCountDown(cd,upgradeDeckID);
           console.log('up 3 count down', cd);
         }, 1000);
         break;
       case 4:
+        this.scene.cameraController.userInterface.buttonG.setTexture('upBRocketDmg');
 
       this.upgrade4TimeOut = setTimeout(() => {
         clearInterval(this.upgrade4countDown);
@@ -1985,12 +2236,15 @@ export default class TankFactory {
         this.upgradeTable.upgradeIdIsSearching[14] = false;
 
         this.scene.cameraController.userInterface.istance.blockButton(upgradeDeckID, false);
+        this.scene.cameraController.userInterface.buttonG.setTexture('btnUpgrade');
+        this.statusCounts.upgrade4Cd = ' '
       }, time);
 
         var cd = time /1000;
 
         this.upgrade4countDown = setInterval(() => {
           cd --;
+          this.upgradeCountDown(cd,upgradeDeckID);
           console.log('up 4 count down', cd);
         }, 1000);
         break;
@@ -2010,6 +2264,7 @@ export default class TankFactory {
     
     switch (upgradeDeckID) {
       case 1:
+        this.scene.cameraController.userInterface.buttonD.setTexture('upRocketRof');
       console.log(upgradeDeckID);
       this.upgrade1TimeOut = setTimeout(() => {
         clearInterval(this.upgrade1countDown);
@@ -2018,16 +2273,20 @@ export default class TankFactory {
         this.upgradeTable.upgradeIdIsSearching[15] = false;
 
         this.scene.cameraController.userInterface.istance.blockButton(upgradeDeckID, false);
+        this.scene.cameraController.userInterface.buttonD.setTexture('btnUpgrade');
+        this.statusCounts.upgrade1Cd = ' '
       }, time);
 
         var cd = time /1000;
 
         this.upgrade1countDown = setInterval(() => {
           cd --;
+          this.upgradeCountDown(cd,upgradeDeckID);
           console.log('up 1 count down', cd);
         }, 1000);
         break;
       case 2:
+        this.scene.cameraController.userInterface.buttonE.setTexture('upRocketRof');
 
       this.upgrade2TimeOut = setTimeout(() => {
         clearInterval(this.upgrade2countDown);
@@ -2036,17 +2295,20 @@ export default class TankFactory {
         this.upgradeTable.upgradeIdIsSearching[15] = false;
 
         this.scene.cameraController.userInterface.istance.blockButton(upgradeDeckID, false);
+        this.scene.cameraController.userInterface.buttonE.setTexture('btnUpgrade');
+        this.statusCounts.upgrade2Cd = ' '
       }, time);
 
         var cd = time /1000;
 
         this.upgrade2countDown = setInterval(() => {
           cd --;
+          this.upgradeCountDown(cd,upgradeDeckID);
           console.log('up 2 count down', cd);
         }, 1000);
         break;
       case 3:
-
+        this.scene.cameraController.userInterface.buttonF.setTexture('upRocketRof');
       this.upgrade3TimeOut = setTimeout(() => {
         clearInterval(this.upgrade3countDown);
 
@@ -2054,17 +2316,20 @@ export default class TankFactory {
         this.upgradeTable.upgradeIdIsSearching[15] = false;
 
         this.scene.cameraController.userInterface.istance.blockButton(upgradeDeckID, false);
+        this.scene.cameraController.userInterface.buttonF.setTexture('btnUpgrade');
+        this.statusCounts.upgrade3Cd = ' '
       }, time);
 
         var cd = time /1000;
 
         this.upgrade3countDown = setInterval(() => {
           cd --;
+          this.upgradeCountDown(cd,upgradeDeckID);
           console.log('up 3 count down', cd);
         }, 1000);
         break;
       case 4:
-
+        this.scene.cameraController.userInterface.buttonG.setTexture('upRocketRof');
       this.upgrade4TimeOut = setTimeout(() => {
         clearInterval(this.upgrade4countDown);
 
@@ -2072,12 +2337,15 @@ export default class TankFactory {
         this.upgradeTable.upgradeIdIsSearching[15] = false;
 
         this.scene.cameraController.userInterface.istance.blockButton(upgradeDeckID, false);
+        this.scene.cameraController.userInterface.buttonG.setTexture('btnUpgrade');
+        this.statusCounts.upgrade4Cd = ' '
       }, time);
 
         var cd = time /1000;
 
         this.upgrade4countDown = setInterval(() => {
           cd --;
+          this.upgradeCountDown(cd,upgradeDeckID);
           console.log('up 4 count down', cd);
         }, 1000);
         break;
@@ -2097,74 +2365,86 @@ export default class TankFactory {
     
     switch (upgradeDeckID) {
       case 1:
-      console.log(upgradeDeckID);
-      this.upgrade1TimeOut = setTimeout(() => {
+        this.scene.cameraController.userInterface.buttonD.setTexture('upRocketHp');
+        this.upgrade1TimeOut = setTimeout(() => {
         clearInterval(this.upgrade1countDown);
 
         this.upgradeTable.RocketHpLevel ++;  
         this.upgradeTable.upgradeIdIsSearching[16] = false;
 
         this.scene.cameraController.userInterface.istance.blockButton(upgradeDeckID, false);
+        this.scene.cameraController.userInterface.buttonD.setTexture('btnUpgrade');
+        this.statusCounts.upgrade1Cd = ' '
       }, time);
 
         var cd = time /1000;
 
         this.upgrade1countDown = setInterval(() => {
           cd --;
+          this.upgradeCountDown(cd,upgradeDeckID);
           console.log('up 1 count down', cd);
         }, 1000);
         break;
       case 2:
-
-      this.upgrade2TimeOut = setTimeout(() => {
+        this.scene.cameraController.userInterface.buttonE.setTexture('upRocketHp');
+        this.upgrade2TimeOut = setTimeout(() => {
         clearInterval(this.upgrade2countDown);
 
         this.upgradeTable.RocketHpLevel ++;  
         this.upgradeTable.upgradeIdIsSearching[16] = false;
 
         this.scene.cameraController.userInterface.istance.blockButton(upgradeDeckID, false);
+        this.scene.cameraController.userInterface.buttonE.setTexture('btnUpgrade');
+        this.statusCounts.upgrade2Cd = ' '
       }, time);
 
         var cd = time /1000;
 
         this.upgrade2countDown = setInterval(() => {
           cd --;
+          this.upgradeCountDown(cd,upgradeDeckID);
           console.log('up 2 count down', cd);
         }, 1000);
         break;
       case 3:
-
-      this.upgrade3TimeOut = setTimeout(() => {
+        this.scene.cameraController.userInterface.buttonF.setTexture('upRocketHp');
+        this.upgrade3TimeOut = setTimeout(() => {
         clearInterval(this.upgrade3countDown);
 
         this.upgradeTable.RocketHpLevel ++;  
         this.upgradeTable.upgradeIdIsSearching[16] = false;
 
         this.scene.cameraController.userInterface.istance.blockButton(upgradeDeckID, false);
+        this.scene.cameraController.userInterface.buttonF.setTexture('btnUpgrade');
+        this.statusCounts.upgrade3Cd = ' '
       }, time);
 
         var cd = time /1000;
 
         this.upgrade3countDown = setInterval(() => {
           cd --;
+          this.upgradeCountDown(cd,upgradeDeckID);
           console.log('up 3 count down', cd);
         }, 1000);
         break;
       case 4:
-
-      this.upgrade4TimeOut = setTimeout(() => {
+        this.scene.cameraController.userInterface.buttonG.setTexture('upRocketHp');
+        this.upgrade4TimeOut = setTimeout(() => {
         clearInterval(this.upgrade4countDown);
 
         this.upgradeTable.RocketHpLevel ++;  
         this.upgradeTable.upgradeIdIsSearching[16] = false;
 
         this.scene.cameraController.userInterface.istance.blockButton(upgradeDeckID, false);
+        this.scene.cameraController.userInterface.buttonG.setTexture('btnUpgrade');
+        this.statusCounts.upgrade4Cd = ' '
       }, time);
 
         var cd = time /1000;
 
         this.upgrade4countDown = setInterval(() => {
           cd --;
+          this.upgradeCountDown(cd,upgradeDeckID);
           console.log('up 4 count down', cd);
         }, 1000);
         break;

@@ -20,7 +20,28 @@ class UpgradeTable {
     this.researchSpeedLevel = 0;
     this.researchSpeed = [
       {reductionFactor : 1,                         
-        cost:100, time:20},
+        cost:100, time:10},
+
+      {reductionFactor : 0.95,                         
+        cost:100, time:10},
+      {reductionFactor : 0.90,                         
+        cost:100, time:10},
+      {reductionFactor : 0.85,                         
+        cost:100, time:10},
+      {reductionFactor : 0.80,                         
+        cost:100, time:10},
+      {reductionFactor : 0.75,                         
+        cost:100, time:10},
+      {reductionFactor : 0.70,                         
+        cost:100, time:10},
+      {reductionFactor : 0.65,                         
+        cost:100, time:10},
+      {reductionFactor : 0.60,                         
+        cost:100, time:10},
+      {reductionFactor : 0.55,                         
+        cost:100, time:10},
+      {reductionFactor : 0.50,                         
+        cost:100, time:10},
     ]
     
     this.energyEfficiencyLevel = 0;

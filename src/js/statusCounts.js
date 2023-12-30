@@ -26,15 +26,22 @@ class StatusCounts {
     this.btnDeck4 = 0;
     this.deck4IsProductive = false;
     
+
+
+
+    this.upgrade1Cd = '';
     this.upgrade1ResIndex = 0;
     this.upgrade1IsProductive = false;
 
+    this.upgrade2Cd = '';
     this.upgrade2ResIndex = 0;
     this.upgrade2IsProductive = false;
 
+    this.upgrade3Cd = '';
     this.upgrade3ResIndex = 0;
     this.upgrade3IsProductive = false;
     
+    this.upgrade4Cd = '';
     this.upgrade4ResIndex = 0;
     this.upgrade4IsProductive = false;
 
