@@ -19,7 +19,7 @@ export default class Engineering  {
     this.afterTargets = [];
 
     this.speed = 
-      this.upgradeTable.engineerEfficiency[this.upgradeTable.engineerEfficiencyLevel].mooveFactor;
+      this.upgradeTable.engineerEfficiency[this.upgradeTable.engineerEfficiencyLevel].moveSpeed;
 
     this.acceleration = 1;
     this.accIncrement = this.speed/60;
@@ -27,7 +27,6 @@ export default class Engineering  {
     this.isDirected = false;
     this.friction = 0.80;
     this.tolerance = 64;
-    this.selftCheck = false;
     this.range = 250;
 
     this.isWorking = false;
@@ -153,15 +152,11 @@ export default class Engineering  {
         const filteredPath = Fpath.filter((tile, index) => index % 3 === 0);
         filteredPath.push(lastTile);
 
-
         this.target = fromTileToTargetObj(filteredPath[0].x,filteredPath[0].y);
         filteredPath.shift();
 
-
         this.scene.physics.moveToObject(this.engineering,this.target , 1);
         this.isDirected = true;
-        this.selftMoveControll();
-
 
         filteredPath.forEach(tile => {
 
@@ -176,95 +171,7 @@ export default class Engineering  {
   };
 
 
-  selftMoveControll(){
 
-  if(!this.selftCheck){
-    // console.log('set checking');
-
-    this.selftCheck = true;
-    let positionVerified = [];
-
-      let check = setInterval(() => {
-
-        if(this.isDirected){
-
-          const tilePosition =  fromPositionToTile(this.engineering.x, this.engineering.y);
-          positionVerified.push(tilePosition);
-
-
-            if(positionVerified.length >= 5){
-              positionVerified.shift();
-              if(
-                positionVerified[0].toString() === positionVerified[1].toString() &&
-                positionVerified[0].toString() === positionVerified[2].toString() &&
-                positionVerified[0].toString() === positionVerified[3].toString() &&
-                this.target
-                ){
-
-                  let targetPosition = null;
-
-                  if(this.targets.length > 0){
-                    targetPosition = this.targets[this.targets.length -1];
-                  }else{
-                    targetPosition = this.target;
-                  }
-
-                  const targetTile = fromPositionToTile(targetPosition.x, targetPosition.y );
-
-                  //tentativi di sbroglio
-                  let choice = Phaser.Math.Between(0, 3);
-                  switch (choice) {
-
-                    case 0:
-                      this.engineering.x -= 64;
-                      this.engineering.y += 64;
-                      break;
-                    case 1:
-                      this.engineering.x += 64;
-                      this.engineering.y -= 64;
-                      break;
-                    case 2:
-                      this.engineering.x += 64;
-                      this.engineering.y += 64;
-                      break;
-                    case 3:
-                      this.engineering.x -= 64;
-                      this.engineering.y -= 64;
-                      break;
-
-                  }
-
-
-                  if(this.engineering.body){
-                    clearInterval(check);
-                    // console.log('clear reset');
-                    this.selftCheck = false;
-                    this.moveTankTo(targetTile);
-                  }else{
-                    clearInterval(check);
-                    // console.log('clear because die', this.id);
-                  }
-
-                };
-            }
-
-        }else{
-
-          clearInterval(check);
-          positionVerified = [];
-          this.selftCheck = false;
-          // console.log('clear');
-
-        }
-
-      }, 3000);
-
-      check;
-
-    }else{
-      // console.log('alrady checking')
-    }
-  }
 
   moveTankToNext(target){
 
@@ -294,7 +201,7 @@ export default class Engineering  {
         
       
     },
-    this.upgradeTable.engineerEfficiency[this.upgradeTable.engineerEfficiencyLevel].constructionTimeFactor * 1000);
+    (30 * this.upgradeTable.engineerEfficiency[this.upgradeTable.engineerEfficiencyLevel].constructionTimeFactor) * 1000);
   }
 
   

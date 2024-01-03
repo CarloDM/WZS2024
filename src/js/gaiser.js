@@ -74,8 +74,7 @@ export default class Gaiser {
     if(this.exploited){
       this.StatusCounts.energy += 
         this.upgradeTable.energyEfficiency[this.upgradeTable.energyEfficiencyLevel].extractionRate * 5;
-      
-
+        this.scene.cameraController.userInterface.energy.setText(this.StatusCounts.energy );
       this.scene.floatingNumbers.createFloatingText({
         textOptions: {
             fontFamily: 'monospace',

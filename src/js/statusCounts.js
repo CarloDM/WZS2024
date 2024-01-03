@@ -2,7 +2,7 @@
 
 class StatusCounts {
   constructor(){
-    this.energy = 1000;
+    this.energy = 200;
 
     this.timeProductionTanks ={
       mg : 5, cannon : 5, rocket: 5
@@ -29,20 +29,14 @@ class StatusCounts {
 
 
 
-    this.upgrade1Cd = '';
-    this.upgrade1ResIndex = 0;
+
+
     this.upgrade1IsProductive = false;
 
-    this.upgrade2Cd = '';
-    this.upgrade2ResIndex = 0;
     this.upgrade2IsProductive = false;
 
-    this.upgrade3Cd = '';
-    this.upgrade3ResIndex = 0;
     this.upgrade3IsProductive = false;
     
-    this.upgrade4Cd = '';
-    this.upgrade4ResIndex = 0;
     this.upgrade4IsProductive = false;
 
 

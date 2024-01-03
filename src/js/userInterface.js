@@ -16,11 +16,14 @@ export default class UserInterface {
     
 
     // --- aggiunta btn
-    this.energyBar = this.scene.add.rectangle(
-      0,0,0,0, 0x1d7196, 0.5
-    );
+    this.energyBar = this.scene.add.rectangle(0,0,0,0, 0x1d7196, 0.5);
     this.energyBar.setOrigin(0, 0);
     this.container.add(this.energyBar);
+
+    this.energy = this.scene.add.text(this.energyBar.x, this.energyBar.y, ' ', { fontSize: '8px', fill: '#ffffff' });
+    this.energy.setOrigin(0, 0);
+    this.energy.setText(this.statusCounts.energy);
+    this.container.add(this.energy);
     
 
 
@@ -130,14 +133,14 @@ export default class UserInterface {
 
 
 
-    // console.log('Il pulsante A è stato cliccato!');
-    // let fattore = (10 - 2) / 10;
-    // let valore = 2;
-    // for (let index = 0; index < 10; index++) {
-    //   valore += fattore;
-    //     console.log(valore)
+    console.log('Il pulsante A è stato cliccato!');
+    let fattore = (120 - 25) / 10;
+    let valore = 25;
+    for (let index = 0; index < 10; index++) {
+      valore += fattore;
+        console.log(valore);
       
-    // }
+    }
   }
 
   btnFunction2(){
@@ -514,6 +517,9 @@ export default class UserInterface {
     this.energyBar.height = 20 / zoom;
     this.energyBar.x = calculateProportionalWidth(10, 110, this.camera.worldView.width - (50 / this.camera.zoom));
     this.energyBar.y = calculateProportionalWidth(99, 100, this.camera.worldView.height - (50 / this.camera.zoom));
+    this.energy.setFontSize(16 / zoom);
+    this.energy.x = this.energyBar.x ;
+    this.energy.y = this.energyBar.y ;
 
     this.buttonA.displayWidth = 75 / zoom;
     this.buttonA.displayHeight = 75 / zoom;
@@ -537,7 +543,6 @@ export default class UserInterface {
     this.buttonD.displayHeight = 75 /zoom;
     this.buttonD.x = calculateProportionalWidth(32, 110, this.camera.worldView.width - (50 / this.camera.zoom));
     this.buttonD.y = calculateProportionalWidth(89, 100, this.camera.worldView.height - (50 / this.camera.zoom));
-    this.buttonD.text.setText(this.statusCounts.upgrade1Cd);
     this.buttonD.text.setFontSize(16 / zoom);
     this.buttonD.text.x = this.buttonD.x;
     this.buttonD.text.y = this.buttonD.y;
@@ -547,7 +552,6 @@ export default class UserInterface {
     this.buttonE.displayHeight = 75 /zoom;
     this.buttonE.x = calculateProportionalWidth(42, 110, this.camera.worldView.width - (50 / this.camera.zoom));
     this.buttonE.y = calculateProportionalWidth(89, 100, this.camera.worldView.height - (50 / this.camera.zoom));
-    this.buttonE.text.setText(this.statusCounts.upgrade2Cd);
     this.buttonE.text.setFontSize(16 / zoom);
     this.buttonE.text.x = this.buttonE.x;
     this.buttonE.text.y = this.buttonE.y;
@@ -558,7 +562,6 @@ export default class UserInterface {
     this.buttonF.displayHeight = 75 /zoom;
     this.buttonF.x = calculateProportionalWidth(52, 110, this.camera.worldView.width - (50 / this.camera.zoom));
     this.buttonF.y = calculateProportionalWidth(89, 100, this.camera.worldView.height - (50 / this.camera.zoom));
-    this.buttonF.text.setText(this.statusCounts.upgrade3Cd);
     this.buttonF.text.setFontSize(16 / zoom);
     this.buttonF.text.x = this.buttonF.x;
     this.buttonF.text.y = this.buttonF.y;
@@ -568,7 +571,6 @@ export default class UserInterface {
     this.buttonG.displayHeight = 75 /zoom;
     this.buttonG.x = calculateProportionalWidth(62, 110, this.camera.worldView.width - (50 / this.camera.zoom));
     this.buttonG.y = calculateProportionalWidth(89, 100, this.camera.worldView.height - (50 / this.camera.zoom));
-    this.buttonG.text.setText(this.statusCounts.upgrade4Cd);
     this.buttonG.text.setFontSize(16 / zoom);
     this.buttonG.text.x = this.buttonG.x;
     this.buttonG.text.y = this.buttonG.y;

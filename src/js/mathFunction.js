@@ -1,5 +1,5 @@
 import Phaser from "phaser";
-export {initializeMathFunction, fromPointerToTile, fromTileToWorldPoint, fromPositionToTile, fromTileToTargetObj, calculateDistance, ifTileInsideBound,ifTileIsAllowed, ifTileIsAllowedXY, calculateRotationAngle, calculateProportionalWidth,calculateIncrementBylevel };
+export {initializeMathFunction, fromPointerToTile, fromTileToWorldPoint, fromPositionToTile, fromTileToTargetObj, calculateDistance, ifTileInsideBound,ifTileIsAllowed, ifTileIsAllowedXY, calculateRotationAngle, calculateProportionalWidth,calculateIncrementBylevel, verifyPresenceOfEnergy };
 
 let grid = false;
 
@@ -118,5 +118,13 @@ function calculateIncrementBylevel(initial, level, factor){
     }
     return value;
 
+  }
+}
+
+function verifyPresenceOfEnergy(cost, energy) {
+  if(cost <= energy){
+    return true;
+  }else{
+    return false;
   }
 }

@@ -20,10 +20,10 @@ class UpgradeTable {
     this.researchSpeedLevel = 0;
     this.researchSpeed = [
       {reductionFactor : 1,                         
-        cost:100, time:10},
+        cost:0, time:10},
 
       {reductionFactor : 0.95,                         
-        cost:100, time:10},
+        cost:30, time:10},
       {reductionFactor : 0.90,                         
         cost:100, time:10},
       {reductionFactor : 0.85,                         
@@ -50,42 +50,87 @@ class UpgradeTable {
     this.energyEfficiencyLevel = 0;
     this.energyEfficiency = [
       {extractionRate : 1,                         
-        cost:100, time:10},
+        cost:0, time:0},
 
       {extractionRate : 1.1,                         
-        cost:100, time:10},
+        cost:110, time:10},
       {extractionRate : 1.2,                         
-        cost:100, time:10},
+        cost:250, time:10},
       {extractionRate : 1.3,                         
-        cost:100, time:10},
+        cost:340, time:10},
       {extractionRate : 1.4,                         
-        cost:100, time:10},
+        cost:430, time:10},
       {extractionRate : 1.5,                         
-        cost:100, time:10},
+        cost:520, time:10},
       {extractionRate : 1.6,                         
-        cost:100, time:10},
+        cost:610, time:10},
       {extractionRate : 1.7,                         
-        cost:100, time:10},
+        cost:700, time:10},
       {extractionRate : 1.8,                         
-        cost:100, time:10},
+        cost:800, time:10},
       {extractionRate : 1.9,                         
-        cost:100, time:10},
+        cost:900, time:10},
 
       {extractionRate : 2,                         
-        cost:100, time:10},
+        cost:1000, time:10},
 
       {extractionRate : 2.1,                         
-        cost:100, time:10},
+        cost:1200, time:10},
     ]
     
     this.engineerEfficiencyLevel  = 0;
     this.engineerEfficiency = [
-      {mooveFactor : 60,  constructionTimeFactor: 2, 
-        cost:100, time:60 },
+      {moveSpeed : 25,  constructionTimeFactor: 1, 
+        cost:0, time:60 },
+
+      {moveSpeed : 34,  constructionTimeFactor: 0.95, 
+        cost:50, time: 60 },
+      {moveSpeed : 44,  constructionTimeFactor: 0.90, 
+        cost:100, time: 90 },
+      {moveSpeed : 53,  constructionTimeFactor: 0.85, 
+        cost:150, time: 120 },
+      {moveSpeed : 63,  constructionTimeFactor: 0.80, 
+        cost:200, time: 150 },
+      {moveSpeed : 72,  constructionTimeFactor: 0.75, 
+        cost:250, time: 180 },
+      {moveSpeed : 82,  constructionTimeFactor: 0.70, 
+        cost:300, time: 210 },
+      {moveSpeed : 91,  constructionTimeFactor: 0.65, 
+        cost:350, time: 240 },
+      {moveSpeed : 101,  constructionTimeFactor: 0.5, 
+        cost:500, time: 300 },
+      {moveSpeed : 110,  constructionTimeFactor: 0.4, 
+        cost:650, time: 360 },
+      {moveSpeed : 120,  constructionTimeFactor: 0.3, 
+        cost:900, time: 420 },
     ]
 
     this.buildingsArmorLevel  = 0;
     this.buildingsArmor = [
+      {armorFactor : 1, 
+        cost:100, time:60 },
+
+      {armorFactor : 1, 
+        cost:100, time:60 },
+      {armorFactor : 1, 
+        cost:100, time:60 },
+      {armorFactor : 1, 
+        cost:100, time:60 },
+      {armorFactor : 1, 
+        cost:100, time:60 },
+      {armorFactor : 1, 
+        cost:100, time:60 },
+      {armorFactor : 1, 
+        cost:100, time:60 },
+      {armorFactor : 1, 
+        cost:100, time:60 },
+      {armorFactor : 1, 
+        cost:100, time:60 },
+      {armorFactor : 1, 
+        cost:100, time:60 },
+      {armorFactor : 1, 
+        cost:100, time:60 },
+
       {armorFactor : 1, 
         cost:100, time:60 },
     ]
@@ -93,11 +138,57 @@ class UpgradeTable {
     this.boostSpeedLevel = 0;
     this.boostSpeed = [
       {reductionFactor : 1, numbOftank: 6,          
-        cost:100, time:60 },
+        cost:0, time:0 },
+
+      {reductionFactor : 0.95, numbOftank: 9,          
+        cost:200, time:60 },
+      {reductionFactor : 0.90, numbOftank: 12,          
+        cost:300, time:60 },
+      {reductionFactor : 0.85, numbOftank: 15,          
+        cost:400, time:60 },
+      {reductionFactor : 0.80, numbOftank: 18,          
+        cost:500, time:60 },
+      {reductionFactor : 0.75, numbOftank: 21,          
+        cost:600, time:60 },
+      {reductionFactor : 0.70, numbOftank: 24,          
+        cost:700, time:60 },
+      {reductionFactor : 0.65, numbOftank: 27,          
+        cost:800, time:60 },
+      {reductionFactor : 0.60, numbOftank: 30,          
+        cost:900, time:60 },
+      {reductionFactor : 0.55, numbOftank: 33,          
+        cost:1000, time:60 },
+
+      {reductionFactor : 0.5, numbOftank: 36,          
+        cost:1200, time:60 },
     ]
     
     this.tanksProductionSpeedLevel = 0;
     this.tanksProductionSpeed = [ 
+      {reductionFactor : 1,                         
+        cost:0, time:0},
+
+      {reductionFactor : 1,                         
+        cost:100, time:60},
+      {reductionFactor : 1,                         
+        cost:100, time:60},
+      {reductionFactor : 1,                         
+        cost:100, time:60},
+      {reductionFactor : 1,                         
+        cost:100, time:60},
+      {reductionFactor : 1,                         
+        cost:100, time:60},
+      {reductionFactor : 1,                         
+        cost:100, time:60},
+      {reductionFactor : 1,                         
+        cost:100, time:60},
+      {reductionFactor : 1,                         
+        cost:100, time:60},
+      {reductionFactor : 1,                         
+        cost:100, time:60},
+      {reductionFactor : 1,                         
+        cost:100, time:60},
+
       {reductionFactor : 1,                         
         cost:100, time:60},
     ]
@@ -219,8 +310,30 @@ class UpgradeTable {
 
     this.mgHpLevel = 0;
     this.mgHp = [
-      {hp: 250,
-      cost:100, time:60}
+      {hp: 220,
+      cost:100, time:60},
+      
+      {hp: 245,
+      cost:100, time:60},
+      {hp: 270,
+      cost:100, time:60},
+      {hp: 295,
+      cost:100, time:60},
+      {hp: 320,
+      cost:100, time:60},
+      {hp: 345,
+      cost:100, time:60},
+      {hp: 370,
+      cost:100, time:60},
+      {hp: 395,
+      cost:100, time:60},
+      {hp: 420,
+      cost:100, time:60},
+      {hp: 445,
+      cost:100, time:60},
+
+      {hp: 470,
+      cost:100, time:60},
     ]
 
     
@@ -283,15 +396,38 @@ class UpgradeTable {
 
     this.cannonHpLevel = 0;
     this.cannonHp=[
-      {hp: 350,
-      cost:100, time:60}
+      {hp: 370,
+      cost:0, time:0},
+
+      {hp: 407,
+      cost:0, time:0},
+      {hp: 444,
+      cost:0, time:0},
+      {hp: 481,
+      cost:0, time:0},
+      {hp: 518,
+      cost:0, time:0},
+      {hp: 555,
+      cost:0, time:0},
+      {hp: 592,
+      cost:0, time:0},
+      {hp: 629,
+      cost:0, time:0},
+      {hp: 666,
+      cost:0, time:0},
+      {hp: 703,
+      cost:0, time:0},
+
+      {hp: 740,
+      cost:0, time:0},
+
     ]
     
     // Rocket ---------------
     this.RocketDamageLevel = 0;
     this.RocketDamage =[
       {dmg : 25,
-      cost:100, time:60},
+      cost:0, time:0},
 
       {dmg : 42.5,
       cost:100, time:60},
@@ -319,7 +455,7 @@ class UpgradeTable {
     this.RocketRofLevel = 0;
     this.RocketRof=[
       {rof : 160, rot: 0.25,
-        cost:100, time:60},
+        cost:0, time:0},
 
       {rof : 152, rot: 0.32,
         cost:100, time:60},
@@ -347,7 +483,29 @@ class UpgradeTable {
     this.RocketHpLevel = 0;
     this.RocketHp=[
       {hp: 300,
-      cost:100, time:60}
+      cost:100, time:60},
+
+      {hp: 330,
+      cost:100, time:60},
+      {hp: 360,
+      cost:100, time:60},
+      {hp: 390,
+      cost:100, time:60},
+      {hp: 420,
+      cost:100, time:60},
+      {hp: 450,
+      cost:100, time:60},
+      {hp: 480,
+      cost:100, time:60},
+      {hp: 510,
+      cost:100, time:60},
+      {hp: 540,
+      cost:100, time:60},
+      {hp: 570,
+      cost:100, time:60},
+
+      {hp: 600,
+      cost:100, time:60},
     ]
 
     this.UpgradeTable = this;

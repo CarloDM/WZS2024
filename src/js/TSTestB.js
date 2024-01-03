@@ -201,13 +201,22 @@ class setMapTest extends Phaser.Scene{
     this.enemies   = this.physics.add.group();
     this.buildings = this.physics.add.group();
 
-    this.ingBotty = new Engineering(this, [-100,+400])
+    this.engineering = new Engineering(this, [-100,+400]);
+    console.log(this.engineering)
     
     this.tankFactory = new TankFactory(this);
 
     this.tankFactory.createGaiser([128,+400],1);
     this.tankFactory.createGaiser([256,+400],2);
-    this.tankFactory.createGaiser([400,-200],3);
+    this.tankFactory.createGaiser([400,-300],3);
+    this.tankFactory.createGaiser([500,-400],4);
+    this.tankFactory.createGaiser([-200,-200],5);
+    this.tankFactory.createGaiser([350,-400],6);
+    this.tankFactory.createGaiser([600,-200],7);
+    this.tankFactory.createGaiser([0,500],8);
+    this.tankFactory.createGaiser([100,-200],9);
+    this.tankFactory.createGaiser([126,126],10);
+
 
     this.bulletPool = new BulletsPool(this);
 
@@ -269,7 +278,7 @@ class setMapTest extends Phaser.Scene{
   update(time, delta) {
 
     stats.begin();
-    this.ingBotty.update();
+    this.engineering.update();
     this.cameraController.update(delta);
     this.bulletPool.update();
 
