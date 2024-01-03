@@ -42,12 +42,40 @@ class UpgradeTable {
         cost:100, time:10},
       {reductionFactor : 0.50,                         
         cost:100, time:10},
+        
+      {reductionFactor : 0.45,                         
+        cost:100, time:10},
     ]
     
     this.energyEfficiencyLevel = 0;
     this.energyEfficiency = [
       {extractionRate : 1,                         
-        cost:100, time:60},
+        cost:100, time:10},
+
+      {extractionRate : 1.1,                         
+        cost:100, time:10},
+      {extractionRate : 1.2,                         
+        cost:100, time:10},
+      {extractionRate : 1.3,                         
+        cost:100, time:10},
+      {extractionRate : 1.4,                         
+        cost:100, time:10},
+      {extractionRate : 1.5,                         
+        cost:100, time:10},
+      {extractionRate : 1.6,                         
+        cost:100, time:10},
+      {extractionRate : 1.7,                         
+        cost:100, time:10},
+      {extractionRate : 1.8,                         
+        cost:100, time:10},
+      {extractionRate : 1.9,                         
+        cost:100, time:10},
+
+      {extractionRate : 2,                         
+        cost:100, time:10},
+
+      {extractionRate : 2.1,                         
+        cost:100, time:10},
     ]
     
     this.engineerEfficiencyLevel  = 0;

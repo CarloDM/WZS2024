@@ -251,11 +251,12 @@ export default class UserInterface {
       this.container.add(btn);
     });
 
-    if(!this.upgradeTable.upgradeIdIsSearching[0]){
+    
+    if(!this.upgradeTable.upgradeIdIsSearching[0] && this.upgradeTable.researchSpeedLevel <= 10){
       this.upgrade1.on( 'pointerup' , () => this.makeUpgrade(1, upgradeDeck),this);
     }else{this.upgrade1.setTint(0xED3818);}
 
-    if(!this.upgradeTable.upgradeIdIsSearching[1]){
+    if(!this.upgradeTable.upgradeIdIsSearching[1] && this.upgradeTable.energyEfficiencyLevel <= 10){
       this.upgrade2.on( 'pointerup' , () => this.makeUpgrade(2, upgradeDeck),this);
     }else{this.upgrade2.setTint(0xED3818);}
     
