@@ -2,18 +2,18 @@
 
 class StatusCounts {
   constructor(){
-    this.energy = 200;
+    this.energy = 1000;
 
     this.timeProductionTanks ={
-      mg : 5, cannon : 5, rocket: 5
+      mg : 40, cannon : 40, rocket: 40,
     }
+
+    this.mgCost = 40;
+    this.cannonCost = 40;
+    this.rocketCost = 40;
 
     this.button1 = 0;
 
-
-
-
-    
     this.btnDeck1 = 0;
     this.deck1IsProductive = false;
 

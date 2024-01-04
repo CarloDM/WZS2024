@@ -1,4 +1,4 @@
-import Phaser from "phaser";
+
 import Tank from './tank';
 import Enemy from "./enemy";
 import Gaiser from "./gaiser";
@@ -33,6 +33,10 @@ export default class TankFactory {
     this.deck4countDown;
     this.deck4Time;
     
+    this.testWaves = setInterval(() => {
+      console.log('fake enemy');
+      this.fakeWaves(10);
+    }, 180 * 1000);
 
     this.tankFactoryIstance = this;
   }
@@ -123,12 +127,13 @@ export default class TankFactory {
     this.enemyCount ++
 
     const newEnemy = 
-      new Enemy('machineGun', this.scene, this.enemyCount, position, 500);
+      new Enemy('machineGun', this.scene, this.enemyCount, position, 200);
       
     this.scene.enemiesGrp.push(newEnemy);
     this.scene.enemies.add(newEnemy.enemy);
   }
   
+
   createMultipleEnemies(number,  startingPosition) {
   
     for (let i = 0; i < number; i++) {
@@ -139,6 +144,19 @@ export default class TankFactory {
     }
   }
 
+  fakeWaves(count){
+    let intervalCount = count;
+    let insert = setInterval(() => {
+    if(intervalCount === 0){
+      clearInterval(insert);
+    }else{
+      let x = intervalCount * 32;
+      this.createEnemy([ x, - 1400])
+      intervalCount --;
+      console.log('enemy');
+    }
+    }, 50);
+  }
   createGaiser(position, id){
 
     const NewGaiser = new Gaiser(this.scene,position, id);
@@ -184,6 +202,7 @@ export default class TankFactory {
                 (this.statusCounts.timeProductionTanks.mg * 1000) *
                 (this.upgradeTable.tanksProductionSpeed[this.upgradeTable.tanksProductionSpeedLevel].reductionFactor);
                 cd = this.deck1Time /1000;
+
                 this.deck1countDown = setInterval(() => {
                   cd --;
                   
@@ -193,6 +212,7 @@ export default class TankFactory {
                   }
                 }, 1000);
 
+                this.statusCounts.energy -= this.statusCounts.mgCost;
                 this.createMgTank([0,-200]);
 
               }, this.deck1Time);
@@ -230,7 +250,8 @@ export default class TankFactory {
                     clearInterval(this.deck1countDown);
                   }
                 }, 1000);
-              
+                
+                this.statusCounts.energy -= this.statusCounts.cannonCost;
                 this.createCannonTank([0,-200]);
               
               }, this.deck1Time);
@@ -268,7 +289,7 @@ export default class TankFactory {
                     clearInterval(this.deck1countDown);
                   }
                 }, 1000);
-              
+                this.statusCounts.energy -= this.statusCounts.rocketCost;
                 this.createRocketTank([0,-200]);
               
               }, this.deck1Time);
@@ -330,7 +351,7 @@ export default class TankFactory {
                     clearInterval(this.deck2countDown);
                   }
                 }, 1000);
-
+                this.statusCounts.energy -= this.statusCounts.mgCost;
                 this.createMgTank([200,0]);
 
               }, this.deck2Time);
@@ -368,7 +389,7 @@ export default class TankFactory {
                     clearInterval(this.deck2countDown);
                   }
                 }, 1000);
-              
+                this.statusCounts.energy -= this.statusCounts.cannonCost;
                 this.createCannonTank([200,0]);
               
               }, this.deck2Time);
@@ -406,7 +427,7 @@ export default class TankFactory {
                     clearInterval(this.deck2countDown);
                   }
                 }, 1000);
-              
+                this.statusCounts.energy -= this.statusCounts.rocketCost;
                 this.createRocketTank([200,0]);
               
               }, this.deck2Time);
@@ -466,7 +487,7 @@ export default class TankFactory {
                     clearInterval(this.deck3countDown);
                   }
                 }, 1000);
-
+                this.statusCounts.energy -= this.statusCounts.mgCost;
                 this.createMgTank([0,200]);
 
               }, this.deck3Time);
@@ -504,7 +525,7 @@ export default class TankFactory {
                     clearInterval(this.deck3countDown);
                   }
                 }, 1000);
-              
+                this.statusCounts.energy -= this.statusCounts.cannonCost;
                 this.createCannonTank([0,200]);
               
               }, this.deck3Time);
@@ -542,7 +563,7 @@ export default class TankFactory {
                     clearInterval(this.deck3countDown);
                   }
                 }, 1000);
-              
+                this.statusCounts.energy -= this.statusCounts.rocketCost;
                 this.createRocketTank([0,200]);
               
               }, this.deck3Time);
@@ -601,7 +622,7 @@ export default class TankFactory {
                     clearInterval(this.deck4countDown);
                   }
                 }, 1000);
-
+                this.statusCounts.energy -= this.statusCounts.mgCost;
                 this.createMgTank([-200,0]);
 
               }, this.deck4Time);
@@ -639,7 +660,7 @@ export default class TankFactory {
                     clearInterval(this.deck4countDown);
                   }
                 }, 1000);
-              
+                this.statusCounts.energy -= this.statusCounts.cannonCost;
                 this.createCannonTank([-200,0]);
               
               }, this.deck4Time);
@@ -677,7 +698,7 @@ export default class TankFactory {
                     clearInterval(this.deck4countDown);
                   }
                 }, 1000);
-              
+                this.statusCounts.energy -= this.statusCounts.rocketCost;
                 this.createRocketTank([-200,0]);
               
               }, this.deck4Time);
@@ -944,7 +965,6 @@ export default class TankFactory {
         this.checkEnergy(upgradeDeckID,'upResSpeed', 0);
       }
   }
-
   energyEfficiency(upgradeDeckID){
 
     this.upgradeTable.upgradeIdIsSearching[1] = true;
@@ -1491,6 +1511,11 @@ export default class TankFactory {
     this.checkEnergy(upgradeDeckID, 'upProduction', 5);
     }
   }
+  speedTractionUpdate(){
+    this.scene.tanksGrp1.forEach(tank => {
+      tank.tank.speed *= this.upgradeTable.tanksSpeedTraction[this.upgradeTable.tanksSpeedTractionLevel].incrementFactor;
+    });
+  }
   tanksSpeedTraction(upgradeDeckID){
 
     this.upgradeTable.upgradeIdIsSearching[6] = true;
@@ -1512,7 +1537,7 @@ export default class TankFactory {
 
         this.upgradeTable.tanksSpeedTractionLevel ++;  
         this.upgradeTable.upgradeIdIsSearching[6] = false;
-
+        this.speedTractionUpdate();
         this.scene.cameraController.userInterface.istance.blockButton(upgradeDeckID, false);
         this.scene.cameraController.userInterface.buttonD.setTexture('btnUpgrade');
         
@@ -1534,7 +1559,7 @@ export default class TankFactory {
 
         this.upgradeTable.tanksSpeedTractionLevel ++;  
         this.upgradeTable.upgradeIdIsSearching[6] = false;
-
+        this.speedTractionUpdate();
         this.scene.cameraController.userInterface.istance.blockButton(upgradeDeckID, false);
         this.scene.cameraController.userInterface.buttonE.setTexture('btnUpgrade');
         
@@ -1556,7 +1581,7 @@ export default class TankFactory {
 
         this.upgradeTable.tanksSpeedTractionLevel ++;  
         this.upgradeTable.upgradeIdIsSearching[6] = false;
-
+        this.speedTractionUpdate();
         this.scene.cameraController.userInterface.istance.blockButton(upgradeDeckID, false);
         this.scene.cameraController.userInterface.buttonF.setTexture('btnUpgrade');
         
@@ -1578,7 +1603,7 @@ export default class TankFactory {
 
         this.upgradeTable.tanksSpeedTractionLevel ++;  
         this.upgradeTable.upgradeIdIsSearching[6] = false;
-
+        this.speedTractionUpdate();
         this.scene.cameraController.userInterface.istance.blockButton(upgradeDeckID, false);
         this.scene.cameraController.userInterface.buttonG.setTexture('btnUpgrade');
         
@@ -1597,6 +1622,11 @@ export default class TankFactory {
     }else{
     this.checkEnergy(upgradeDeckID, 'upSpeedTraction', 6);
     }      
+  }
+  RangeOfViewUpdate(){
+    this.scene.tanksGrp1.forEach(tank => {
+      tank.tank.cannon.range *= this.upgradeTable.tanksRangeOfView[this.upgradeTable.tanksRangeOfViewLevel].incrementFactor;
+    });
   }
   tanksRangeOfView(upgradeDeckID){
 
@@ -1620,7 +1650,7 @@ export default class TankFactory {
 
         this.upgradeTable.tanksRangeOfViewLevel ++;  
         this.upgradeTable.upgradeIdIsSearching[6] = false;
-
+        this.RangeOfViewUpdate();
         this.scene.cameraController.userInterface.istance.blockButton(upgradeDeckID, false);
         this.scene.cameraController.userInterface.buttonD.setTexture('btnUpgrade');
         
@@ -1642,7 +1672,7 @@ export default class TankFactory {
 
         this.upgradeTable.tanksRangeOfViewLevel ++;  
         this.upgradeTable.upgradeIdIsSearching[7] = false;
-
+        this.RangeOfViewUpdate();
         this.scene.cameraController.userInterface.istance.blockButton(upgradeDeckID, false);
         this.scene.cameraController.userInterface.buttonE.setTexture('btnUpgrade');
         
@@ -1664,7 +1694,7 @@ export default class TankFactory {
 
         this.upgradeTable.tanksRangeOfViewLevel ++;  
         this.upgradeTable.upgradeIdIsSearching[7] = false;
-
+        this.RangeOfViewUpdate();
         this.scene.cameraController.userInterface.istance.blockButton(upgradeDeckID, false);
         this.scene.cameraController.userInterface.buttonF.setTexture('btnUpgrade');
         
@@ -1686,7 +1716,7 @@ export default class TankFactory {
 
         this.upgradeTable.tanksRangeOfViewLevel ++;  
         this.upgradeTable.upgradeIdIsSearching[7] = false;
-
+        this.RangeOfViewUpdate();
         this.scene.cameraController.userInterface.istance.blockButton(upgradeDeckID, false);
         this.scene.cameraController.userInterface.buttonG.setTexture('btnUpgrade');
         
@@ -1707,6 +1737,12 @@ export default class TankFactory {
     }      
 
   }
+  mgDamageUpdate(){
+    let machineGuns = this.scene.tanksGrp1.filter(tank => ( tank.type === 'machineGun'));
+    machineGuns.forEach(tank => {
+      tank.tank.cannon.damage = this.upgradeTable.mgDamage[this.upgradeTable.mgDamageLevel].dmg;
+    });
+  }
   mgDamage(upgradeDeckID){
 
     this.upgradeTable.upgradeIdIsSearching[8] = true;
@@ -1716,18 +1752,21 @@ export default class TankFactory {
     
     if (PresenceOfEnergy){
       this.statusCounts.energy -= this.upgradeTable.mgDamage[this.upgradeTable.mgDamageLevel + 1].cost; 
-    const time = (this.upgradeTable.mgDamage[this.upgradeTable.mgDamageLevel + 1].time * 1000) *
-    (this.upgradeTable.researchSpeed[this.upgradeTable.researchSpeedLevel].reductionFactor);
+
+      const time = (this.upgradeTable.mgDamage[this.upgradeTable.mgDamageLevel + 1].time * 1000) *
+        (this.upgradeTable.researchSpeed[this.upgradeTable.researchSpeedLevel].reductionFactor);
     
     switch (upgradeDeckID) {
       case 1:
-              this.scene.cameraController.userInterface.buttonD.setTexture('upMgDmg');
+        this.scene.cameraController.userInterface.buttonD.setTexture('upMgDmg');
       
-      this.upgrade1TimeOut = setTimeout(() => {
+        this.upgrade1TimeOut = setTimeout(() => {
         clearInterval(this.upgrade1countDown);
 
         this.upgradeTable.mgDamageLevel ++;  
         this.upgradeTable.upgradeIdIsSearching[8] = false;
+
+        this.mgDamageUpdate();
 
         this.scene.cameraController.userInterface.istance.blockButton(upgradeDeckID, false);
         this.scene.cameraController.userInterface.buttonD.setTexture('btnUpgrade');
@@ -1743,13 +1782,15 @@ export default class TankFactory {
         }, 1000);
         break;
       case 2:
-              this.scene.cameraController.userInterface.buttonE.setTexture('upMgDmg');
+        this.scene.cameraController.userInterface.buttonE.setTexture('upMgDmg');
 
-      this.upgrade2TimeOut = setTimeout(() => {
+        this.upgrade2TimeOut = setTimeout(() => {
         clearInterval(this.upgrade2countDown);
 
         this.upgradeTable.mgDamageLevel ++;  
         this.upgradeTable.upgradeIdIsSearching[8] = false;
+
+        this.mgDamageUpdate();
 
         this.scene.cameraController.userInterface.istance.blockButton(upgradeDeckID, false);
         this.scene.cameraController.userInterface.buttonE.setTexture('btnUpgrade');
@@ -1765,13 +1806,15 @@ export default class TankFactory {
         }, 1000);
         break;
       case 3:
-              this.scene.cameraController.userInterface.buttonF.setTexture('upMgDmg');
+        this.scene.cameraController.userInterface.buttonF.setTexture('upMgDmg');
 
-      this.upgrade3TimeOut = setTimeout(() => {
+        this.upgrade3TimeOut = setTimeout(() => {
         clearInterval(this.upgrade3countDown);
 
         this.upgradeTable.mgDamageLevel ++;  
         this.upgradeTable.upgradeIdIsSearching[8] = false;
+
+        this.mgDamageUpdate();
 
         this.scene.cameraController.userInterface.istance.blockButton(upgradeDeckID, false);
         this.scene.cameraController.userInterface.buttonF.setTexture('btnUpgrade');
@@ -1795,6 +1838,8 @@ export default class TankFactory {
         this.upgradeTable.mgDamageLevel ++;  
         this.upgradeTable.upgradeIdIsSearching[8] = false;
 
+        this.mgDamageUpdate();
+
         this.scene.cameraController.userInterface.istance.blockButton(upgradeDeckID, false);
         this.scene.cameraController.userInterface.buttonG.setTexture('btnUpgrade');
         
@@ -1814,6 +1859,14 @@ export default class TankFactory {
     this.checkEnergy(upgradeDeckID, 'upMgDmg', 8);
     } 
   }
+  mgRofUpdate(){
+    let machineGuns = this.scene.tanksGrp1.filter(tank => ( tank.type === 'machineGun'));
+    machineGuns.forEach(tank => {
+      tank.tank.cannon.rof =              this.upgradeTable.mgRof[this.upgradeTable.mgRofLevel].rof;
+      tank.tank.cannon.shotCharge =       this.upgradeTable.mgRof[this.upgradeTable.mgRofLevel].rof;
+      tank.tank.cannon.rotationVelocity = this.upgradeTable.mgRof[this.upgradeTable.mgRofLevel].rot;
+    });
+  }
   mgRof(upgradeDeckID){
 
     this.upgradeTable.upgradeIdIsSearching[9] = true;
@@ -1828,14 +1881,14 @@ export default class TankFactory {
     
     switch (upgradeDeckID) {
       case 1:
-              this.scene.cameraController.userInterface.buttonD.setTexture('upMgRof');
+        this.scene.cameraController.userInterface.buttonD.setTexture('upMgRof');
       
-      this.upgrade1TimeOut = setTimeout(() => {
+        this.upgrade1TimeOut = setTimeout(() => {
         clearInterval(this.upgrade1countDown);
 
         this.upgradeTable.mgRofLevel ++;  
         this.upgradeTable.upgradeIdIsSearching[9] = false;
-
+        this.mgRofUpdate();
         this.scene.cameraController.userInterface.istance.blockButton(upgradeDeckID, false);
         this.scene.cameraController.userInterface.buttonD.setTexture('btnUpgrade');
         
@@ -1857,7 +1910,7 @@ export default class TankFactory {
 
         this.upgradeTable.mgRofLevel ++;  
         this.upgradeTable.upgradeIdIsSearching[9] = false;
-
+        this.mgRofUpdate();
         this.scene.cameraController.userInterface.istance.blockButton(upgradeDeckID, false);
         this.scene.cameraController.userInterface.buttonE.setTexture('btnUpgrade');
         
@@ -1879,7 +1932,7 @@ export default class TankFactory {
 
         this.upgradeTable.mgRofLevel ++;  
         this.upgradeTable.upgradeIdIsSearching[9] = false;
-
+        this.mgRofUpdate();
         this.scene.cameraController.userInterface.istance.blockButton(upgradeDeckID, false);
         this.scene.cameraController.userInterface.buttonF.setTexture('btnUpgrade');
         
@@ -1901,7 +1954,7 @@ export default class TankFactory {
 
         this.upgradeTable.mgRofLevel ++;  
         this.upgradeTable.upgradeIdIsSearching[9] = false;
-
+        this.mgRofUpdate();
         this.scene.cameraController.userInterface.istance.blockButton(upgradeDeckID, false);
         this.scene.cameraController.userInterface.buttonG.setTexture('btnUpgrade');
         
@@ -1921,6 +1974,12 @@ export default class TankFactory {
     this.checkEnergy(upgradeDeckID, 'upMgRof', 9);
     }       
 
+  }
+  mgHpUpdate(){
+    let machineGuns = this.scene.tanksGrp1.filter(tank => ( tank.type === 'machineGun'));
+    machineGuns.forEach(tank => {
+      tank.tank.maxHp = this.upgradeTable.mgHp[this.upgradeTable.mgHpLevel].hp;
+    });
   }
   mgHp(upgradeDeckID){
 
@@ -1943,7 +2002,7 @@ export default class TankFactory {
 
         this.upgradeTable.mgHpLevel ++;  
         this.upgradeTable.upgradeIdIsSearching[10] = false;
-
+        this.mgHpUpdate();
         this.scene.cameraController.userInterface.istance.blockButton(upgradeDeckID, false);
         this.scene.cameraController.userInterface.buttonD.setTexture('btnUpgrade');
         
@@ -1965,7 +2024,7 @@ export default class TankFactory {
 
         this.upgradeTable.mgHpLevel ++;  
         this.upgradeTable.upgradeIdIsSearching[10] = false;
-
+        this.mgHpUpdate();
         this.scene.cameraController.userInterface.istance.blockButton(upgradeDeckID, false);
         this.scene.cameraController.userInterface.buttonE.setTexture('btnUpgrade');
         
@@ -1987,7 +2046,7 @@ export default class TankFactory {
 
         this.upgradeTable.mgHpLevel ++;  
         this.upgradeTable.upgradeIdIsSearching[10] = false;
-
+        this.mgHpUpdate();
         this.scene.cameraController.userInterface.istance.blockButton(upgradeDeckID, false);
         this.scene.cameraController.userInterface.buttonF.setTexture('btnUpgrade');
         
@@ -2009,7 +2068,7 @@ export default class TankFactory {
 
         this.upgradeTable.mgHpLevel ++;  
         this.upgradeTable.upgradeIdIsSearching[10] = false;
-
+        this.mgHpUpdate();
         this.scene.cameraController.userInterface.istance.blockButton(upgradeDeckID, false);
         this.scene.cameraController.userInterface.buttonG.setTexture('btnUpgrade');
         
@@ -2029,6 +2088,12 @@ export default class TankFactory {
     this.checkEnergy(upgradeDeckID, 'upMgHp', 10);
     }       
 
+  }
+  cannonDamageUpdate(){
+    let cannons = this.scene.tanksGrp1.filter(tank => ( tank.type === 'cannon'));
+    cannons.forEach(tank => {
+      tank.tank.cannon.damage = this.upgradeTable.cannonDamage[this.upgradeTable.cannonDamageLevel].dmg;
+    });
   }
   cannonDamage(upgradeDeckID){
 
@@ -2052,7 +2117,7 @@ export default class TankFactory {
 
         this.upgradeTable.cannonDamageLevel ++;  
         this.upgradeTable.upgradeIdIsSearching[11] = false;
-
+        this.cannonDamageUpdate();
         this.scene.cameraController.userInterface.istance.blockButton(upgradeDeckID, false);
         this.scene.cameraController.userInterface.buttonD.setTexture('btnUpgrade');
         
@@ -2074,7 +2139,7 @@ export default class TankFactory {
 
         this.upgradeTable.cannonDamageLevel ++;  
         this.upgradeTable.upgradeIdIsSearching[11] = false;
-
+        this.cannonDamageUpdate();
         this.scene.cameraController.userInterface.istance.blockButton(upgradeDeckID, false);
         this.scene.cameraController.userInterface.buttonE.setTexture('btnUpgrade');
         
@@ -2096,7 +2161,7 @@ export default class TankFactory {
 
         this.upgradeTable.cannonDamageLevel ++;  
         this.upgradeTable.upgradeIdIsSearching[11] = false;
-
+        this.cannonDamageUpdate();
         this.scene.cameraController.userInterface.istance.blockButton(upgradeDeckID, false);
         this.scene.cameraController.userInterface.buttonF.setTexture('btnUpgrade');
         
@@ -2111,14 +2176,14 @@ export default class TankFactory {
         }, 1000);
         break;
       case 4:
-              this.scene.cameraController.userInterface.buttonG.setTexture('upCannonDmg');
+        this.scene.cameraController.userInterface.buttonG.setTexture('upCannonDmg');
 
-      this.upgrade4TimeOut = setTimeout(() => {
+        this.upgrade4TimeOut = setTimeout(() => {
         clearInterval(this.upgrade4countDown);
 
         this.upgradeTable.cannonDamageLevel ++;  
         this.upgradeTable.upgradeIdIsSearching[11] = false;
-
+        this.cannonDamageUpdate();
         this.scene.cameraController.userInterface.istance.blockButton(upgradeDeckID, false);
         this.scene.cameraController.userInterface.buttonG.setTexture('btnUpgrade');
         
@@ -2139,6 +2204,14 @@ export default class TankFactory {
     }       
 
   }
+  cannonRofUpdate(){
+    let cannons = this.scene.tanksGrp1.filter(tank => ( tank.type === 'cannon'));
+    cannons.forEach(tank => {
+      tank.tank.cannon.rof =              this.upgradeTable.cannonRof[this.upgradeTable.cannonRofLevel].rof;
+      tank.tank.cannon.shotCharge =       this.upgradeTable.cannonRof[this.upgradeTable.cannonRofLevel].rof;
+      tank.tank.cannon.rotationVelocity = this.upgradeTable.cannonRof[this.upgradeTable.cannonRofLevel].rot;
+    });
+  }
   cannonRof(upgradeDeckID){
 
     this.upgradeTable.upgradeIdIsSearching[12] = true;
@@ -2147,7 +2220,7 @@ export default class TankFactory {
     let PresenceOfEnergy = (verifyPresenceOfEnergy(this.upgradeTable.cannonRof[this.upgradeTable.cannonRofLevel + 1].cost, this.statusCounts.energy ));
     
     if (PresenceOfEnergy){
-      this.statusCounts.energy -= this.upgradeTable.cannonRof[this.upgradeTable.cannonRof + 1].cost; 
+      this.statusCounts.energy -= this.upgradeTable.cannonRof[this.upgradeTable.cannonRofLevel + 1].cost; 
 
     const time = (this.upgradeTable.cannonRof[this.upgradeTable.cannonRofLevel + 1].time * 1000) *
     (this.upgradeTable.researchSpeed[this.upgradeTable.researchSpeedLevel].reductionFactor);
@@ -2161,7 +2234,7 @@ export default class TankFactory {
 
         this.upgradeTable.cannonRofLevel ++;  
         this.upgradeTable.upgradeIdIsSearching[12] = false;
-
+        this.cannonRofUpdate();
         this.scene.cameraController.userInterface.istance.blockButton(upgradeDeckID, false);
         this.scene.cameraController.userInterface.buttonD.setTexture('btnUpgrade');
         
@@ -2182,7 +2255,7 @@ export default class TankFactory {
 
         this.upgradeTable.cannonRofLevel ++;  
         this.upgradeTable.upgradeIdIsSearching[12] = false;
-
+        this.cannonRofUpdate();
         this.scene.cameraController.userInterface.istance.blockButton(upgradeDeckID, false);
         this.scene.cameraController.userInterface.buttonE.setTexture('btnUpgrade');
         
@@ -2199,12 +2272,12 @@ export default class TankFactory {
       case 3:
         this.scene.cameraController.userInterface.buttonF.setTexture('upCannonRof');
 
-      this.upgrade3TimeOut = setTimeout(() => {
+        this.upgrade3TimeOut = setTimeout(() => {
         clearInterval(this.upgrade3countDown);
 
         this.upgradeTable.cannonRofLevel ++;  
         this.upgradeTable.upgradeIdIsSearching[12] = false;
-
+        this.cannonRofUpdate();
         this.scene.cameraController.userInterface.istance.blockButton(upgradeDeckID, false);
         this.scene.cameraController.userInterface.buttonF.setTexture('btnUpgrade');
         
@@ -2226,7 +2299,7 @@ export default class TankFactory {
 
         this.upgradeTable.cannonRofLevel ++;  
         this.upgradeTable.upgradeIdIsSearching[12] = false;
-
+        this.cannonRofUpdate();
         this.scene.cameraController.userInterface.istance.blockButton(upgradeDeckID, false);
         this.scene.cameraController.userInterface.buttonG.setTexture('btnUpgrade');
         
@@ -2246,6 +2319,13 @@ export default class TankFactory {
     this.checkEnergy(upgradeDeckID, 'upCannonRof', 12);
     }    
 
+  }
+  cannonHpUpdate(){
+    let cannons = this.scene.tanksGrp1.filter(tank => ( tank.type === 'cannon'));
+    cannons.forEach(tank => {
+      tank.tank.maxHp = this.upgradeTable.cannonHp[this.upgradeTable.cannonHpLevel].hp;
+      tank.tank.lifeBar.maxHp = this.upgradeTable.cannonHp[this.upgradeTable.cannonHpLevel].hp;
+    });
   }
   cannonHp(upgradeDeckID){
 
@@ -2269,7 +2349,7 @@ export default class TankFactory {
 
         this.upgradeTable.cannonHpLevel ++;  
         this.upgradeTable.upgradeIdIsSearching[13] = false;
-
+        this.cannonHpUpdate();
         this.scene.cameraController.userInterface.istance.blockButton(upgradeDeckID, false);
         this.scene.cameraController.userInterface.buttonD.setTexture('btnUpgrade');
         
@@ -2291,7 +2371,7 @@ export default class TankFactory {
 
         this.upgradeTable.cannonHpLevel ++;  
         this.upgradeTable.upgradeIdIsSearching[13] = false;
-
+        this.cannonHpUpdate();
         this.scene.cameraController.userInterface.istance.blockButton(upgradeDeckID, false);
         this.scene.cameraController.userInterface.buttonE.setTexture('btnUpgrade');
         
@@ -2313,7 +2393,7 @@ export default class TankFactory {
 
         this.upgradeTable.cannonHpLevel ++;  
         this.upgradeTable.upgradeIdIsSearching[13] = false;
-
+        this.cannonHpUpdate();
         this.scene.cameraController.userInterface.istance.blockButton(upgradeDeckID, false);
         this.scene.cameraController.userInterface.buttonF.setTexture('btnUpgrade');
         
@@ -2335,7 +2415,7 @@ export default class TankFactory {
 
         this.upgradeTable.cannonHpLevel ++;  
         this.upgradeTable.upgradeIdIsSearching[13] = false;
-
+        this.cannonHpUpdate();
         this.scene.cameraController.userInterface.istance.blockButton(upgradeDeckID, false);
         this.scene.cameraController.userInterface.buttonG.setTexture('btnUpgrade');
         
@@ -2355,6 +2435,12 @@ export default class TankFactory {
     this.checkEnergy(upgradeDeckID, 'upCannonHp', 13);
     }      
 
+  }
+  rocketDamageUpdate(){
+    let rockets = this.scene.tanksGrp1.filter(tank => ( tank.type === 'rocket'));
+    rockets.forEach(tank => {
+      tank.tank.cannon.damage = this.upgradeTable.RocketDamage[this.upgradeTable.RocketDamageLevel].dmg;
+    });
   }
   RocketDamage(upgradeDeckID){
 
@@ -2377,7 +2463,7 @@ export default class TankFactory {
 
         this.upgradeTable.RocketDamageLevel ++;  
         this.upgradeTable.upgradeIdIsSearching[14] = false;
-
+        this.rocketDamageUpdate();
         this.scene.cameraController.userInterface.istance.blockButton(upgradeDeckID, false);
         this.scene.cameraController.userInterface.buttonD.setTexture('btnUpgrade');
         
@@ -2399,7 +2485,7 @@ export default class TankFactory {
 
         this.upgradeTable.RocketDamageLevel ++;  
         this.upgradeTable.upgradeIdIsSearching[14] = false;
-
+        this.rocketDamageUpdate();
         this.scene.cameraController.userInterface.istance.blockButton(upgradeDeckID, false);
         this.scene.cameraController.userInterface.buttonE.setTexture('btnUpgrade');
         
@@ -2420,7 +2506,7 @@ export default class TankFactory {
 
         this.upgradeTable.RocketDamageLevel ++;  
         this.upgradeTable.upgradeIdIsSearching[14] = false;
-
+        this.rocketDamageUpdate();
         this.scene.cameraController.userInterface.istance.blockButton(upgradeDeckID, false);
         this.scene.cameraController.userInterface.buttonF.setTexture('btnUpgrade');
         
@@ -2442,7 +2528,7 @@ export default class TankFactory {
 
         this.upgradeTable.RocketDamageLevel ++;  
         this.upgradeTable.upgradeIdIsSearching[14] = false;
-
+        this.rocketDamageUpdate();
         this.scene.cameraController.userInterface.istance.blockButton(upgradeDeckID, false);
         this.scene.cameraController.userInterface.buttonG.setTexture('btnUpgrade');
         
@@ -2462,6 +2548,14 @@ export default class TankFactory {
     this.checkEnergy(upgradeDeckID, 'upBRocketDmg', 14);
     }   
 
+  }
+  rocketRofUpdate(){
+    let rockets = this.scene.tanksGrp1.filter(tank => ( tank.type === 'rocket'));
+    rockets.forEach(tank => {
+      tank.tank.cannon.rof =              this.upgradeTable.RocketRof[this.upgradeTable.RocketRofLevel].rof;
+      tank.tank.cannon.shotCharge =       this.upgradeTable.RocketRof[this.upgradeTable.RocketRofLevel].rof;
+      tank.tank.cannon.rotationVelocity = this.upgradeTable.RocketRof[this.upgradeTable.RocketRofLevel].rot;
+    });
   }
   RocketRof(upgradeDeckID){
 
@@ -2484,7 +2578,7 @@ export default class TankFactory {
 
         this.upgradeTable.RocketRofLevel ++;  
         this.upgradeTable.upgradeIdIsSearching[15] = false;
-
+        this.rocketRofUpdate();
         this.scene.cameraController.userInterface.istance.blockButton(upgradeDeckID, false);
         this.scene.cameraController.userInterface.buttonD.setTexture('btnUpgrade');
         
@@ -2506,7 +2600,7 @@ export default class TankFactory {
 
         this.upgradeTable.RocketRofLevel ++;  
         this.upgradeTable.upgradeIdIsSearching[15] = false;
-
+        this.rocketRofUpdate();
         this.scene.cameraController.userInterface.istance.blockButton(upgradeDeckID, false);
         this.scene.cameraController.userInterface.buttonE.setTexture('btnUpgrade');
         
@@ -2527,7 +2621,7 @@ export default class TankFactory {
 
         this.upgradeTable.RocketRofLevel ++;  
         this.upgradeTable.upgradeIdIsSearching[15] = false;
-
+        this.rocketRofUpdate();
         this.scene.cameraController.userInterface.istance.blockButton(upgradeDeckID, false);
         this.scene.cameraController.userInterface.buttonF.setTexture('btnUpgrade');
         
@@ -2548,7 +2642,7 @@ export default class TankFactory {
 
         this.upgradeTable.RocketRofLevel ++;  
         this.upgradeTable.upgradeIdIsSearching[15] = false;
-
+        this.rocketRofUpdate();
         this.scene.cameraController.userInterface.istance.blockButton(upgradeDeckID, false);
         this.scene.cameraController.userInterface.buttonG.setTexture('btnUpgrade');
         
@@ -2569,6 +2663,12 @@ export default class TankFactory {
     }        
 
   }
+  rocketHpUpdate(){
+    let rockets = this.scene.tanksGrp1.filter(tank => ( tank.type === 'rocket'));
+    rockets.forEach(tank => {
+      tank.tank.maxHp = this.upgradeTable.RocketHp[this.upgradeTable.RocketHpLevel].hp;
+    });
+  }
   RocketHp(upgradeDeckID){
 
     this.upgradeTable.upgradeIdIsSearching[16] = true;
@@ -2577,7 +2677,7 @@ export default class TankFactory {
     let PresenceOfEnergy = (verifyPresenceOfEnergy(this.upgradeTable.RocketHp[this.upgradeTable.RocketHpLevel + 1].cost, this.statusCounts.energy ));
     
     if (PresenceOfEnergy){
-      this.statusCounts.energy -= this.upgradeTable.RocketHp[this.upgradeTable.RocketHp + 1].cost; 
+      this.statusCounts.energy -= this.upgradeTable.RocketHp[this.upgradeTable.RocketHpLevel + 1].cost; 
 
     const time = (this.upgradeTable.RocketHp[this.upgradeTable.RocketHpLevel + 1].time * 1000) *
     (this.upgradeTable.researchSpeed[this.upgradeTable.researchSpeedLevel].reductionFactor);
@@ -2590,7 +2690,7 @@ export default class TankFactory {
 
         this.upgradeTable.RocketHpLevel ++;  
         this.upgradeTable.upgradeIdIsSearching[16] = false;
-
+        this.rocketHpUpdate();
         this.scene.cameraController.userInterface.istance.blockButton(upgradeDeckID, false);
         this.scene.cameraController.userInterface.buttonD.setTexture('btnUpgrade');
         
@@ -2611,7 +2711,7 @@ export default class TankFactory {
 
         this.upgradeTable.RocketHpLevel ++;  
         this.upgradeTable.upgradeIdIsSearching[16] = false;
-
+        this.rocketHpUpdate();
         this.scene.cameraController.userInterface.istance.blockButton(upgradeDeckID, false);
         this.scene.cameraController.userInterface.buttonE.setTexture('btnUpgrade');
         
@@ -2632,7 +2732,7 @@ export default class TankFactory {
 
         this.upgradeTable.RocketHpLevel ++;  
         this.upgradeTable.upgradeIdIsSearching[16] = false;
-
+        this.rocketHpUpdate();
         this.scene.cameraController.userInterface.istance.blockButton(upgradeDeckID, false);
         this.scene.cameraController.userInterface.buttonF.setTexture('btnUpgrade');
         
@@ -2653,7 +2753,7 @@ export default class TankFactory {
 
         this.upgradeTable.RocketHpLevel ++;  
         this.upgradeTable.upgradeIdIsSearching[16] = false;
-
+        this.rocketHpUpdate();
         this.scene.cameraController.userInterface.istance.blockButton(upgradeDeckID, false);
         this.scene.cameraController.userInterface.buttonG.setTexture('btnUpgrade');
         

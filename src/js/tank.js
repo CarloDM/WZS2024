@@ -23,7 +23,7 @@ export default class Tank  {
     this.isDirected = false;
     this.friction = 0.90;
     this.tolerance = 64;
-
+    this.maxHp = hp;
 // ------
 
     this.tank = scene.add.sprite(position[0],position[1],'tank');
@@ -37,10 +37,10 @@ export default class Tank  {
     this.tank.setInteractive();
     this.tank.hp = hp;
 
-
+    console.log(this.type)
     switch (this.type) {
       case 'machineGun':
-        this.tank.cannon = new Mg(this.scene, this.tank, this.id);
+        this.tank.cannon = new Mg(this.scene, this.tank, this.id,);
         break;
       case 'cannon':
         this.tank.cannon = new Cannon(this.scene, this.tank, this.id);
@@ -50,7 +50,7 @@ export default class Tank  {
         break;
     }
 
-    this.tank.lifeBar = new LifeReloadBar(this.scene, this.tank , hp);
+    this.tank.lifeBar = new LifeReloadBar(this.scene, this.tank , hp, this.maxHp);
 
     this.tank.tankInstance = this;
   }// tank constructor end

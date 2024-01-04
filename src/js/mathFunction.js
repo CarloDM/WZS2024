@@ -1,5 +1,5 @@
 import Phaser from "phaser";
-export {initializeMathFunction, fromPointerToTile, fromTileToWorldPoint, fromPositionToTile, fromTileToTargetObj, calculateDistance, ifTileInsideBound,ifTileIsAllowed, ifTileIsAllowedXY, calculateRotationAngle, calculateProportionalWidth,calculateIncrementBylevel, verifyPresenceOfEnergy };
+export {initializeMathFunction, fromPointerToTile, fromTileToWorldPoint, fromPositionToTile, fromTileToTargetObj, calculateDistance, ifTileInsideBound,ifTileIsAllowed, ifTileIsAllowedXY, calculateRotationAngle, calculateProportionalWidth,calculateIncrementBylevel, verifyPresenceOfEnergy,calculateMidPoint };
 
 let grid = false;
 
@@ -127,4 +127,11 @@ function verifyPresenceOfEnergy(cost, energy) {
   }else{
     return false;
   }
+}
+
+function calculateMidPoint(x, y, x2, y2) {
+  var puntoMedioX = Math.floor((x + x2) / 2);
+  var puntoMedioY = Math.floor((y + y2) / 2);
+
+  return [puntoMedioX, puntoMedioY];
 }

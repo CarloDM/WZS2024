@@ -23,28 +23,28 @@ class UpgradeTable {
         cost:0, time:10},
 
       {reductionFactor : 0.95,                         
-        cost:30, time:10},
+        cost:30, time:90},
       {reductionFactor : 0.90,                         
-        cost:100, time:10},
+        cost:60, time:120},
       {reductionFactor : 0.85,                         
-        cost:100, time:10},
+        cost:90, time:140},
       {reductionFactor : 0.80,                         
-        cost:100, time:10},
+        cost:120, time:150},
       {reductionFactor : 0.75,                         
-        cost:100, time:10},
+        cost:200, time:150},
       {reductionFactor : 0.70,                         
-        cost:100, time:10},
+        cost:300, time:180},
       {reductionFactor : 0.65,                         
-        cost:100, time:10},
+        cost:400, time:210},
       {reductionFactor : 0.60,                         
-        cost:100, time:10},
+        cost:500, time:240},
       {reductionFactor : 0.55,                         
-        cost:100, time:10},
+        cost:600, time:270},
       {reductionFactor : 0.50,                         
         cost:100, time:10},
         
       {reductionFactor : 0.45,                         
-        cost:100, time:10},
+        cost:800, time:300},
     ]
     
     this.energyEfficiencyLevel = 0;
@@ -53,29 +53,29 @@ class UpgradeTable {
         cost:0, time:0},
 
       {extractionRate : 1.1,                         
-        cost:110, time:10},
+        cost:40, time:30},
       {extractionRate : 1.2,                         
-        cost:250, time:10},
+        cost:125, time:60},
       {extractionRate : 1.3,                         
-        cost:340, time:10},
+        cost:250, time:120},
       {extractionRate : 1.4,                         
-        cost:430, time:10},
+        cost:430, time:150},
       {extractionRate : 1.5,                         
-        cost:520, time:10},
+        cost:520, time:180},
       {extractionRate : 1.6,                         
-        cost:610, time:10},
+        cost:610, time:210},
       {extractionRate : 1.7,                         
-        cost:700, time:10},
+        cost:700, time:240},
       {extractionRate : 1.8,                         
-        cost:800, time:10},
+        cost:800, time:270},
       {extractionRate : 1.9,                         
         cost:900, time:10},
 
       {extractionRate : 2,                         
-        cost:1000, time:10},
+        cost:1000, time:300},
 
       {extractionRate : 2.1,                         
-        cost:1200, time:10},
+        cost:1200, time:330},
     ]
     
     this.engineerEfficiencyLevel  = 0;
@@ -84,11 +84,11 @@ class UpgradeTable {
         cost:0, time:60 },
 
       {moveSpeed : 34,  constructionTimeFactor: 0.95, 
-        cost:50, time: 60 },
+        cost:30, time: 60 },
       {moveSpeed : 44,  constructionTimeFactor: 0.90, 
-        cost:100, time: 90 },
+        cost:60, time: 90 },
       {moveSpeed : 53,  constructionTimeFactor: 0.85, 
-        cost:150, time: 120 },
+        cost:120, time: 120 },
       {moveSpeed : 63,  constructionTimeFactor: 0.80, 
         cost:200, time: 150 },
       {moveSpeed : 72,  constructionTimeFactor: 0.75, 
@@ -335,7 +335,6 @@ class UpgradeTable {
       {hp: 470,
       cost:100, time:60},
     ]
-
     
     // Cannon --------------
     this.cannonDamageLevel = 0;

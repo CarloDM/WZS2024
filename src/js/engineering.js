@@ -1,6 +1,6 @@
 import Phaser from "phaser";
 import UpgradeTable from "./upgradeTable";
-import {calculateDistance,calculateRotationAngle,calculateIncrementBylevel} from './mathFunction';
+import {calculateDistance,calculateRotationAngle,calculateIncrementBylevel, calculateMidPoint} from './mathFunction';
 
 import {fromTileToTargetObj,fromPositionToTile} from "./mathFunction";
 import {findPath} from "./Astar";
@@ -68,10 +68,6 @@ export default class Engineering  {
   }// engineering constructor end
 
 
-
-
-
-
 // this class functions---------------------------
   scanForGaiser(){
 
@@ -106,10 +102,12 @@ export default class Engineering  {
 
     if(this.scene.gaiserGrp.length > 0){
 
+      let midPoint = calculateMidPoint( 0, 0, this.engineering.x, this.engineering.y);
 
+      console.log(midPoint)
       let closestGaiser = gaisers.map((gaiser, index)=>{
       
-        const distanceToBase = Math.floor(calculateDistance(0, 0, gaiser.x, gaiser.y));
+        const distanceToBase = Math.floor(calculateDistance(midPoint[0] ,midPoint[1], gaiser.x, gaiser.y));
       
         return { x: gaiser.x , y: gaiser.y , distance: distanceToBase, index };
       
@@ -170,9 +168,6 @@ export default class Engineering  {
 
   };
 
-
-
-
   moveTankToNext(target){
 
     this.break = false;
@@ -204,7 +199,6 @@ export default class Engineering  {
     (30 * this.upgradeTable.engineerEfficiency[this.upgradeTable.engineerEfficiencyLevel].constructionTimeFactor) * 1000);
   }
 
-  
   destroy() {
 
     if (this.engineering.body) {
