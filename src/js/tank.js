@@ -40,7 +40,7 @@ export default class Tank  {
     console.log(this.type)
     switch (this.type) {
       case 'machineGun':
-        this.tank.cannon = new Mg(this.scene, this.tank, this.id,);
+        this.tank.cannon = new Mg(this.scene, this.tank, this.id);
         break;
       case 'cannon':
         this.tank.cannon = new Cannon(this.scene, this.tank, this.id);

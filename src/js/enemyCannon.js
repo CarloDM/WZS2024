@@ -2,24 +2,24 @@ import UpgradeTable from "./upgradeTable";
 import {calculateDistance,calculateRotationAngle,calculateIncrementBylevel} from './mathFunction';
 
 export default class cannon {
-
   constructor(scene, enemy, id){
 
     this.scene = scene;
     this.enemy = enemy;
     this.id = id;
-    this.upgradeTable = UpgradeTable.getInstance();
     this.scanCount = 0;
+    this.upgradeTable = UpgradeTable.getInstance();
 
-    this.damage = this.upgradeTable.cannonDamage[this.upgradeTable.cannonDamageLevel].dmg
+    this.damage = this.upgradeTable.cannonDamage[this.upgradeTable.enemyCannonDamageLevel].dmg
 
-    const range = calculateIncrementBylevel(320,this.upgradeTable.tanksRangeOfViewLevel,this.upgradeTable.tanksRangeOfView[1].incrementFactor );
+    const range = 
+      calculateIncrementBylevel(320,this.upgradeTable.enemyRangeOfViewLevel,this.upgradeTable.tanksRangeOfView[1].incrementFactor );
     this.range = range;
 
-    this.rotationVelocity =  this.upgradeTable.cannonRof[this.upgradeTable.cannonRofLevel].rot;
+    this.rotationVelocity =  this.upgradeTable.cannonRof[this.upgradeTable.enemyCannonRofLevel].rot;
 
-    this.rof =               this.upgradeTable.cannonRof[this.upgradeTable.cannonRofLevel].rof;
-    this.shotCharge =        this.upgradeTable.cannonRof[this.upgradeTable.cannonRofLevel].rof;
+    this.rof =               this.upgradeTable.cannonRof[this.upgradeTable.enemyCannonRofLevel].rof;
+    this.shotCharge =        this.upgradeTable.cannonRof[this.upgradeTable.enemyCannonRofLevel].rof;
 
     this.tanks = [];
     this.target = null;

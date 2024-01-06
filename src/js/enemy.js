@@ -6,7 +6,7 @@ import {findPath} from "./Astar";
 import {fromTileToTargetObj,fromPositionToTile,calculateDistance} from "./mathFunction";
 
 export default class Enemy  {
-  constructor(type, scene, id, position, hp){
+  constructor(type, scene, id, position, hp, speed){
     this.scene = scene;
     this.id = id;
     this.position = position;
@@ -17,7 +17,7 @@ export default class Enemy  {
 
     this.target = false;
     this.targets = [];
-    this.speed = 50;
+    this.speed = speed;
     this.acceleration = 1;
     this.accIncrement = this.speed/30;
     this.break = false;

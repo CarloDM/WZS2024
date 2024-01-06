@@ -8,18 +8,19 @@ export default class cannon {
     this.scene = scene;
     this.enemy = enemy;
     this.id = id;
-    this.upgradeTable = UpgradeTable.getInstance();
     this.scanCount = 0;
+    this.upgradeTable = UpgradeTable.getInstance();
 
-    this.damage = this.upgradeTable.RocketDamage[this.upgradeTable.RocketDamageLevel].dmg
+    this.damage = this.upgradeTable.RocketDamage[this.upgradeTable.enemyRocketDamageLevel].dmg
 
-    const range = calculateIncrementBylevel(390,this.upgradeTable.tanksRangeOfViewLevel,this.upgradeTable.tanksRangeOfView[1].incrementFactor );
+    const range = 
+      calculateIncrementBylevel(390,this.upgradeTable.enemyRangeOfViewLevel,this.upgradeTable.tanksRangeOfView[1].incrementFactor );
     this.range = range;
 
-    this.rotationVelocity =  this.upgradeTable.RocketRof[this.upgradeTable.RocketRofLevel].rot;
+    this.rotationVelocity =  this.upgradeTable.RocketRof[this.upgradeTable.enemyRocketRofLevel].rot;
 
-    this.rof =               this.upgradeTable.RocketRof[this.upgradeTable.RocketRofLevel].rof;
-    this.shotCharge =        this.upgradeTable.RocketRof[this.upgradeTable.RocketRofLevel].rof;
+    this.rof =               this.upgradeTable.RocketRof[this.upgradeTable.enemyRocketRofLevel].rof;
+    this.shotCharge =        this.upgradeTable.RocketRof[this.upgradeTable.enemyRocketRofLevel].rof;
 
     this.tanks = [];
     this.target = null;

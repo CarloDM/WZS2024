@@ -107,10 +107,13 @@ sono arrivato al terzo test progressivo!
 <li>ricerca upgrade estendere a tutti gli upgrade possibili</li>
 <li>texture bottoni upgrade & inserire Text del count down </li>
 
-    DA FARE
+----
+  03/01/2024 giorno 22
 <li>calcolo e sottrazione costi energia tank & upgrade</li>
 <li>condizione di mancanza di energia</li>
-<li>texture dei bullet</li>
 <li>engineering calcoli la vicinanza da un punto mediano rispetto alla base</li>
+    DA FARE
+<li>waves table un iniziale level design sperimentare 10 livelli </li>
+<li>texture dei bullet</li>
 
 

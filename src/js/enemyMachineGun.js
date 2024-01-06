@@ -2,24 +2,24 @@ import UpgradeTable from "./upgradeTable";
 import {calculateDistance,calculateRotationAngle,calculateIncrementBylevel} from './mathFunction';
 
 export default class Mgun {
-
   constructor(scene, enemy, id){
 
     this.scene = scene;
     this.enemy = enemy;
     this.id = id;
-    this.upgradeTable = UpgradeTable.getInstance();
     this.scanCount = 0;
+    this.upgradeTable = UpgradeTable.getInstance();
 
-    this.damage = this.upgradeTable.mgDamage[this.upgradeTable.mgDamageLevel].dmg
+    this.damage = this.upgradeTable.mgDamage[this.upgradeTable.enemyMgDamageLevel].dmg
 
-    const range = calculateIncrementBylevel(260,this.upgradeTable.tanksRangeOfViewLevel,this.upgradeTable.tanksRangeOfView[1].incrementFactor );
+    const range = 
+      calculateIncrementBylevel(260,this.upgradeTable.enemyRangeOfViewLevel,this.upgradeTable.tanksRangeOfView[1].incrementFactor );
     this.range = range;
 
-    this.rotationVelocity =  this.upgradeTable.mgRof[this.upgradeTable.mgRofLevel].rot;
+    this.rotationVelocity =  this.upgradeTable.mgRof[this.upgradeTable.enemyMgRofLevel].rot;
 
-    this.rof =               this.upgradeTable.mgRof[this.upgradeTable.mgRofLevel].rof;
-    this.shotCharge =        this.upgradeTable.mgRof[this.upgradeTable.mgRofLevel].rof;
+    this.rof =               this.upgradeTable.mgRof[this.upgradeTable.enemyMgRofLevel].rof;
+    this.shotCharge =        this.upgradeTable.mgRof[this.upgradeTable.enemyMgRofLevel].rof;
 
     this.tanks = [];
     this.target = null;

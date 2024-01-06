@@ -1,10 +1,10 @@
-
 import Tank from './tank';
 import Enemy from "./enemy";
 import Gaiser from "./gaiser";
 import {calculateIncrementBylevel, verifyPresenceOfEnergy} from "./mathFunction";
 import UpgradeTable from "./upgradeTable";
 import StatusCounts from "./statusCounts";
+import WavesTable from "./wavesTable";
 export default class TankFactory {
   constructor(scene){
     this.scene = scene;
@@ -12,10 +12,8 @@ export default class TankFactory {
     this.enemyCount = 0;
     this.upgradeTable = UpgradeTable.getInstance();
     this.statusCounts = StatusCounts.getInstance();
+    this.wavesTable = WavesTable.getInstance();
     
-    this.mgTankCost = 100;
-    this.cannonTankCost = 100;
-    this.rocketTankCost = 100;
     
     this.deck1Timeout;
     this.deck1countDown;
@@ -33,10 +31,20 @@ export default class TankFactory {
     this.deck4countDown;
     this.deck4Time;
     
-    this.testWaves = setInterval(() => {
-      console.log('fake enemy');
-      this.fakeWaves(10);
-    }, 180 * 1000);
+
+    // this.WavesInterval = setInterval(() => {
+    //   console.log('wave', this.wavesTable.waves[this.wavesTable.wavesCount]);
+
+    //   this.waveStart(this.wavesTable.waves[this.wavesTable.wavesCount]);
+    //   this.wavesTable.wavesCount ++;
+    // }, 180 * 1000);
+
+    this.WavesInterval = setTimeout(() => {
+      console.log('wave');
+
+      this.waveStart(this.wavesTable.waves[this.wavesTable.wavesCount]);
+      this.wavesTable.wavesCount ++;
+    }, 2 * 1000);
 
     this.tankFactoryIstance = this;
   }
@@ -123,14 +131,143 @@ export default class TankFactory {
   }
 
   // enemies--------
-  createEnemy(position){
+  createMgEnemy(position){
     this.enemyCount ++
 
-    const newEnemy = 
-      new Enemy('machineGun', this.scene, this.enemyCount, position, 200);
+    const tankSpeed = calculateIncrementBylevel(34,
+      this.upgradeTable.enemySpeedTractionLevel,
+      this.upgradeTable.tanksSpeedTraction[this.upgradeTable.enemySpeedTractionLevel].incrementFactor);
+
+    const newEnemy = new Enemy('machineGun',
+      this.scene, this.tankCount, position, 
+      this.upgradeTable.mgHp[this.upgradeTable.enemyMgHpLevel].hp, 
+      tankSpeed,
+      );
       
     this.scene.enemiesGrp.push(newEnemy);
     this.scene.enemies.add(newEnemy.enemy);
+  }
+
+  createCannonEnemy(position){
+    this.enemyCount ++
+
+    const tankSpeed = calculateIncrementBylevel(20,
+      this.upgradeTable.enemySpeedTractionLevel,
+      this.upgradeTable.tanksSpeedTraction[this.upgradeTable.enemySpeedTractionLevel].incrementFactor);
+
+    const newEnemy = new Enemy('cannon',
+      this.scene, this.tankCount, position, 
+      this.upgradeTable.cannonHp[this.upgradeTable.enemyCannonHpLevel].hp, 
+      tankSpeed,
+      );
+      
+    this.scene.enemiesGrp.push(newEnemy);
+    this.scene.enemies.add(newEnemy.enemy);
+  }
+
+  createRocketEnemy(position){
+    this.enemyCount ++
+
+    const tankSpeed = calculateIncrementBylevel(27,
+      this.upgradeTable.enemySpeedTractionLevel,
+      this.upgradeTable.tanksSpeedTraction[this.upgradeTable.enemySpeedTractionLevel].incrementFactor);
+
+    const newEnemy = new Enemy('rocket',
+      this.scene, this.tankCount, position, 
+      this.upgradeTable.RocketHp[this.upgradeTable.enemyRocketHpLevel].hp, 
+      tankSpeed,
+      false, 
+      );
+      
+    this.scene.enemiesGrp.push(newEnemy);
+    this.scene.enemies.add(newEnemy.enemy);
+  }
+
+  waveStart(wave){
+    console.log(wave);
+    this.upgradeEnemiesLevels(wave.levels);
+    const numbOfGates = wave.spawnCoordinates.length;
+    let gatesCount = 0;
+    let totalSpawn = wave.types[0] + wave.types[1] + wave.types[2];
+    let typeCounter = wave.types;
+    let typeSelector = 0;
+    console.log(totalSpawn , numbOfGates );
+
+    let spawnInterval = setInterval(() => {
+      if(totalSpawn === 0){
+        clearInterval(spawnInterval);
+        console.log('finish enemy spawns');
+      }else{
+
+        if(typeSelector === 0 ){
+
+            if(gatesCount >= numbOfGates - 1){
+              gatesCount = 0;
+            }else{
+              gatesCount ++;
+            }
+
+            if(typeCounter[0] > 0){
+              console.log('mg enemy');
+              this.createMgEnemy(wave.spawnCoordinates[gatesCount]);
+              typeCounter[0] -= 1;
+              totalSpawn --;
+            }
+
+          typeSelector ++;
+        }else if(typeSelector === 1 ){
+
+            if(gatesCount >= numbOfGates - 1){
+              gatesCount = 0;
+            }else{
+              gatesCount ++;
+            }
+
+            if(typeCounter[1] > 0){
+              console.log('cannon enemy');
+              this.createCannonEnemy(wave.spawnCoordinates[gatesCount]);
+              typeCounter[1] -= 1;
+              totalSpawn --;
+            }
+
+          typeSelector ++;
+        }else if (typeSelector === 2){
+
+          if(gatesCount >= numbOfGates - 1){
+            gatesCount = 0;
+          }else{
+            gatesCount ++;
+          }
+          
+          if(typeCounter[2] > 0){
+            console.log('rocket enemy');
+            this.createRocketEnemy(wave.spawnCoordinates[gatesCount]);
+            typeCounter[2] -= 1;
+            totalSpawn --;
+          }
+
+          typeSelector = 0;
+        }
+      }
+      console.log('interval :', totalSpawn, typeSelector, gatesCount,typeCounter[0]) ;
+    }, 500);
+    spawnInterval;
+  }
+
+  upgradeEnemiesLevels(levels){
+
+    this.upgradeTable.enemySpeedTractionLevel = levels.enemySpeedTractionLevel;
+    this.upgradeTable.enemyRangeOfViewLevel   = levels.enemyRangeOfViewLevel;
+    this.upgradeTable.enemyMgDamageLevel      = levels.enemyMgDamageLevel;
+    this.upgradeTable.enemyMgRofLevel         = levels.enemyMgRofLevel;
+    this.upgradeTable.enemyMgHpLevel          = levels.enemyMgHpLevel;
+    this.upgradeTable.enemyCannonDamageLevel  = levels.enemyCannonDamageLevel;
+    this.upgradeTable.enemyCannonRofLevel     = levels.enemyCannonRofLevel;
+    this.upgradeTable.enemyCannonHpLevel      = levels.enemyCannonHpLevel;
+    this.upgradeTable.enemyRocketDamageLevel  = levels.enemyRocketDamageLevel;
+    this.upgradeTable.enemyRocketRofLevel     = levels.enemyRocketRofLevel;
+    this.upgradeTable.enemyRocketHpLevel      = levels.enemyRocketHpLevel;
+
   }
   
 
@@ -144,19 +281,7 @@ export default class TankFactory {
     }
   }
 
-  fakeWaves(count){
-    let intervalCount = count;
-    let insert = setInterval(() => {
-    if(intervalCount === 0){
-      clearInterval(insert);
-    }else{
-      let x = intervalCount * 32;
-      this.createEnemy([ x, - 1400])
-      intervalCount --;
-      console.log('enemy');
-    }
-    }, 50);
-  }
+
   createGaiser(position, id){
 
     const NewGaiser = new Gaiser(this.scene,position, id);

@@ -6,7 +6,6 @@
 class UpgradeTable {
   constructor(){
 
-
     this.upgradeIdIsSearching = [
       false,false,false,false,
       false,false,false,false,
@@ -14,7 +13,6 @@ class UpgradeTable {
       false,false,false,false,
       false
     ]
-
 
     // upgrade generali
     this.researchSpeedLevel = 0;
@@ -506,6 +504,21 @@ class UpgradeTable {
       {hp: 600,
       cost:100, time:60},
     ]
+
+    
+    // enemies upgrade level
+    this.enemySpeedTractionLevel = 0;
+    this.enemyRangeOfViewLevel =  0;
+    this.enemyMgDamageLevel = 0;
+    this.enemyMgRofLevel = 0;
+    this.enemyMgHpLevel = 0;
+    this.enemyCannonDamageLevel = 0;
+    this.enemyCannonRofLevel = 0;
+    this.enemyCannonHpLevel = 0;
+    this.enemyRocketDamageLevel = 0;
+    this.enemyRocketRofLevel = 0;
+    this.enemyRocketHpLevel = 0;
+    
 
     this.UpgradeTable = this;
   }

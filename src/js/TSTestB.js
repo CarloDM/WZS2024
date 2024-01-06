@@ -202,7 +202,6 @@ class setMapTest extends Phaser.Scene{
     this.buildings = this.physics.add.group();
 
     this.engineering = new Engineering(this, [-100,+400]);
-    console.log(this.engineering)
     
     this.tankFactory = new TankFactory(this);
 
@@ -216,7 +215,6 @@ class setMapTest extends Phaser.Scene{
     this.tankFactory.createGaiser([0,500],8);
     this.tankFactory.createGaiser([100,-200],9);
     this.tankFactory.createGaiser([126,126],10);
-
 
     this.bulletPool = new BulletsPool(this);
 
