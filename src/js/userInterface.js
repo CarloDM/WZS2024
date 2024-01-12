@@ -15,7 +15,17 @@ export default class UserInterface {
       );
     
 
-    // --- aggiunta btn
+
+    // --- aggiungi info texts
+    
+    this.infoBox = this.scene.add.rectangle(0,0,0,0, 0x1d7196, 0.5);
+    this.infoBox.setOrigin(0, 0);
+    this.container.add(this.infoBox);
+
+    this.waveCountdown = this.scene.add.text( this.infoBox.x ,this.infoBox.y,'180', { fontSize: '8px', fill: '#ffffff' });
+    this.waveCountdown.setOrigin(-3, 0);
+    this.container.add(this.waveCountdown);
+    // --- aggiunta energy bar
     this.energyBar = this.scene.add.rectangle(0,0,0,0, 0x1d7196, 0.5);
     this.energyBar.setOrigin(0, 0);
     this.container.add(this.energyBar);
@@ -26,8 +36,6 @@ export default class UserInterface {
     this.container.add(this.energy);
     
 
-
-    
     // --- aggiunta btn
     this.buttonA = this.scene.add.sprite(0,0,'btn1',[this.statusCounts.button1]);
     this.buttonA.setOrigin(0, 0);
@@ -520,6 +528,14 @@ export default class UserInterface {
     this.energy.setFontSize(16 / zoom);
     this.energy.x = this.energyBar.x ;
     this.energy.y = this.energyBar.y ;
+
+    this.infoBox.width = (this.camera.worldView.width * 0.15 );
+    this.infoBox.height = 20 / zoom;
+    this.infoBox.x = calculateProportionalWidth(95, 110, this.camera.worldView.width - (50 / this.camera.zoom));
+    this.infoBox.y = calculateProportionalWidth(10, 110, this.camera.worldView.height - (50 / this.camera.zoom));
+    this.waveCountdown.setFontSize(16 / zoom);
+    this.waveCountdown.x = this.infoBox.x ;
+    this.waveCountdown.y = this.infoBox.y ;
 
     this.buttonA.displayWidth = 75 / zoom;
     this.buttonA.displayHeight = 75 / zoom;

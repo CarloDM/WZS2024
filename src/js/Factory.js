@@ -31,20 +31,25 @@ export default class TankFactory {
     this.deck4countDown;
     this.deck4Time;
     
+    this.waveCd = 180;
+    
 
-    // this.WavesInterval = setInterval(() => {
-    //   console.log('wave', this.wavesTable.waves[this.wavesTable.wavesCount]);
+    this.WavesInterval = setInterval(() => {
+      if(this.waveCd < 1){
+        this.waveCd = 180;
+        this.upgradeInfoCountDown(this.waveCd);
+      }else{
+        this.waveCd --;
+        this.upgradeInfoCountDown(this.waveCd);
+      }
+    }, 1000);
 
-    //   this.waveStart(this.wavesTable.waves[this.wavesTable.wavesCount]);
-    //   this.wavesTable.wavesCount ++;
-    // }, 180 * 1000);
-
-    this.WavesInterval = setTimeout(() => {
+    this.WavesInterval = setInterval(() => {
       console.log('wave');
 
       this.waveStart(this.wavesTable.waves[this.wavesTable.wavesCount]);
       this.wavesTable.wavesCount ++;
-    }, 2 * 1000);
+    }, 180 * 1000);
 
     this.tankFactoryIstance = this;
   }
@@ -184,7 +189,7 @@ export default class TankFactory {
   }
 
   waveStart(wave){
-    console.log(wave);
+    console.log('enemies incoming!!!');
     this.upgradeEnemiesLevels(wave.levels);
     const numbOfGates = wave.spawnCoordinates.length;
     let gatesCount = 0;
@@ -208,7 +213,7 @@ export default class TankFactory {
             }
 
             if(typeCounter[0] > 0){
-              console.log('mg enemy');
+
               this.createMgEnemy(wave.spawnCoordinates[gatesCount]);
               typeCounter[0] -= 1;
               totalSpawn --;
@@ -224,7 +229,7 @@ export default class TankFactory {
             }
 
             if(typeCounter[1] > 0){
-              console.log('cannon enemy');
+
               this.createCannonEnemy(wave.spawnCoordinates[gatesCount]);
               typeCounter[1] -= 1;
               totalSpawn --;
@@ -240,7 +245,7 @@ export default class TankFactory {
           }
           
           if(typeCounter[2] > 0){
-            console.log('rocket enemy');
+
             this.createRocketEnemy(wave.spawnCoordinates[gatesCount]);
             typeCounter[2] -= 1;
             totalSpawn --;
@@ -249,7 +254,7 @@ export default class TankFactory {
           typeSelector = 0;
         }
       }
-      console.log('interval :', totalSpawn, typeSelector, gatesCount,typeCounter[0]) ;
+      console.log('spwan interval :', totalSpawn, typeSelector, gatesCount, typeCounter[0]) ;
     }, 500);
     spawnInterval;
   }
@@ -839,6 +844,7 @@ export default class TankFactory {
   }
   upgradeCountDown(cd, deck){
     switch (deck) {
+
       case 1:
         if(cd < 1){
           this.scene.cameraController.userInterface.buttonD.text.setText('');
@@ -869,6 +875,10 @@ export default class TankFactory {
         break;
     }
 
+  }
+  upgradeInfoCountDown(waveCd){
+
+    this.scene.cameraController.userInterface.waveCountdown.setText(waveCd);
   }
 
   checkEnergy(upgradeDeckID, research, researchID){

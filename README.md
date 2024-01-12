@@ -112,8 +112,24 @@ sono arrivato al terzo test progressivo!
 <li>calcolo e sottrazione costi energia tank & upgrade</li>
 <li>condizione di mancanza di energia</li>
 <li>engineering calcoli la vicinanza da un punto mediano rispetto alla base</li>
-    DA FARE
+
+----
+  07/01/2024 giorno 23
 <li>waves table un iniziale level design sperimentare 10 livelli </li>
-<li>texture dei bullet</li>
+
+
+----
+  13/01/2024 giorno 23
+<li>test 2 waves</li>
+    DA FARE
+<li>sistema di riparazione tank</li>
+<li>sistema di boost tank</li>
+<li>sistema di costruzione torrette</li>
+<li>mappa completare texture </li>
+<li>mappa completare gaiser disposizione in un layer csv</li>
+<li>mappa minimappa in UI</li>
+<li>bullet texture</li>
+<li>bullet explosion animation</li>
+<li>tank explosion animation</li>
 
 
