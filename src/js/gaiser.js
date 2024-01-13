@@ -6,7 +6,6 @@ import LifeBar from "./lifeBar";
 export default class Gaiser {
   constructor(scene, position, id){
     this.scene = scene;
-    this.id = id;
     this.upgradeTable = UpgradeTable.getInstance();
     this.StatusCounts = StatusCounts.getInstance();
     this.exploited = false;

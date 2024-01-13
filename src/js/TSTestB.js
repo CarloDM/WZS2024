@@ -3,7 +3,7 @@ import Stats from "stats.js";
 
 import FloatingNumbersPlugin    from "./FloatingNumbersPlugin";
 import {setUpFinder}            from "./Astar";
-import {initializeMathFunction} from './mathFunction';
+import {initializeMathFunction,fromTileToWorldPoint} from './mathFunction';
 import CameraController         from './cameraController';
 import SelectionRect            from './selectionRect';
 import TankFactory              from './Factory';
@@ -61,9 +61,10 @@ class setMapTest extends Phaser.Scene{
     this.load.scenePlugin('floatingNumbersPlugin', FloatingNumbersPlugin, 'floatingNumbersPlugin', 'floatingNumbers');
 
     // load texture
-    this.load.image('background',       '/texture/TS-clr-map-draft-01.jpg');
-    this.load.tilemapCSV('map',         '../tankSurvive/map/ts-map-collide-cost.csv');
+    this.load.image('background',       '/texture/clr-map.jpg');
+    this.load.tilemapCSV('map',         '../tankSurvive/map/ts-map-collide-cost2.csv');
     this.load.image('gaiser',           '/texture/gaiser.png');
+    this.load.tilemapCSV('gaiserMap',   '../tankSurvive/map/gaisersMap.csv');
 
     this.load.image('base',             '/texture/BaseFactory.png'); 
     this.load.spritesheet('baseBitanim','/texture/BaseFactory-bitAnim.png',
@@ -131,27 +132,19 @@ class setMapTest extends Phaser.Scene{
 
     // aggiungere immagine di background
     this.add.image(0,0,'background');
+
     // set up layer collisioni
     this.map = this.make.tilemap({key: 'map', tileWidth: 32, tileHeight:32});
     const layer = this.map.createLayer(0,'collision',-2048, -2048 );
-    
     this.map.setCollisionBetween(4,5);
 
+    // set up layer gaiser coordinate
+    this.gaisersMap = this.make.tilemap({key: 'gaiserMap', tileWidth: 32, tileHeight:32});
+    this.gaisersMap.createLayer(0,'gaisersCoord',-2048, -2048 );
 
-    // ------------------debug walls tiles---------------------
-      // debug collider wall
-      // this.debugGraphics = this.add.graphics();
-      // this.map.renderDebug(this.debugGraphics, {
-      
-      //   tileColor: null, // Non-colliding tiles
-      
-      //   collidingTileColor: new Phaser.Display.Color(180, 80, 0, 100), // Colliding tiles
-      
-      //   faceColor: new Phaser.Display.Color(20, 20, 20, 255) // Colliding face edges
-      // });
-
+    // finder grid create
     let tilesData = this.map.layer.data;
-
+    
     for (let y = 0; y < this.map.height; y++) {
   
       let col = [];
@@ -202,19 +195,25 @@ class setMapTest extends Phaser.Scene{
     this.buildings = this.physics.add.group();
 
     this.engineering = new Engineering(this, [-100,+400]);
-    
+
     this.tankFactory = new TankFactory(this);
 
-    this.tankFactory.createGaiser([128,+400],1);
-    this.tankFactory.createGaiser([256,+400],2);
-    this.tankFactory.createGaiser([400,-300],3);
-    this.tankFactory.createGaiser([500,-400],4);
-    this.tankFactory.createGaiser([-200,-200],5);
-    this.tankFactory.createGaiser([350,-400],6);
-    this.tankFactory.createGaiser([600,-200],7);
-    this.tankFactory.createGaiser([0,500],8);
-    this.tankFactory.createGaiser([100,-200],9);
-    this.tankFactory.createGaiser([126,126],10);
+    // gaiser create by gaisersMap!
+    for (let y = 0; y < this.gaisersMap.height; y++) {
+  
+        for (let x = 0; x < this.gaisersMap.width; x++) {
+  
+          let tileID = this.gaisersMap.layer.data[y][x].index;
+
+          if(tileID === 4){
+
+            const coord = fromTileToWorldPoint(this.gaisersMap.layer.data[y][x].x, this.gaisersMap.layer.data[y][x].y)
+            this.tankFactory.createGaiser([coord[0],coord[1]]);
+
+          }
+        }
+    }
+
 
     this.bulletPool = new BulletsPool(this);
 
@@ -226,7 +225,7 @@ class setMapTest extends Phaser.Scene{
     this.physics.add.collider(this.enemies, this.tanks);
     this.physics.add.collider(this.enemies, layer);
 
-
+    // overlap meno dispendioso per innescare logiche di esplosione e danno (nessuna ripercussione fisica)
     this.physics.add.overlap(this.bulletPool.userBulletsGroup, this.enemies, (bullet, enemy) => {
 
       enemy.enemyInstance.takeDamage(bullet.bulletInstance.damage);
