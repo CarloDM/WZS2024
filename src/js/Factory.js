@@ -255,7 +255,7 @@ export default class TankFactory {
         }
       }
       console.log('spwan interval :', totalSpawn, typeSelector, gatesCount, typeCounter[0]) ;
-    }, 500);
+    }, 250);
     spawnInterval;
   }
 

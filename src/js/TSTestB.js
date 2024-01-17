@@ -57,7 +57,6 @@ class setMapTest extends Phaser.Scene{
 
     });
 
-
     this.load.scenePlugin('floatingNumbersPlugin', FloatingNumbersPlugin, 'floatingNumbersPlugin', 'floatingNumbers');
 
     // load texture
@@ -117,12 +116,7 @@ class setMapTest extends Phaser.Scene{
     this.load.image('upRocketRof',     '/icon/up-RocketRof.png'); 
     this.load.image('upRocketHp',      '/icon/up-RocketHp.png'); 
 
-
-
-    
   };// preload end ------------------------------------------------------------------/
-
-
 
   create() {
 
@@ -142,9 +136,9 @@ class setMapTest extends Phaser.Scene{
     this.gaisersMap = this.make.tilemap({key: 'gaiserMap', tileWidth: 32, tileHeight:32});
     this.gaisersMap.createLayer(0,'gaisersCoord',-2048, -2048 );
 
-    // finder grid create
+    // finder grid 
     let tilesData = this.map.layer.data;
-    
+
     for (let y = 0; y < this.map.height; y++) {
   
       let col = [];
@@ -171,7 +165,6 @@ class setMapTest extends Phaser.Scene{
       repeat: 0, 
     });
 
-
     this.anims.create({
       key: 'baseBit',
       frames: this.anims.generateFrameNumbers('baseBitanim', { start: 0, end: 57 }),
@@ -184,10 +177,8 @@ class setMapTest extends Phaser.Scene{
     });
 
     const Base =  this.add.sprite(0, 0, 'base');
-    // this.buildingsGrp.push(Base);
-    // console.log(this.buildingsGrp);
-    const baseBit = this.add.sprite(0, 0, 'baseBitanim').play('baseBit');
 
+    const baseBit = this.add.sprite(0, 0, 'baseBitanim').play('baseBit');
 
     // inizializza gruppi fisici
     this.tanks     = this.physics.add.group();
@@ -214,7 +205,6 @@ class setMapTest extends Phaser.Scene{
         }
     }
 
-
     this.bulletPool = new BulletsPool(this);
 
     // setta collider tra gruppi fisici e wall ------------
@@ -226,15 +216,14 @@ class setMapTest extends Phaser.Scene{
     this.physics.add.collider(this.enemies, layer);
 
     // overlap meno dispendioso per innescare logiche di esplosione e danno (nessuna ripercussione fisica)
-    this.physics.add.overlap(this.bulletPool.userBulletsGroup, this.enemies, (bullet, enemy) => {
+    this.physics.add.overlap(this.bulletPool.userBulletsGroup, this.enemies,    (bullet, enemy) => {
 
       enemy.enemyInstance.takeDamage(bullet.bulletInstance.damage);
       bullet.bulletInstance.explode();
 
     });
 
-
-    this.physics.add.overlap(this.bulletPool.enemyBulletsGroup, this.tanks, (bullet, tank) => {
+    this.physics.add.overlap(this.bulletPool.enemyBulletsGroup, this.tanks,     (bullet, tank) => {
 
       tank.tankInstance.takeDamage(bullet.bulletInstance.damage);
       bullet.bulletInstance.explode();
@@ -248,16 +237,14 @@ class setMapTest extends Phaser.Scene{
 
     });
 
-    
-
     // inizializza selettore tanks
     this.selectionRectManager = new SelectionRect(this, 
       this.tanksGrp1 
     );
+
     this.cameraController = new CameraController(this);
     this.scale.on('resize', this.handleResize, this);
 
-    
   }; //----create
   
   handleResize(){

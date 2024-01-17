@@ -119,14 +119,21 @@ sono arrivato al terzo test progressivo!
 
 
 ----
-  13/01/2024 giorno 23
+  12/01/2024 giorno 23
 <li>test 2 waves</li>
+
+
+----
+  13/01/2024 giorno 24
+<li>test 2 waves</li>
+<li>mappa completare gaiser disposizione in un layer csv</li>
+
     DA FARE
 <li>sistema di riparazione tank</li>
 <li>sistema di boost tank</li>
 <li>sistema di costruzione torrette</li>
+<li>incrementare il costo dei tank per upgrade</li>
 <li>mappa completare texture </li>
-<li>mappa completare gaiser disposizione in un layer csv</li>
 <li>mappa minimappa in UI</li>
 <li>bullet texture</li>
 <li>bullet explosion animation</li>
