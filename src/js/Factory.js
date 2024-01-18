@@ -137,14 +137,14 @@ export default class TankFactory {
 
   // enemies--------
   createMgEnemy(position){
-    this.enemyCount ++
+    this.enemyCount ++;
 
     const tankSpeed = calculateIncrementBylevel(34,
       this.upgradeTable.enemySpeedTractionLevel,
       this.upgradeTable.tanksSpeedTraction[this.upgradeTable.enemySpeedTractionLevel].incrementFactor);
 
     const newEnemy = new Enemy('machineGun',
-      this.scene, this.tankCount, position, 
+      this.scene, this.enemyCount, position, 
       this.upgradeTable.mgHp[this.upgradeTable.enemyMgHpLevel].hp, 
       tankSpeed,
       );
@@ -154,14 +154,14 @@ export default class TankFactory {
   }
 
   createCannonEnemy(position){
-    this.enemyCount ++
+    this.enemyCount ++;
 
     const tankSpeed = calculateIncrementBylevel(20,
       this.upgradeTable.enemySpeedTractionLevel,
       this.upgradeTable.tanksSpeedTraction[this.upgradeTable.enemySpeedTractionLevel].incrementFactor);
 
     const newEnemy = new Enemy('cannon',
-      this.scene, this.tankCount, position, 
+      this.scene, this.enemyCount, position, 
       this.upgradeTable.cannonHp[this.upgradeTable.enemyCannonHpLevel].hp, 
       tankSpeed,
       );
@@ -171,14 +171,14 @@ export default class TankFactory {
   }
 
   createRocketEnemy(position){
-    this.enemyCount ++
+    this.enemyCount ++;
 
     const tankSpeed = calculateIncrementBylevel(27,
       this.upgradeTable.enemySpeedTractionLevel,
       this.upgradeTable.tanksSpeedTraction[this.upgradeTable.enemySpeedTractionLevel].incrementFactor);
 
     const newEnemy = new Enemy('rocket',
-      this.scene, this.tankCount, position, 
+      this.scene, this.enemyCount, position, 
       this.upgradeTable.RocketHp[this.upgradeTable.enemyRocketHpLevel].hp, 
       tankSpeed,
       false, 

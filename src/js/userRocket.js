@@ -220,7 +220,7 @@ export default class cannon {
 
 
     // debug range 
-    this.points = this.circle.getPoints(128);
+    this.points = this.circle.getPoints(64);
 
     // Pulisci i vecchi rettangoli
     this.graphics.clear();
@@ -228,7 +228,7 @@ export default class cannon {
     for (let i = 0; i < this.points.length; i++) {
         const p = this.points[i];
         // Disegna i nuovi rettangoli
-        this.graphics.fillRect(p.x - 4, p.y - 4, 8, 8);
+        this.graphics.fillRect(p.x - 4, p.y - 4, 2, 2);
     }
 
   }

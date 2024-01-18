@@ -120,7 +120,8 @@ export default class Enemy  {
       return targetScanned;
 
     }else{
-      return [0,0];
+      console.log('no building return');
+      return [[0,0]];
     }
   };
 
@@ -139,7 +140,8 @@ export default class Enemy  {
       return targetScanned;
 
       }else{
-        return [0,0];
+        console.log('no tank return');
+        return [[0,0]];
       }
 
     };
@@ -216,14 +218,11 @@ export default class Enemy  {
         const filteredPath = Fpath.filter((tile, index) => index % 3 === 0);
         filteredPath.push(lastTile);
 
-
         this.target = fromTileToTargetObj(filteredPath[0].x,filteredPath[0].y);
         filteredPath.shift();
 
-
-          this.scene.physics.moveToObject(this.enemy ,this.target , 1);
-          this.isDirected = true;
-
+        this.scene.physics.moveToObject(this.enemy ,this.target , 1);
+        this.isDirected = true;
 
         filteredPath.forEach(tile => {
 

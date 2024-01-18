@@ -44,27 +44,10 @@ export default class Engineering  {
 
     setTimeout(() => {
       this.scanForGaiser();
-
     }, 2000);
-
 
     this.engineering.engineeringInstance = this;
 
-
-
-        // create circle range 
-        this.graphics = scene.add.graphics({ lineStyle: { width: 1, color: 0xF5FFF7 },    fillStyle: { color: 0xF5FFF7 , alpha:0.20 }});
-        this.circle = new Phaser.Geom.Circle(this.engineering.x, this.engineering.y, this.range );
-
-        // visualizza circle range 
-        this.points = this.circle.getPoints(16);
-      
-        for (let i = 0; i < this.points.length; i++)
-            {
-                const p = this.points[i];
-            
-                this.graphics.fillRect(p.x - 4, p.y - 4, 8, 8);
-        }
   }// engineering constructor end
 
 
@@ -219,16 +202,9 @@ export default class Engineering  {
     }
   }
   
-// --------------------------------
-
 
 // ---------------------------update
   update(){
-
-    this.circle.x = this.engineering.x;
-    this.circle.y = this.engineering.y;
-    this.circle.radius = this.range;
-
 
 
         if(this.target){
@@ -284,19 +260,6 @@ export default class Engineering  {
       //frizione
       this.engineering.body.velocity.x *= this.friction;
       this.engineering.body.velocity.y *= this.friction;
-
-
-    // debug range 
-    this.points = this.circle.getPoints(16);
-
-    // Pulisci i vecchi rettangoli
-    this.graphics.clear();
-
-    for (let i = 0; i < this.points.length; i++) {
-        const p = this.points[i];
-        // Disegna i nuovi rettangoli
-        this.graphics.fillRect(p.x - 4, p.y - 4, 8, 8);
-    }
 
   }
 }

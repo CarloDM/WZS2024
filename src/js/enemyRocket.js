@@ -33,7 +33,7 @@ export default class cannon {
     this.cannon.displayHeight = 64;
 
     // create circle range 
-    this.graphics = scene.add.graphics({ lineStyle: { width: 1, color: 0xF5FFF7 },    fillStyle: { color: 0xF5FFF7 , alpha:0.2 }});
+    this.graphics = scene.add.graphics({ lineStyle: { width: 1, color: 0xED1871 },    fillStyle: { color: 0xED1871 , alpha:0.2 }});
 
     this.circle = new Phaser.Geom.Circle(this.enemy.x, this.enemy.y, this.range );
   
@@ -316,7 +316,7 @@ export default class cannon {
 
 
     // debug range 
-    this.points = this.circle.getPoints(128);
+    this.points = this.circle.getPoints(64);
 
     // Pulisci i vecchi rettangoli
     this.graphics.clear();
@@ -324,7 +324,7 @@ export default class cannon {
     for (let i = 0; i < this.points.length; i++) {
         const p = this.points[i];
         // Disegna i nuovi rettangoli
-        this.graphics.fillRect(p.x - 4, p.y - 4, 8, 8);
+        this.graphics.fillRect(p.x - 4, p.y - 4, 2, 2);
     }
 
   }

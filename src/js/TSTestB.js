@@ -286,10 +286,9 @@ class setMapTest extends Phaser.Scene{
 
         if(isNaN(enemy.enemy.x)){
           // prevenire l errore fatale (bug non trovato ancora)
-          console.warn('lost enemy:', enemy.enemy.x, enemy.id);
+          console.warn('lost enemy:', enemy.enemy);
           this.enemiesGrp[index].destroy();
           this.enemiesGrp.splice(index, 1);
-          console.warn('splice & destroy:', enemy.id);
 
         }else{
           enemy.update(time);

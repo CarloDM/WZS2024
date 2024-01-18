@@ -118,7 +118,7 @@ class WavesTable {
         }
       },
       {
-        types : [10,30,10],
+        types : [10,20,10],
         spawnCoordinates : [gateLTop,gateL,gateLBottom],
         levels : {
           enemySpeedTractionLevel : 1,
@@ -140,15 +140,15 @@ class WavesTable {
         levels : {
           enemySpeedTractionLevel : 2,
           enemyRangeOfViewLevel :   2,
-          enemyMgDamageLevel :      4,
+          enemyMgDamageLevel :      2,
           enemyMgRofLevel :         3,
-          enemyMgHpLevel :          4,
-          enemyCannonDamageLevel :  4,
+          enemyMgHpLevel :          2,
+          enemyCannonDamageLevel :  2,
           enemyCannonRofLevel :     3,
-          enemyCannonHpLevel :      4,
-          enemyRocketDamageLevel :  4,
+          enemyCannonHpLevel :      2,
+          enemyRocketDamageLevel :  2,
           enemyRocketRofLevel :     3,
-          enemyRocketHpLevel :      4,
+          enemyRocketHpLevel :      2,
         }
       },
       {
@@ -157,15 +157,15 @@ class WavesTable {
         levels : {
           enemySpeedTractionLevel : 3,
           enemyRangeOfViewLevel :   3,
-          enemyMgDamageLevel :      4,
-          enemyMgRofLevel :         4,
-          enemyMgHpLevel :          4,
-          enemyCannonDamageLevel :  4,
-          enemyCannonRofLevel :     4,
-          enemyCannonHpLevel :      4,
-          enemyRocketDamageLevel :  4,
-          enemyRocketRofLevel :     4,
-          enemyRocketHpLevel :      4,
+          enemyMgDamageLevel :      3,
+          enemyMgRofLevel :         3,
+          enemyMgHpLevel :          3,
+          enemyCannonDamageLevel :  3,
+          enemyCannonRofLevel :     3,
+          enemyCannonHpLevel :      3,
+          enemyRocketDamageLevel :  3,
+          enemyRocketRofLevel :     3,
+          enemyRocketHpLevel :      3,
         }
       },
     ]

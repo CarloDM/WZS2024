@@ -56,7 +56,6 @@ export default class Mgun {
 
     try{
 
-    
     if(this.enemy.body){
 
         if(this.scene.tanksGrp1.length > 0){
@@ -102,7 +101,6 @@ export default class Mgun {
   } catch (error) {
     console.error('Errore durante la scansione dei tank:', error);
   }
-    
 
   }
 
@@ -147,7 +145,6 @@ export default class Mgun {
             if(distanceFromCannon < this.circle.radius){
                 
                 buildingsScanned.push(building);
-                
                 
             }else{
               this.isShooting = false;
@@ -325,7 +322,7 @@ export default class Mgun {
     for (let i = 0; i < this.points.length; i++) {
         const p = this.points[i];
         // Disegna i nuovi rettangoli
-        this.graphics.fillRect(p.x - 4, p.y - 4, 8, 8);
+        this.graphics.fillRect(p.x - 4, p.y - 4, 2, 2);
     }
 
   }
