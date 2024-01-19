@@ -128,13 +128,22 @@ sono arrivato al terzo test progressivo!
 <li>test 2 waves</li>
 <li>mappa completare gaiser disposizione in un layer csv</li>
 
-    DA FARE
+----
+19/01/2024 giorno 25
+DA FARE
+<li>convertire interfaccia in css esternamente al gioco phaser wip</li>
+<li>mappa minimappa in UI</li>
+<li>dedicarsi solo un po' alla grafica</li>
+<li>arrivare alla prima beta release priva di ulteriori funzionalità</li>
+
+----
+RELAESE SUCCESSIVE
+
 <li>sistema di riparazione tank</li>
 <li>sistema di boost tank</li>
 <li>sistema di costruzione torrette</li>
 <li>incrementare il costo dei tank per upgrade</li>
 <li>mappa completare texture </li>
-<li>mappa minimappa in UI</li>
 <li>bullet texture</li>
 <li>bullet explosion animation</li>
 <li>tank explosion animation</li>

@@ -123,9 +123,6 @@ export default class UserInterface {
 // ----
 
 
-
-
-
     this.container.setDepth(999)
     this.scene.add.existing(this.container);
     this.istance = this;
@@ -137,9 +134,6 @@ export default class UserInterface {
     else{this.statusCounts.button1 ++;}
     
     this.buttonA.setFrame(this.statusCounts.button1);
-
-
-
 
     console.log('Il pulsante A è stato cliccato!');
     let fattore = (120 - 25) / 10;
@@ -428,7 +422,6 @@ export default class UserInterface {
         this.clearUpgradeButtons();
         break;
     
-
     }
   }
 
@@ -437,11 +430,11 @@ export default class UserInterface {
     switch (id) {
       
       case 1:
-      if(onOff){
-        this.buttonD.off('pointerup');
-      }else{
-        this.buttonD.on('pointerup' , () => this.btnFunction4(1), this);
-      }
+        if(onOff){
+          this.buttonD.off('pointerup');
+        }else{
+          this.buttonD.on('pointerup' , () => this.btnFunction4(1), this);
+        }
         break;
       case 2:
         if(onOff){

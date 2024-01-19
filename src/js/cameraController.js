@@ -6,6 +6,7 @@ export default class CameraController {
   constructor(scene) {
 
     const mainCamera = scene.cameras.main;
+    mainCamera.postFX.addVignette(0.5, 0.5, 1.5);
     mainCamera.zoomX = 0.3;
     mainCamera.zoomY = 0.3;
     mainCamera.scrollX = -400;

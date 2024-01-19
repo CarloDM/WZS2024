@@ -332,6 +332,7 @@ export default class Enemy  {
 
           this.enemy.rotation = this.enemy.body.angle;
           this.acceleration += this.accIncrement;
+
           this.scene.physics.moveToObject(this.enemy, this.target, this.acceleration);
 
         }else if (this.target){
@@ -340,6 +341,7 @@ export default class Enemy  {
             this.break = false;
           }
           this.enemy.rotation = this.enemy.body.angle;
+
           this.scene.physics.moveToObject(this.enemy, this.target, this.speed);
 
         }

@@ -286,7 +286,7 @@ class setMapTest extends Phaser.Scene{
 
         if(isNaN(enemy.enemy.x)){
           // prevenire l errore fatale (bug non trovato ancora)
-          console.warn('lost enemy:', enemy.enemy);
+          console.warn('lost enemy:', enemy.id);
           this.enemiesGrp[index].destroy();
           this.enemiesGrp.splice(index, 1);
 
@@ -330,7 +330,6 @@ const config = {
   type: Phaser.AUTO,
   width: '100%',
   height: '100%',
-
   loader:{
     baseURL: '/src/assets/tankSurvive'
   },

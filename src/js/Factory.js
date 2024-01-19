@@ -36,7 +36,7 @@ export default class TankFactory {
 
     this.WavesInterval = setInterval(() => {
       if(this.waveCd < 1){
-        this.waveCd = 180;
+        this.waveCd = 179;
         this.upgradeInfoCountDown(this.waveCd);
       }else{
         this.waveCd --;

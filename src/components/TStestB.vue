@@ -20,14 +20,22 @@ export default {
       document.getElementById('gameContainer').appendChild(this.phaserGame.canvas);
     },
 
-  toggleFullScreen() {
-  if (this.phaserGame.scale.isFullscreen) {
-    this.phaserGame.scale.stopFullscreen();
-  } else {
-    this.phaserGame.scale.startFullscreen();
-    this.initializeGame();
-  }
-}
+    toggleFullScreen() {
+
+      if (this.phaserGame.scale.isFullscreen) {
+        this.phaserGame.scale.stopFullscreen();
+      } else {
+        this.phaserGame.scale.startFullscreen();
+        this.initializeGame();
+      }
+
+    },
+
+    test(){
+      console.log('TEST', this.phaserGame.scene.scenes[0].tankFactory.tankFactoryIstance);
+      const scena = this.phaserGame.scene.scenes[0];
+      scena.tankFactory.tankFactoryIstance.createMgTank([-100,0]);
+    }
 
   },
 
@@ -39,10 +47,44 @@ export default {
 
 </script>
 <template>
-  <div id="gameContainer"></div>
+  <div class="game_container">
 
-  <!-- <div @click="toggleFullScreen"
-  style="width: 30px; aspect-ratio: 1/1; background-color: bisque;">
+    <div id="gameContainer"></div>
 
-  </div> -->
+    <div class="right_bar">
+
+      <section class="top debug"></section>
+      <section class="mid debug"></section>
+      <section class="radar debug"></section>
+
+    </div>
+
+    <div class="left_bar">
+
+          <div class="btn ">btn</div>
+          <div class="btn ">btn</div>
+          <div class="btn ">btn</div>
+          <div class="btn ">btn</div>
+
+    </div>
+
+    <div class="bottom_bar">
+      <section class="buttons debug">
+
+          <div class="btn ">btn</div>
+          <div class="btn ">btn</div>
+          <div class="btn ">btn</div>
+          <div class="btn ">btn</div>
+          <div class="btn ">btn</div>
+          <div class="btn ">btn</div>
+          <div class="btn ">btn</div>
+          <div class="btn ">btn</div>
+          
+      </section>
+      <section class="energy_bar debug"></section>
+    </div>
+
+    <!-- <button @click="test" style="position:fixed; top: 100px;">TEST</button> -->
+
+  </div>
 </template>
