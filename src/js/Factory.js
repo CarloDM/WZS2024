@@ -5,6 +5,7 @@ import {calculateIncrementBylevel, verifyPresenceOfEnergy} from "./mathFunction"
 import UpgradeTable from "./upgradeTable";
 import StatusCounts from "./statusCounts";
 import WavesTable from "./wavesTable";
+
 export default class TankFactory {
   constructor(scene){
     this.scene = scene;
@@ -18,18 +19,22 @@ export default class TankFactory {
     this.deck1Timeout;
     this.deck1countDown;
     this.deck1Time;
-
+    this.deck1Cd = 0;
+    
     this.deck2Timeout;
     this.deck2countDown;
     this.deck2Time;
+    this.deck2Cd = 0;
     
     this.deck3Timeout;
     this.deck3countDown;
     this.deck3Time;
-
+    this.deck3Cd = 0;
+    
     this.deck4Timeout;
     this.deck4countDown;
     this.deck4Time;
+    this.deck4Cd = 0;
     
     this.waveCd = 180;
     
@@ -316,11 +321,11 @@ export default class TankFactory {
                 (this.statusCounts.timeProductionTanks.mg * 1000) *
                 (this.upgradeTable.tanksProductionSpeed[this.upgradeTable.tanksProductionSpeedLevel].reductionFactor);
 
-                var cd = this.deck1Time /1000;
+                this.deck1Cd = this.deck1Time /1000;
                 this.deck1countDown = setInterval(() => {
-                  cd --;
+                  this.deck1Cd --;
                   
-                  if(cd < 2){
+                  if(this.deck1Cd < 2){
                     
                     clearInterval(this.deck1countDown);
                   }
@@ -331,12 +336,12 @@ export default class TankFactory {
                 this.deck1Time = 
                 (this.statusCounts.timeProductionTanks.mg * 1000) *
                 (this.upgradeTable.tanksProductionSpeed[this.upgradeTable.tanksProductionSpeedLevel].reductionFactor);
-                cd = this.deck1Time /1000;
+                this.deck1Cd = this.deck1Time /1000;
 
                 this.deck1countDown = setInterval(() => {
-                  cd --;
+                  this.deck1Cd --;
                   
-                  if(cd < 2){
+                  if(this.deck1Cd < 2){
                     
                     clearInterval(this.deck1countDown);
                   }
@@ -356,11 +361,11 @@ export default class TankFactory {
                 (this.statusCounts.timeProductionTanks.cannon * 1000) *
                 (this.upgradeTable.tanksProductionSpeed[this.upgradeTable.tanksProductionSpeedLevel].reductionFactor);
           
-                var cd = this.deck1Time /1000;
+                this.deck1Cd = this.deck1Time /1000;
                 this.deck1countDown = setInterval(() => {
-                  cd --;
+                  this.deck1Cd  --;
                   
-                  if(cd < 2){
+                  if(this.deck1Cd  < 2){
                     
                     clearInterval(this.deck1countDown);
                   }
@@ -371,11 +376,11 @@ export default class TankFactory {
                 this.deck1Time = 
                 (this.statusCounts.timeProductionTanks.cannon * 1000) *
                 (this.upgradeTable.tanksProductionSpeed[this.upgradeTable.tanksProductionSpeedLevel].reductionFactor);
-                cd = this.deck1Time /1000;
+                this.deck1Cd  = this.deck1Time /1000;
                 this.deck1countDown = setInterval(() => {
-                  cd --;
+                  this.deck1Cd  --;
                   
-                  if(cd < 2){
+                  if(this.deck1Cd  < 2){
                     
                     clearInterval(this.deck1countDown);
                   }
@@ -395,11 +400,11 @@ export default class TankFactory {
                 (this.statusCounts.timeProductionTanks.rocket * 1000) *
                 (this.upgradeTable.tanksProductionSpeed[this.upgradeTable.tanksProductionSpeedLevel].reductionFactor);
           
-                var cd = this.deck1Time /1000;
+                this.deck1Cd = this.deck1Time /1000;
                 this.deck1countDown = setInterval(() => {
-                  cd --;
+                  this.deck1Cd --;
                   
-                  if(cd < 2){
+                  if(this.deck1Cd < 2){
                     
                     clearInterval(this.deck1countDown);
                   }
@@ -410,11 +415,11 @@ export default class TankFactory {
                 this.deck1Time = 
                 (this.statusCounts.timeProductionTanks.rocket * 1000) *
                 (this.upgradeTable.tanksProductionSpeed[this.upgradeTable.tanksProductionSpeedLevel].reductionFactor);
-                cd = this.deck1Time /1000;
+                this.deck1Cd = this.deck1Time /1000;
                 this.deck1countDown = setInterval(() => {
-                  cd --;
+                  this.deck1Cd --;
                   
-                  if(cd < 2){
+                  if(this.deck1Cd  < 2){
                     
                     clearInterval(this.deck1countDown);
                   }
@@ -426,12 +431,14 @@ export default class TankFactory {
             
               this.statusCounts.deck1IsProductive = true;
 
-
             break;
         }
       }else{
         // stop production deck 1
         clearInterval(this.deck1Timeout);
+        clearInterval(this.deck1countDown);
+        this.deck1Cd = 0;
+        this.statusCounts.deck1IsProductive = false;
       }
   }
   deck2Production(){
@@ -456,11 +463,11 @@ export default class TankFactory {
                 (this.statusCounts.timeProductionTanks.mg * 1000) *
                 (this.upgradeTable.tanksProductionSpeed[this.upgradeTable.tanksProductionSpeedLevel].reductionFactor);
 
-                var cd = this.deck2Time /1000;
+                this.deck2Cd  = this.deck2Time /1000;
                 this.deck2countDown = setInterval(() => {
-                  cd --;
+                  this.deck2Cd  --;
                   
-                  if(cd < 2){
+                  if(this.deck2Cd  < 2){
                     
                     clearInterval(this.deck2countDown);
                   }
@@ -471,12 +478,12 @@ export default class TankFactory {
                 this.deck2Time = 
                 (this.statusCounts.timeProductionTanks.mg * 1000) *
                 (this.upgradeTable.tanksProductionSpeed[this.upgradeTable.tanksProductionSpeedLevel].reductionFactor);
-                cd = this.deck2Time /1000;
+                this.deck2Cd  = this.deck2Time /1000;
 
                 this.deck2countDown = setInterval(() => {
-                  cd --;
+                  this.deck2Cd  --;
                   
-                  if(cd < 2){
+                  if(this.deck2Cd  < 2){
                     
                     clearInterval(this.deck2countDown);
                   }
@@ -495,11 +502,11 @@ export default class TankFactory {
                 (this.statusCounts.timeProductionTanks.cannon * 1000) *
                 (this.upgradeTable.tanksProductionSpeed[this.upgradeTable.tanksProductionSpeedLevel].reductionFactor);
           
-                var cd = this.deck2Time /1000;
+                this.deck2Cd  = this.deck2Time /1000;
                 this.deck2countDown = setInterval(() => {
-                  cd --;
+                  this.deck2Cd  --;
                   
-                  if(cd < 2){
+                  if(this.deck2Cd  < 2){
                     
                     clearInterval(this.deck2countDown);
                   }
@@ -510,11 +517,11 @@ export default class TankFactory {
                 this.deck2Time = 
                 (this.statusCounts.timeProductionTanks.cannon * 1000) *
                 (this.upgradeTable.tanksProductionSpeed[this.upgradeTable.tanksProductionSpeedLevel].reductionFactor);
-                cd = this.deck2Time /1000;
+                this.deck2Cd  = this.deck2Time /1000;
                 this.deck2countDown = setInterval(() => {
-                  cd --;
+                  this.deck2Cd  --;
                   
-                  if(cd < 2){
+                  if(this.deck2Cd  < 2){
                     
                     clearInterval(this.deck2countDown);
                   }
@@ -533,11 +540,11 @@ export default class TankFactory {
                 (this.statusCounts.timeProductionTanks.rocket * 1000) *
                 (this.upgradeTable.tanksProductionSpeed[this.upgradeTable.tanksProductionSpeedLevel].reductionFactor);
           
-                var cd = this.deck2Time /1000;
+                this.deck2Cd  = this.deck2Time /1000;
                 this.deck2countDown = setInterval(() => {
-                  cd --;
+                  this.deck2Cd  --;
                   
-                  if(cd < 2){
+                  if(this.deck2Cd  < 2){
                     
                     clearInterval(this.deck2countDown);
                   }
@@ -548,11 +555,11 @@ export default class TankFactory {
                 this.deck2Time = 
                 (this.statusCounts.timeProductionTanks.rocket * 1000) *
                 (this.upgradeTable.tanksProductionSpeed[this.upgradeTable.tanksProductionSpeedLevel].reductionFactor);
-                cd = this.deck2Time /1000;
+                this.deck2Cd  = this.deck2Time /1000;
                 this.deck2countDown = setInterval(() => {
-                  cd --;
+                  this.deck2Cd  --;
                   
-                  if(cd < 2){
+                  if(this.deck2Cd  < 2){
                     
                     clearInterval(this.deck2countDown);
                   }
@@ -570,6 +577,9 @@ export default class TankFactory {
       }else{
 
         clearInterval(this.deck2Timeout);
+        clearInterval(this.deck2countDown);
+        this.deck2Cd = 0;
+        this.statusCounts.deck2IsProductive = false;
       }
   }
   deck3Production(){
@@ -593,11 +603,11 @@ export default class TankFactory {
                 (this.statusCounts.timeProductionTanks.mg * 1000) *
                 (this.upgradeTable.tanksProductionSpeed[this.upgradeTable.tanksProductionSpeedLevel].reductionFactor);
 
-                var cd = this.deck3Time /1000;
+                this.deck3Cd  = this.deck3Time /1000;
                 this.deck3countDown = setInterval(() => {
-                  cd --;
+                  this.deck3Cd  --;
                   
-                  if(cd < 2){
+                  if(this.deck3Cd  < 2){
                     
                     clearInterval(this.deck3countDown);
                   }
@@ -608,11 +618,11 @@ export default class TankFactory {
                 this.deck3Time = 
                 (this.statusCounts.timeProductionTanks.mg * 1000) *
                 (this.upgradeTable.tanksProductionSpeed[this.upgradeTable.tanksProductionSpeedLevel].reductionFactor);
-                cd = this.deck3Time /1000;
+                this.deck3Cd  = this.deck3Time /1000;
                 this.deck3countDown = setInterval(() => {
-                  cd --;
+                  this.deck3Cd  --;
                   
-                  if(cd < 2){
+                  if(this.deck3Cd  < 2){
                     
                     clearInterval(this.deck3countDown);
                   }
@@ -631,11 +641,11 @@ export default class TankFactory {
                 (this.statusCounts.timeProductionTanks.cannon * 1000) *
                 (this.upgradeTable.tanksProductionSpeed[this.upgradeTable.tanksProductionSpeedLevel].reductionFactor);
           
-                var cd = this.deck3Time /1000;
+                this.deck3Cd  = this.deck3Time /1000;
                 this.deck3countDown = setInterval(() => {
-                  cd --;
+                  this.deck3Cd  --;
                   
-                  if(cd < 2){
+                  if(this.deck3Cd  < 2){
                     
                     clearInterval(this.deck3countDown);
                   }
@@ -646,11 +656,11 @@ export default class TankFactory {
                 this.deck3Time = 
                 (this.statusCounts.timeProductionTanks.cannon * 1000) *
                 (this.upgradeTable.tanksProductionSpeed[this.upgradeTable.tanksProductionSpeedLevel].reductionFactor);
-                cd = this.deck3Time /1000;
+                this.deck3Cd  = this.deck3Time /1000;
                 this.deck3countDown = setInterval(() => {
-                  cd --;
+                  this.deck3Cd  --;
                   
-                  if(cd < 2){
+                  if(this.deck3Cd  < 2){
                     
                     clearInterval(this.deck3countDown);
                   }
@@ -669,11 +679,11 @@ export default class TankFactory {
                 (this.statusCounts.timeProductionTanks.rocket * 1000) *
                 (this.upgradeTable.tanksProductionSpeed[this.upgradeTable.tanksProductionSpeedLevel].reductionFactor);
           
-                var cd = this.deck3Time /1000;
+                this.deck3Cd  = this.deck3Time /1000;
                 this.deck3countDown = setInterval(() => {
-                  cd --;
+                  this.deck3Cd  --;
                   
-                  if(cd < 2){
+                  if(this.deck3Cd  < 2){
                     
                     clearInterval(this.deck3countDown);
                   }
@@ -684,11 +694,11 @@ export default class TankFactory {
                 this.deck3Time = 
                 (this.statusCounts.timeProductionTanks.rocket * 1000) *
                 (this.upgradeTable.tanksProductionSpeed[this.upgradeTable.tanksProductionSpeedLevel].reductionFactor);
-                cd = this.deck3Time /1000;
+                this.deck3Cd  = this.deck3Time /1000;
                 this.deck3countDown = setInterval(() => {
-                  cd --;
+                  this.deck3Cd  --;
                   
-                  if(cd < 2){
+                  if(this.deck3Cd  < 2){
                     
                     clearInterval(this.deck3countDown);
                   }
@@ -705,6 +715,9 @@ export default class TankFactory {
         }
       }else{
         clearInterval(this.deck3Timeout);
+        clearInterval(this.deck3countDown);
+        this.deck3Cd = 0;
+        this.statusCounts.deck3IsProductive = false;
       }
   }
   deck4Production(){
@@ -728,11 +741,11 @@ export default class TankFactory {
                 (this.statusCounts.timeProductionTanks.mg * 1000) *
                 (this.upgradeTable.tanksProductionSpeed[this.upgradeTable.tanksProductionSpeedLevel].reductionFactor);
 
-                var cd = this.deck4Time /1000;
+                this.deck4Cd = this.deck4Time /1000;
                 this.deck4countDown = setInterval(() => {
-                  cd --;
+                  this.deck4Cd --;
                   
-                  if(cd < 2){
+                  if(this.deck4Cd < 2){
                     
                     clearInterval(this.deck4countDown);
                   }
@@ -743,11 +756,11 @@ export default class TankFactory {
                 this.deck4Time = 
                 (this.statusCounts.timeProductionTanks.mg * 1000) *
                 (this.upgradeTable.tanksProductionSpeed[this.upgradeTable.tanksProductionSpeedLevel].reductionFactor);
-                cd = this.deck4Time /1000;
+                this.deck4Cd = this.deck4Time /1000;
                 this.deck4countDown = setInterval(() => {
-                  cd --;
+                  this.deck4Cd --;
                   
-                  if(cd < 2){
+                  if(this.deck4Cd < 2){
                     
                     clearInterval(this.deck4countDown);
                   }
@@ -766,11 +779,11 @@ export default class TankFactory {
                 (this.statusCounts.timeProductionTanks.cannon * 1000) *
                 (this.upgradeTable.tanksProductionSpeed[this.upgradeTable.tanksProductionSpeedLevel].reductionFactor);
           
-                var cd = this.deck4Time /1000;
+                this.deck4Cd = this.deck4Time /1000;
                 this.deck4countDown = setInterval(() => {
-                  cd --;
+                  this.deck4Cd --;
                   
-                  if(cd < 2){
+                  if(this.deck4Cd < 2){
                     
                     clearInterval(this.deck4countDown);
                   }
@@ -781,11 +794,11 @@ export default class TankFactory {
                 this.deck4Time = 
                 (this.statusCounts.timeProductionTanks.cannon * 1000) *
                 (this.upgradeTable.tanksProductionSpeed[this.upgradeTable.tanksProductionSpeedLevel].reductionFactor);
-                cd = this.deck4Time /1000;
+                this.deck4Cd = this.deck4Time /1000;
                 this.deck4countDown = setInterval(() => {
-                  cd --;
+                  this.deck4Cd --;
                   
-                  if(cd < 2){
+                  if(this.deck4Cd < 2){
                     
                     clearInterval(this.deck4countDown);
                   }
@@ -804,11 +817,11 @@ export default class TankFactory {
                 (this.statusCounts.timeProductionTanks.rocket * 1000) *
                 (this.upgradeTable.tanksProductionSpeed[this.upgradeTable.tanksProductionSpeedLevel].reductionFactor);
           
-                var cd = this.deck4Time /1000;
+                this.deck4Cd = this.deck4Time /1000;
                 this.deck4countDown = setInterval(() => {
-                  cd --;
+                  this.deck4Cd --;
                   
-                  if(cd < 2){
+                  if(this.deck4Cd < 2){
                     
                     clearInterval(this.deck4countDown);
                   }
@@ -819,11 +832,11 @@ export default class TankFactory {
                 this.deck4Time = 
                 (this.statusCounts.timeProductionTanks.rocket * 1000) *
                 (this.upgradeTable.tanksProductionSpeed[this.upgradeTable.tanksProductionSpeedLevel].reductionFactor);
-                cd = this.deck4Time /1000;
+                this.deck4Cd = this.deck4Time /1000;
                 this.deck4countDown = setInterval(() => {
-                  cd --;
+                  this.deck4Cd --;
                   
-                  if(cd < 2){
+                  if(this.deck4Cd < 2){
                     
                     clearInterval(this.deck4countDown);
                   }
@@ -840,6 +853,9 @@ export default class TankFactory {
         }
       }else{
         clearInterval(this.deck4Timeout);
+        clearInterval(this.deck4countDown);
+        this.deck4Cd = 0;
+        this.statusCounts.deck4IsProductive = false;
       }
   }
   upgradeCountDown(cd, deck){

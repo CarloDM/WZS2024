@@ -91,11 +91,37 @@
 }
 
 .btn{
-  display: inline-block;
+  display: flex;
+  flex-direction: column;
+  justify-content: end;
   width: 100px;
   aspect-ratio: 1/1;
-  border: 1px solid black;
+  background-position: center;
+  background-size:100%;
+  object-fit: contain;
   background-color: rgba(0, 0, 255, 0.233);
+  text-align:center;
+
+  & span{
+    font-family:monospace;
+    font-size: 1.5rem;
+  }
+}
+
+.empty_upgrade{
+  background-image: url('@/assets/tankSurvive/icon/upgradeEmpty.svg');
+}
+.empty_deck{
+  background-image: url('@/assets/tankSurvive/icon/deckEmpty.svg');
+}
+.mg_deck{
+  background-image: url('@/assets/tankSurvive/icon/deckMg.svg');
+}
+.cannon_deck{
+  background-image: url('@/assets/tankSurvive/icon/deckCannon.svg');
+}
+.rocket_deck{
+  background-image: url('@/assets/tankSurvive/icon/deckRocket.svg');
 }
 
 #gameContainer{

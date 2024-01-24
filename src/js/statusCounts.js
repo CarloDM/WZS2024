@@ -27,10 +27,7 @@ class StatusCounts {
     this.deck4IsProductive = false;
     
 
-
-
-
-
+    
     this.upgrade1IsProductive = false;
 
     this.upgrade2IsProductive = false;
