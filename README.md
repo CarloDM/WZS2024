@@ -131,7 +131,15 @@ sono arrivato al terzo test progressivo!
 ----
 19/01/2024 giorno 25
 DA FARE
-<li>convertire interfaccia in css esternamente al gioco phaser wip</li>
+<li>
+convertire interfaccia in css esternamente al canvas di gioco phaser wip
+<ol>
+    <li>barra energia --ok</li>
+    <li>waves countdown --ok</li>
+    <li>approssimazione calcolo tempistiche dei timeout e intervall</li>
+    <li>corretto funzionamento funzioni upgrade</li>
+</ol>
+</li>
 <li>mappa minimappa in UI</li>
 <li>dedicarsi solo un po' alla grafica</li>
 <li>arrivare alla prima beta release priva di ulteriori funzionalità</li>

@@ -17,6 +17,7 @@
   height: 100vh;
   background-color: rgb(124, 124, 124);
   overflow: hidden;
+  font-family: monospace;
 }
 
 .game_container{
@@ -47,6 +48,7 @@
   }
   & .mid{
     height: calc(100% - 240px);
+    text-align: end;
   }
   & .radar{
     height: 140px;
@@ -83,10 +85,28 @@
     justify-content: space-between;
     width: 850px;
     height: 100px;
+
   }
   & .energy_bar{
+    position: relative;
     width: 750px;
     height: 20px;
+    border-radius: 20px;
+    border: 1px solid black;
+    box-shadow: inset 0px 0px 8px 1px rgba(255, 255, 255, 0.548);
+    overflow: hidden;
+
+    & .energy_filling{
+      height: 100%;
+      background-color: rgba(36, 189, 36, 0.5);
+      transition: all 1s ease-out;
+    }
+    & span{
+      position: absolute;
+      left: 15px;
+      top: 1px;
+      color: white;
+    }
   }
 }
 
@@ -101,12 +121,19 @@
   object-fit: contain;
   background-color: rgba(0, 0, 255, 0.233);
   text-align:center;
-
+  border: 1px solid black;
+  overflow: hidden;
   & span{
     font-family:monospace;
-    font-size: 1.5rem;
+    font-size: 1.2rem;
+    font-weight: 900;
+    color: rgb(255, 255, 255);
+    -webkit-text-stroke: 1px #3b3b3b; 
+
   }
 }
+
+
 
 .empty_upgrade{
   background-image: url('@/assets/tankSurvive/icon/upgradeEmpty.svg');
@@ -128,13 +155,97 @@
   border: 1px solid white;
 }
 
+.upgrades_modal{
+  position: absolute;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap-reverse;
+  bottom: 160px;
+  left: 200px;
+  width: 400px;
+  height: 500px;
+}
 
+.upResSpeed{
+  background-image: url('@/assets/tankSurvive/icon/up-resSpeed.png');
+}
+.upEnergy{
+  background-image: url('@/assets/tankSurvive/icon/up-enEfficiency.png');
+}
+.upEngineering{
+  background-image: url('@/assets/tankSurvive/icon/up-engineerEfficiency.png');
+}
+.upBuildings{
+  background-image: url('@/assets/tankSurvive/icon/up-buildingsArmor.png');
+}
+.upBoost{
+  background-image: url('@/assets/tankSurvive/icon/up-boostSpeed.png');
+}
+.upProduction{
+  background-image: url('@/assets/tankSurvive/icon/up-ProductionSpeed.png');
+}
+.upSpeedTraction{
+  background-image: url('@/assets/tankSurvive/icon/up-SpeedTraction.png');
+}
+.upRangeOfView{
+  background-image: url('@/assets/tankSurvive/icon/up-RangeOfView.png');
+}
+.upMgDmg{
+  background-image: url('@/assets/tankSurvive/icon/up-mgDamage.png');
+}
+.upMgRof{
+  background-image: url('@/assets/tankSurvive/icon/up-mgRof.png');
+}
+.upMgHp{
+  background-image: url('@/assets/tankSurvive/icon/up-mgHp.png');
+}
+.upCannonDmg{
+  background-image: url('@/assets/tankSurvive/icon/up-cannonDamage.png');
+}
+.upCannonRof{
+  background-image: url('@/assets/tankSurvive/icon/up-cannonRof.png');
+}
+.upCannonHp{
+  background-image: url('@/assets/tankSurvive/icon/up-cannonHp.png');
+}
+.upBRocketDmg{
+  background-image: url('@/assets/tankSurvive/icon/up-RocketDamage.png');
+}
+.upRocketRof{
+  background-image: url('@/assets/tankSurvive/icon/up-RocketRof.png');
+}
+.upRocketHp{
+  background-image: url('@/assets/tankSurvive/icon/up-RocketHp.png');
+}
 
-
+.alradySearching{
+  filter: grayscale(1);
+}
 
 
 @media screen and (min-width:1124px) {
   .left_bar{
     bottom: 34px;
+  }
+  .upgrades_modal{
+    left: 240px;
+  }
+}
+@media screen and (min-width:1399px) {
+
+  .upgrades_modal{
+    left: 400px;
+  }
+}
+@media screen and (min-width:1919px) {
+
+  .upgrades_modal{
+    left: 650px;
+  }
+}
+@media screen and (min-width:2400px) {
+
+  .upgrades_modal{
+    left: 850px;
   }
 }

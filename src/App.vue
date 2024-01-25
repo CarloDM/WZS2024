@@ -1,13 +1,13 @@
 <script setup>
 
-import TSTestB from './components/TStestB.vue';
+import WZS2024Game from './components/Game.vue';
 
 </script>
 
 <template>
   <main>
 
-    <TSTestB />
+    <WZS2024Game />
 
   </main>
 </template>

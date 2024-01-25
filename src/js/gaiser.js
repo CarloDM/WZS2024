@@ -29,18 +29,6 @@ export default class Gaiser {
 
   startExtraction(){
 
-    // let fakeDestruction = setInterval(() => {
-    //   if(this.gaiser.hp > 0){
-    //     this.gaiser.hp -= 5;
-    //     console.log(this.gaiser.hp);
-    //   }else{
-    //     console.log('finita autodistruzione');
-
-    //     clearInterval(fakeDestruction);
-    //   }
-    // }, 500);
-    // fakeDestruction;
-
     let extractionInerval = setInterval(() => {
 
       if(this.exploited){
@@ -71,9 +59,10 @@ export default class Gaiser {
 
   extractEnergy(){
     if(this.exploited){
+      
       this.StatusCounts.energy += 
         this.upgradeTable.energyEfficiency[this.upgradeTable.energyEfficiencyLevel].extractionRate * 5;
-        this.scene.cameraController.userInterface.energy.setText(this.StatusCounts.energy );
+
       this.scene.floatingNumbers.createFloatingText({
         textOptions: {
             fontFamily: 'monospace',
