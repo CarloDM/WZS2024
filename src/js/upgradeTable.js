@@ -192,7 +192,7 @@ class UpgradeTable {
     ]
 
     this.tanksSpeedTractionLevel = 0;
-        // incremento del costo 20% incremento del tempo 20%
+    // incremento del costo 20% incremento del tempo 20%
     this.tanksSpeedTraction = [ 
       {incrementFactor : 1,                         
         cost:100, time:60},

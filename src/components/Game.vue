@@ -25,6 +25,9 @@ export default {
       upgradeDecksWorking : [false,false,false,false],
 
       energy: 0,
+      tanksNumb :0,
+      enemiesNumb :0,
+      gaisersNumb :0,
     }
   },
 
@@ -282,7 +285,7 @@ export default {
 
             }else{
               this.up1Cd = this.secondToMinAndSecond(this.tankFactory.up1Cd);
-              if(this.tankFactory.up1Cd <= 1.5){
+              if(this.tankFactory.up1Cd <= 2){
                 this.upgradeDecksWorking[0] = false;
               }
             }
@@ -295,7 +298,7 @@ export default {
 
             }else{
               this.up2Cd = this.secondToMinAndSecond(this.tankFactory.up2Cd);
-              if(this.tankFactory.up2Cd <= 1.5){
+              if(this.tankFactory.up2Cd <= 2){
                 this.upgradeDecksWorking[1] = false;
               }
             }
@@ -308,7 +311,7 @@ export default {
 
             }else{
               this.up3Cd = this.secondToMinAndSecond(this.tankFactory.up3Cd);
-              if(this.tankFactory.up3Cd <= 1.5){
+              if(this.tankFactory.up3Cd <= 2){
                 this.upgradeDecksWorking[2] = false;
               }
             }
@@ -321,7 +324,7 @@ export default {
 
             }else{
               this.up4Cd = this.secondToMinAndSecond(this.tankFactory.up4Cd);
-              if(this.tankFactory.up4Cd <= 1.5){
+              if(this.tankFactory.up4Cd <= 2){
                 this.upgradeDecksWorking[3] = false;
               }
             }
@@ -334,18 +337,23 @@ export default {
           readEnergy;
 
           let readInfo = setInterval(() => {
-            this.nextWave = this.tankFactory.waveCd;
+            this.nextWave = this.secondToMinAndSecond(this.tankFactory.waveCd);
+            this.tanksNumb = this.phaserGame.scene.scenes[0].tanksGrp1.length;
+            this.enemiesNumb = this.phaserGame.scene.scenes[0].enemiesGrp.length;
+            let activeGaiser =  this.phaserGame.scene.scenes[0].gaiserGrp.filter(gaiser => (!gaiser.exploited));
+            activeGaiser = (activeGaiser.length * - 1 ) + 39;
+            console.log(activeGaiser)
+            this.gaisersNumb = activeGaiser
           }, 1000);
           readInfo;
     },
 
     secondToMinAndSecond(seconds){
       const min = Math.floor(seconds / 60);
-      let secondRemain = seconds % 60;
+      let secondRemain = Math.floor(seconds % 60);
       secondRemain = secondRemain < 10 ? '0' + secondRemain : secondRemain;
       return min + ':' + secondRemain ;
     },
-
   },
 
   mounted(){
@@ -363,11 +371,22 @@ export default {
     
     <!-- controll surface -->
     <div class="right_bar">
-      <section class="top debug"></section>
+
+      <section class="top"></section>
+
       <section class="mid debug">
-        <p>Next Wave : {{ this.nextWave }}</p>
+
+        <p class="mb_1">{{ this.nextWave }} Next</p>
+
+        <p class="mb_1"> {{ this.tanksNumb }} Tanks</p>
+
+        <p class="mb_1"> {{ this.enemiesNumb }} Enemies</p>
+
+        <p class="mb_1"> {{ this.gaisersNumb }}/39 Gaisers</p>
       </section>
-      <section class="radar debug"></section>
+
+      <section class="radar "></section>
+
     </div>
 
     <div class="left_bar">
@@ -380,10 +399,11 @@ export default {
     </div>
 
     <div class="bottom_bar">
-      <section class="buttons debug">
 
-          <div class="btn"
-          @click="openUpgradesModal(0)"
+      <section class="buttons ">
+
+          <div @click="openUpgradesModal(0)"
+          class="btn"
           :class="{
             'empty_upgrade' :  !this.upgradeDecksWorking[0],
             'upResSpeed' :      this.upgradeDecksWorking[0] === 1,
@@ -407,8 +427,8 @@ export default {
               <span>{{ this.up1Cd }}</span>
           </div>
 
-          <div class="btn"
-          @click="openUpgradesModal(1)"
+          <div @click="openUpgradesModal(1)"
+          class="btn"
           :class="{
             'empty_upgrade' :  !this.upgradeDecksWorking[1],
             'upResSpeed' :      this.upgradeDecksWorking[1] === 1,
@@ -432,8 +452,8 @@ export default {
               <span>{{ this.up2Cd }}</span>
             </div>
 
-          <div class="btn"
-          @click="openUpgradesModal(2)"
+          <div @click="openUpgradesModal(2)" 
+          class="btn"
           :class="{
             'empty_upgrade' :  !this.upgradeDecksWorking[2],
             'upResSpeed' :      this.upgradeDecksWorking[2] === 1,
@@ -457,8 +477,8 @@ export default {
               <span>{{ this.up3Cd }}</span>
             </div>
 
-          <div class="btn"
-          @click="openUpgradesModal(3)"
+          <div @click="openUpgradesModal(3)"
+          class="btn"
           :class="{
             'empty_upgrade' :  !this.upgradeDecksWorking[3],
             'upResSpeed' :      this.upgradeDecksWorking[3] === 1,
@@ -483,8 +503,7 @@ export default {
             </div>
 
 
-          <div 
-          @click="changeProduction(1)"
+          <div @click="changeProduction(1)"
           class="btn"
           :class="{
             'empty_deck' :  this.deck1 === 0,
@@ -495,8 +514,7 @@ export default {
                 <span>{{ this.deck1Cd }}</span>
             </div>
 
-          <div 
-          @click="changeProduction(2)"
+          <div @click="changeProduction(2)"
           class="btn empty_deck"
           :class="{
             'empty_deck' :  this.deck2 === 0,
@@ -507,8 +525,7 @@ export default {
                 <span>{{ this.deck2Cd }}</span>
             </div>
 
-          <div 
-          @click="changeProduction(3)"
+          <div @click="changeProduction(3)"
           class="btn empty_deck"
           :class="{
             'empty_deck' :  this.deck3 === 0,
@@ -519,8 +536,7 @@ export default {
                 <span>{{ this.deck3Cd }}</span>
             </div>
 
-          <div 
-          @click="changeProduction(4)"
+          <div @click="changeProduction(4)"
           class="btn empty_deck"
           :class="{
             'empty_deck' :  this.deck4 === 0,
@@ -531,7 +547,6 @@ export default {
                 <span>{{ this.deck4Cd }}</span>
             </div>
 
-          
       </section>
 
     <section class="energy_bar debug">
@@ -541,7 +556,7 @@ export default {
       
     </div>
 
-    <div class="upgrades_modal debug"
+    <div class="upgrades_modal"
     v-if="this.upgradeDecks.includes(true)">
     
       <div @click="assignResearch(1)"
@@ -591,7 +606,7 @@ export default {
       :class="{'alradySearching' : this.tankFactory.upgradeTable.upgradeIdIsSearching[10]}"
       ></div>
 
-      <div class="btn"></div>
+      <div class="btn-empty"></div>
 
       <div @click="assignResearch(12)"
       class="btn upCannonDmg"
@@ -606,7 +621,7 @@ export default {
       :class="{'alradySearching' : this.tankFactory.upgradeTable.upgradeIdIsSearching[13]}"
       ></div>
 
-      <div class="btn"></div>
+      <div class="btn-empty"></div>
 
       <div @click="assignResearch(15)"
       class="btn upBRocketDmg"
@@ -621,7 +636,7 @@ export default {
       :class="{'alradySearching' : this.tankFactory.upgradeTable.upgradeIdIsSearching[16]}"
       ></div>
 
-      <div class="btn"></div>
+      <div class="btn-empty"></div>
 
     </div>
     <!-- <button @click="test" style="position:fixed; top: 100px;">TEST</button> -->

@@ -8,6 +8,10 @@
   // border: 1px solid black;
 }
 
+.mb_1{
+  margin-bottom: 10px;
+}
+
 #app {
   display: flex;
   flex-direction: column;
@@ -32,12 +36,13 @@
   flex-direction: column;
   justify-content: space-between;
   align-items: flex-end;
+  font-weight: bolder;
+  font-size: 1.0rem;
   top: 0px;
   right: 0px;
   width: 165px;
   height: calc(100% - 140px);
   padding-right: 25px;
-  // background-color: rgba(0, 255, 255, 0.486);
 
   & section{
     width: 100%;
@@ -49,6 +54,11 @@
   & .mid{
     height: calc(100% - 240px);
     text-align: end;
+    color: rgb(0, 0, 0);
+    padding: 5px;
+    background-color: rgba(255, 255, 255, 0.11);
+    border-radius: 10px;
+    user-select: none;
   }
   & .radar{
     height: 140px;
@@ -65,7 +75,7 @@
   left: 0px;
   width: 125px;
   height: 425px;
-  // background-color: rgba(0, 255, 255, 0.233);
+
 }
 
 .bottom_bar{
@@ -78,7 +88,6 @@
   left: 0px;
   width: 100%;
   height: 140px;
-  // background-color: rgba(0, 255, 255, 0.233);
 
   & .buttons{
     display: flex;
@@ -95,6 +104,7 @@
     border: 1px solid black;
     box-shadow: inset 0px 0px 8px 1px rgba(255, 255, 255, 0.548);
     overflow: hidden;
+    user-select: none;
 
     & .energy_filling{
       height: 100%;
@@ -119,21 +129,31 @@
   background-position: center;
   background-size:100%;
   object-fit: contain;
-  background-color: rgba(0, 0, 255, 0.233);
   text-align:center;
-  border: 1px solid black;
+  border-radius: 5px;
   overflow: hidden;
+  user-select: none;
+  opacity: 0.80;
+
+  &:hover{
+    box-shadow: inset 0px 0px 2px 0px rgb(129, 255, 129);
+    box-shadow: inset 0px 0px 5px 2px rgb(129, 255, 129);
+    filter: contrast(1.8) hue-rotate(80deg) ;
+    opacity: 1;
+  }
+
   & span{
     font-family:monospace;
     font-size: 1.2rem;
     font-weight: 900;
     color: rgb(255, 255, 255);
     -webkit-text-stroke: 1px #3b3b3b; 
-
   }
 }
-
-
+.btn-empty{
+  width: 100px;
+  aspect-ratio: 1/1;
+}
 
 .empty_upgrade{
   background-image: url('@/assets/tankSurvive/icon/upgradeEmpty.svg');

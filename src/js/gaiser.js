@@ -59,14 +59,14 @@ export default class Gaiser {
 
   extractEnergy(){
     if(this.exploited){
-      
+
       this.StatusCounts.energy += 
         this.upgradeTable.energyEfficiency[this.upgradeTable.energyEfficiencyLevel].extractionRate * 5;
 
       this.scene.floatingNumbers.createFloatingText({
         textOptions: {
             fontFamily: 'monospace',
-            fontSize: 15,
+            fontSize: 20,
             color: "#F5FFF7",
             strokeThickness: 1,
             fontWeight: "light",
@@ -77,7 +77,7 @@ export default class Gaiser {
                 color: '#000000',
                 blur: 3,
                 stroke: true,
-                fill: true
+                fill: true,
             }
         },
         
