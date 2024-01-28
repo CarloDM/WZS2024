@@ -34,14 +34,14 @@
   position: absolute;
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
+  justify-content: flex-start;
   align-items: flex-end;
   font-weight: bolder;
   font-size: 1.0rem;
   top: 0px;
   right: 0px;
   width: 165px;
-  height: calc(100% - 140px);
+  height: calc(100% - 256px - 140px);
   padding-right: 25px;
 
   & section{
@@ -60,9 +60,29 @@
     border-radius: 10px;
     user-select: none;
   }
-  & .radar{
-    height: 140px;
+}
+.radar{
+  position:absolute;
+  right: 5px;
+  bottom: 150px;
+  background-color: rgba(0, 0, 0, 0.5);
+  background-image: url('@/assets/tankSurvive/icon/radarmap.png');
+  background-size: contain;
+
+  & .radar_tile{
+    position: absolute;
+    width: 2px;
+    height: 2px;
+
   }
+}
+.tanks_point{
+  background-color: rgb(192, 255, 163);
+  box-shadow: 0px 0px 3px 1px  rgb(0, 255, 0);
+}
+.enemy_point{
+  background-color: rgb(255, 163, 247);
+  box-shadow: 0px 0px 3px 1px  rgb(255, 0, 242);
 }
 
 .left_bar{
@@ -94,8 +114,8 @@
     justify-content: space-between;
     width: 850px;
     height: 100px;
-
   }
+
   & .energy_bar{
     position: relative;
     width: 750px;
@@ -149,7 +169,16 @@
     color: rgb(255, 255, 255);
     -webkit-text-stroke: 1px #3b3b3b; 
   }
+
+  & p{
+    text-align: left;
+    font-weight: 400;
+    font-size: 0.9rem;
+    color: rgb(255, 255, 255);
+    line-height: 0.9rem;
+  }
 }
+
 .btn-empty{
   width: 100px;
   aspect-ratio: 1/1;
@@ -239,7 +268,10 @@
 }
 
 .alradySearching{
-  filter: grayscale(1);
+  filter: grayscale(1) sepia(1);
+}
+.endSearching{
+  filter: grayscale(2) opacity(0.25);
 }
 
 
@@ -256,6 +288,12 @@
   .upgrades_modal{
     left: 400px;
   }
+
+  .radar{
+    right: 5px;
+    bottom: 5px;
+  }
+
 }
 @media screen and (min-width:1919px) {
 

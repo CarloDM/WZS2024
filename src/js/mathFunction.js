@@ -1,5 +1,5 @@
 import Phaser from "phaser";
-export {initializeMathFunction, fromPointerToTile, fromTileToWorldPoint, fromPositionToTile, fromTileToTargetObj, calculateDistance, ifTileInsideBound,ifTileIsAllowed, ifTileIsAllowedXY, calculateRotationAngle, calculateProportionalWidth,calculateIncrementBylevel, verifyPresenceOfEnergy,calculateMidPoint };
+export {initializeMathFunction, fromPointerToTile, fromTileToWorldPoint, fromPositionToTile, fromTileToTargetObj, calculateDistance, ifTileInsideBound,ifTileIsAllowed, ifTileIsAllowedXY, calculateRotationAngle, calculateProportionalWidth,calculateIncrementBylevel, verifyPresenceOfEnergy,calculateMidPoint, generateRadarArray };
 
 let grid = false;
 
@@ -134,4 +134,26 @@ function calculateMidPoint(x, y, x2, y2) {
   var puntoMedioY = Math.floor((y + y2) / 2);
 
   return [puntoMedioX, puntoMedioY];
+}
+
+function generateRadarArray(tanksGrp, enemiesGrp){
+  let tanksTiles = [];
+  let enemiesTiles = [];
+
+  if(tanksGrp.length > 0){
+    tanksGrp.forEach(tank => {
+      const tile = fromPositionToTile(tank.tank.x, tank.tank.y);
+      tanksTiles.push(tile);
+    });
+  }
+
+  if(enemiesGrp.length > 0){
+    enemiesGrp.forEach(enemy => {
+      const tile = fromPositionToTile(enemy.enemy.x, enemy.enemy.y);
+      enemiesTiles.push(tile);
+    });
+  }
+
+  return {tanks: tanksTiles, enemies: enemiesTiles};
+
 }

@@ -185,6 +185,40 @@ class WavesTable {
           enemyRocketHpLevel :      4,
         }
       },
+      {
+        types : [15,15,15],
+        spawnCoordinates : [gateLTop,gateL,gateLBottom,gateRTop,gateR,gateRBottom,gateBottom,gateTop],
+        levels : {
+          enemySpeedTractionLevel : 4,
+          enemyRangeOfViewLevel :   4,
+          enemyMgDamageLevel :      4,
+          enemyMgRofLevel :         4,
+          enemyMgHpLevel :          4,
+          enemyCannonDamageLevel :  4,
+          enemyCannonRofLevel :     4,
+          enemyCannonHpLevel :      4,
+          enemyRocketDamageLevel :  4,
+          enemyRocketRofLevel :     4,
+          enemyRocketHpLevel :      4,
+        }
+      },
+      {
+        types : [10,10,10],
+        spawnCoordinates : [gateLTop,gateL,gateLBottom,gateRTop,gateR,gateRBottom,gateBottom,gateTop],
+        levels : {
+          enemySpeedTractionLevel : 5,
+          enemyRangeOfViewLevel :   5,
+          enemyMgDamageLevel :      5,
+          enemyMgRofLevel :         5,
+          enemyMgHpLevel :          5,
+          enemyCannonDamageLevel :  5,
+          enemyCannonRofLevel :     5,
+          enemyCannonHpLevel :      5,
+          enemyRocketDamageLevel :  5,
+          enemyRocketRofLevel :     5,
+          enemyRocketHpLevel :      5,
+        }
+      },
     ]
 
     this.WavesTable = this;

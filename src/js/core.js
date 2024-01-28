@@ -3,7 +3,7 @@ import Stats from "stats.js";
 
 import FloatingNumbersPlugin    from "./FloatingNumbersPlugin";
 import {setUpFinder}            from "./Astar";
-import {initializeMathFunction,fromTileToWorldPoint} from './mathFunction';
+import {initializeMathFunction,fromTileToWorldPoint,generateRadarArray} from './mathFunction';
 import CameraController         from './cameraController';
 import SelectionRect            from './selectionRect';
 import TankFactory              from './Factory';
@@ -21,7 +21,7 @@ document.body.appendChild(stats.dom);
 class setMapTest extends Phaser.Scene{
   constructor ()
   {super('setMapTest');
-
+  this.mounted = false;
   this.grid = [];
   this.gaiserGrp = [];
   this.buildingsGrp = [];
@@ -34,7 +34,8 @@ class setMapTest extends Phaser.Scene{
   this.enemies = [];
 
   this.tankFactory = null;
-
+  this.radarObj = {tanks:[], enemies:[]}
+  this.upgradeRadarArray();
   };
   
   preload(){
@@ -244,9 +245,16 @@ class setMapTest extends Phaser.Scene{
 
     this.cameraController = new CameraController(this);
     this.scale.on('resize', this.handleResize, this);
-
+    
+    this.mounted = true;
   }; //----create
   
+  upgradeRadarArray(){
+    setInterval(() => {
+      this.radarObj  = generateRadarArray(this.tanksGrp1, this.enemiesGrp);
+    }, 2500);
+  }
+
   handleResize(){
     // console.log('resize', this.scale.game.config , 'parentsize', this.scale.parentSize._width, this.scale.parentSize._height );
     // console.log(this.scale.canvas.width,this.scale.canvas.height )

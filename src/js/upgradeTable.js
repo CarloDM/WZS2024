@@ -34,15 +34,15 @@ class UpgradeTable {
         cost:300, time:180},
       {reductionFactor : 0.65,                         
         cost:420, time:210},
-      {reductionFactor : 0.60,                         
-        cost:560, time:240},
       {reductionFactor : 0.55,                         
-        cost:700, time:270},
-      {reductionFactor : 0.50,                         
-        cost:900, time:300},
-        
+        cost:600, time:240},
       {reductionFactor : 0.45,                         
-        cost:1200, time:330},
+        cost:750, time:270},
+      {reductionFactor : 0.30,                         
+        cost:1000, time:300},
+        
+      {reductionFactor : ' ',                         
+        cost:' ', time: ' '},
     ]
     
     this.energyEfficiencyLevel = 0;
@@ -68,12 +68,10 @@ class UpgradeTable {
         cost:1400, time:270},
       {extractionRate : 1.9,                         
         cost:1800, time:300},
-
       {extractionRate : 2,                         
         cost:2100, time:330},
 
-      {extractionRate : 2.1,                         
-        cost:2500, time:360},
+      {cost:' '},
     ]
     
     this.engineerEfficiencyLevel  = 0;
@@ -97,11 +95,13 @@ class UpgradeTable {
         cost:350, time: 240 },
       {moveSpeed : 101,  constructionTimeFactor: 0.5, 
         cost:500, time: 300 },
-      {moveSpeed : 110,  constructionTimeFactor: 0.4, 
-        cost:650, time: 360 },
-      {moveSpeed : 120,  constructionTimeFactor: 0.3, 
-        cost:900, time: 420 },
-    ]
+      {moveSpeed : 110,  constructionTimeFactor: 0.35, 
+        cost:750, time: 360 },
+      {moveSpeed : 120,  constructionTimeFactor: 0.25, 
+        cost:1000, time: 420 },
+
+      {cost:' '},
+      ]
 
     this.buildingsArmorLevel  = 0;
     this.buildingsArmor = [
@@ -109,28 +109,27 @@ class UpgradeTable {
         cost:100, time:60 },
 
       {armorFactor : 1, 
-        cost:100, time:60 },
+        cost:1, time:1 },
       {armorFactor : 1, 
-        cost:100, time:60 },
+        cost:1, time:1 },
       {armorFactor : 1, 
-        cost:100, time:60 },
+        cost:1, time:1 },
       {armorFactor : 1, 
-        cost:100, time:60 },
+        cost:1, time:1 },
       {armorFactor : 1, 
-        cost:100, time:60 },
+        cost:1, time:1 },
       {armorFactor : 1, 
-        cost:100, time:60 },
+        cost:1, time:1 },
       {armorFactor : 1, 
-        cost:100, time:60 },
+        cost:1, time:1 },
       {armorFactor : 1, 
-        cost:100, time:60 },
+        cost:1, time:1 },
       {armorFactor : 1, 
-        cost:100, time:60 },
+        cost:1, time:1 },
       {armorFactor : 1, 
-        cost:100, time:60 },
+        cost:1, time:1 },
 
-      {armorFactor : 1, 
-        cost:100, time:60 },
+      {cost:''},
     ]
     
     this.boostSpeedLevel = 0;
@@ -139,26 +138,27 @@ class UpgradeTable {
         cost:0, time:0 },
 
       {reductionFactor : 0.95, numbOftank: 9,          
-        cost:200, time:60 },
+        cost:1, time:1 },
       {reductionFactor : 0.90, numbOftank: 12,          
-        cost:300, time:60 },
+        cost:1, time:1 },
       {reductionFactor : 0.85, numbOftank: 15,          
-        cost:400, time:60 },
+        cost:1, time:1 },
       {reductionFactor : 0.80, numbOftank: 18,          
-        cost:500, time:60 },
+        cost:1, time:1 },
       {reductionFactor : 0.75, numbOftank: 21,          
-        cost:600, time:60 },
+        cost:1, time:1 },
       {reductionFactor : 0.70, numbOftank: 24,          
-        cost:700, time:60 },
+        cost:1, time:1 },
       {reductionFactor : 0.65, numbOftank: 27,          
-        cost:800, time:60 },
+        cost:1, time:1 },
       {reductionFactor : 0.60, numbOftank: 30,          
-        cost:900, time:60 },
+        cost:1, time:1 },
       {reductionFactor : 0.55, numbOftank: 33,          
-        cost:1000, time:60 },
-
+        cost:1, time:1 },
       {reductionFactor : 0.5, numbOftank: 36,          
-        cost:1200, time:60 },
+        cost:1, time:1 },
+
+      {cost:''},
     ]
     
     this.tanksProductionSpeedLevel = 0;
@@ -167,28 +167,27 @@ class UpgradeTable {
         cost:0, time:0},
 
       {reductionFactor : 1,                         
-        cost:100, time:60},
-      {reductionFactor : 1,                         
-        cost:100, time:60},
-      {reductionFactor : 1,                         
-        cost:100, time:60},
-      {reductionFactor : 1,                         
-        cost:100, time:60},
-      {reductionFactor : 1,                         
-        cost:100, time:60},
-      {reductionFactor : 1,                         
-        cost:100, time:60},
-      {reductionFactor : 1,                         
-        cost:100, time:60},
-      {reductionFactor : 1,                         
-        cost:100, time:60},
-      {reductionFactor : 1,                         
-        cost:100, time:60},
-      {reductionFactor : 1,                         
-        cost:100, time:60},
+        cost:150, time:60},
+      {reductionFactor : 0.9,                         
+        cost:300, time:90},
+      {reductionFactor : 0.8,                         
+        cost:450, time:120},
+      {reductionFactor : 0.7,                         
+        cost:600, time:150},
+      {reductionFactor : 0.6,                         
+        cost:750, time:180},
+      {reductionFactor : 0.5,                         
+        cost:900, time:210},
+      {reductionFactor : 0.4,                         
+        cost:1050, time:240},
+      {reductionFactor : 0.3,                         
+        cost:1200, time:270},
+      {reductionFactor : 0.2,                         
+        cost:1350, time:300},
+      {reductionFactor : 0.1,                         
+        cost:1500, time:330},
 
-      {reductionFactor : 1,                         
-        cost:100, time:60},
+      {cost:''},
     ]
 
     this.tanksSpeedTractionLevel = 0;
@@ -217,6 +216,8 @@ class UpgradeTable {
         cost:515, time:309},
       {incrementFactor : 1.11,                         
         cost:619, time:371},
+
+      {cost:''},
     ]
     
     this.tanksRangeOfViewLevel = 0;
@@ -244,6 +245,8 @@ class UpgradeTable {
         cost:515, time:309},
       {incrementFactor : 1.055,                         
         cost:619, time:371},
+
+      {cost:''},
     ]
 
     // upgrade specifici----
@@ -272,9 +275,10 @@ class UpgradeTable {
       cost:900, time:300},
       {dmg : 9.2, 
       cost:1000, time:330},
-
       {dmg : 10, 
       cost:1100, time:360},
+
+      {cost:''},
     ]
 
     this.mgRofLevel = 0;
@@ -300,10 +304,10 @@ class UpgradeTable {
       cost:500, time:300},
       {rof : 6.5, rot: 2.95,
       cost:550, time:330},
-
       {rof : 5, rot: 3.2,
       cost:600, time:360},
 
+      {cost:''},
     ]
 
     this.mgHpLevel = 0;
@@ -311,27 +315,28 @@ class UpgradeTable {
       {hp: 220,
       cost:100, time:60},
       
-      {hp: 245,
-      cost:100, time:90},
       {hp: 270,
-      cost:100, time:120},
+      cost:100, time:90},
       {hp: 295,
-      cost:100, time:150},
-      {hp: 320,
-      cost:100, time:180},
+      cost:150, time:120},
+      {hp: 295,
+      cost:200, time:150},
       {hp: 345,
-      cost:100, time:210},
+      cost:250, time:180},
       {hp: 370,
-      cost:100, time:240},
+      cost:300, time:210},
       {hp: 395,
-      cost:100, time:270},
+      cost:350, time:240},
       {hp: 420,
-      cost:100, time:300},
-      {hp: 445,
-      cost:100, time:330},
-
+      cost:400, time:270},
+      {hp: 450,
+      cost:450, time:300},
       {hp: 470,
-      cost:100, time:360},
+      cost:500, time:330},
+      {hp: 500,
+      cost:550, time:360},
+
+      {cost:''},
     ]
     
     // Cannon --------------
@@ -341,26 +346,27 @@ class UpgradeTable {
       cost:100, time:60},
 
       {dmg : 38,
-      cost:100, time:60},
+      cost:100, time:90},
       {dmg : 62,
-      cost:100, time:60},
+      cost:200, time:120},
       {dmg : 85,
-      cost:100, time:60},
+      cost:300, time:150},
       {dmg : 109,
-      cost:100, time:60},
+      cost:400, time:180},
       {dmg : 132,
-      cost:100, time:60},
+      cost:500, time:210},
       {dmg : 156,
-      cost:100, time:60},
+      cost:600, time:240},
       {dmg : 179,
-      cost:100, time:60},
+      cost:700, time:270},
       {dmg : 203,
-      cost:100, time:60},
+      cost:800, time:300},
       {dmg : 226,
-      cost:100, time:60},
-
+      cost:900, time:330},
       {dmg : 250,
-      cost:100, time:60},
+      cost:1000, time:360},
+
+      {cost:''},
     ]
 
     this.cannonRofLevel = 0;
@@ -369,26 +375,27 @@ class UpgradeTable {
         cost:100, time:60},
 
       {rof : 114, rot: 0.45,
-        cost:150, time:60},
+        cost:150, time:90},
       {rof : 108, rot: 0.55,
-        cost:200, time:60},
+        cost:200, time:120},
       {rof : 102, rot: 0.66,
-        cost:250, time:60},
+        cost:250, time:150},
       {rof : 96, rot: 0.76,
-        cost:300, time:60},
+        cost:300, time:180},
       {rof : 90, rot: 0.87,
-        cost:350, time:60},
+        cost:350, time:210},
       {rof : 84, rot: 0.97,
-        cost:400, time:60},
+        cost:400, time:240},
       {rof : 78, rot: 1.1,
-        cost:450, time:60},
+        cost:450, time:270},
       {rof : 72, rot: 1.2,
-        cost:500, time:60},
+        cost:500, time:300},
       {rof : 66, rot: 1.3,
-        cost:500, time:60},
-
+        cost:500, time:330},
       {rof : 60, rot: 1.5,
-        cost:600, time:60},
+        cost:600, time:350},
+
+      {cost:''},
     ]
 
     this.cannonHpLevel = 0;
@@ -397,26 +404,27 @@ class UpgradeTable {
       cost:0, time:0},
 
       {hp: 407,
-      cost:0, time:0},
+      cost:100, time:90},
       {hp: 444,
-      cost:0, time:0},
+      cost:200, time:120},
       {hp: 481,
-      cost:0, time:0},
+      cost:300, time:150},
       {hp: 518,
-      cost:0, time:0},
+      cost:400, time:180},
       {hp: 555,
-      cost:0, time:0},
+      cost:500, time:210},
       {hp: 592,
-      cost:0, time:0},
+      cost:600, time:240},
       {hp: 629,
-      cost:0, time:0},
+      cost:700, time:270},
       {hp: 666,
-      cost:0, time:0},
+      cost:800, time:300},
       {hp: 703,
-      cost:0, time:0},
-
+      cost:900, time:330},
       {hp: 740,
-      cost:0, time:0},
+      cost:1000, time:350},
+
+      {cost:''},
 
     ]
     
@@ -429,24 +437,25 @@ class UpgradeTable {
       {dmg : 42.5,
       cost:100, time:60},
       {dmg : 60,
-      cost:100, time:60},
+      cost:200, time:90},
       {dmg : 77.5,
-      cost:100, time:60},
+      cost:300, time:120},
       {dmg : 95,
-      cost:100, time:60},
+      cost:400, time:150},
       {dmg : 112,
-      cost:100, time:60},
+      cost:450, time:180},
       {dmg : 130,
-      cost:100, time:60},
+      cost:550, time:210},
       {dmg : 147,
-      cost:100, time:60},
+      cost:650, time:240},
       {dmg : 165,
-      cost:100, time:60},
+      cost:700, time:270},
       {dmg : 182,
-      cost:100, time:60},
-
+      cost:800, time:300},
       {dmg : 200,
-      cost:100, time:60},
+      cost:900, time:330},
+
+      {cost:''},
     ]
 
     this.RocketRofLevel = 0;
@@ -455,26 +464,27 @@ class UpgradeTable {
         cost:0, time:0},
 
       {rof : 152, rot: 0.32,
-        cost:100, time:60},
+        cost:60, time:60},
       {rof : 144, rot: 0.4,
-        cost:100, time:60},
+        cost:120, time:90},
       {rof : 136, rot: 0.47,
-        cost:100, time:60},
+        cost:180, time:120},
       {rof : 128, rot: 0.55,
-        cost:100, time:60},
+        cost:240, time:150},
       {rof : 120, rot: 0.62,
-        cost:100, time:60},
+        cost:300, time:180},
       {rof : 112, rot: 0.7,
-        cost:100, time:60},
+        cost:360, time:210},
       {rof : 104, rot: 0.77,
-        cost:100, time:60},
+        cost:420, time:240},
       {rof : 96, rot: 0.84,
-        cost:100, time:60},
+        cost:480, time:270},
       {rof : 88, rot: 0.92,
-        cost:100, time:60},
-
+        cost:540, time:300},
       {rof : 80, rot: 1,
-        cost:100, time:60},
+        cost:600, time:330},
+      
+      {cost:''},
     ]
 
     this.RocketHpLevel = 0;
@@ -483,26 +493,27 @@ class UpgradeTable {
       cost:100, time:60},
 
       {hp: 330,
-      cost:100, time:60},
+      cost:100, time:90},
       {hp: 360,
-      cost:100, time:60},
+      cost:200, time:120},
       {hp: 390,
-      cost:100, time:60},
+      cost:300, time:150},
       {hp: 420,
-      cost:100, time:60},
+      cost:400, time:180},
       {hp: 450,
-      cost:100, time:60},
+      cost:500, time:210},
       {hp: 480,
-      cost:100, time:60},
+      cost:600, time:240},
       {hp: 510,
-      cost:100, time:60},
+      cost:700, time:270},
       {hp: 540,
-      cost:100, time:60},
+      cost:800, time:300},
       {hp: 570,
-      cost:100, time:60},
-
+      cost:900, time:330},
       {hp: 600,
-      cost:100, time:60},
+      cost:1000, time:360},
+
+      {cost:''},
     ]
 
     

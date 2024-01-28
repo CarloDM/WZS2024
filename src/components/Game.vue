@@ -6,6 +6,8 @@ export default {
   name:'WZS2024',
   data(){
     return{
+      gameMounted : false,
+
       deck1 : 0,
       deck1Cd : 0,
       deck2 : 0,
@@ -19,15 +21,22 @@ export default {
       up3Cd : 0,
       up4Cd : 0,
 
-      nextWave:0,
+      nextWave:'3:00',
 
-      upgradeDecks : [false,false,false,false],
+      upgradeDecks :        [false,false,false,false],
       upgradeDecksWorking : [false,false,false,false],
 
-      energy: 0,
-      tanksNumb :0,
-      enemiesNumb :0,
-      gaisersNumb :0,
+      energy      : 0,
+      tanksNumb   : 0,
+      enemiesNumb : 0,
+      gaisersNumb : 0,
+      mgCost      : 0,
+      cannonCost  : 0,
+      rocketCost  : 0,
+
+      tanksCoord : [],
+      enemiesCoord : [],
+      radarSize: 256,
     }
   },
 
@@ -42,14 +51,28 @@ export default {
   methods:{
 
     initializeGame(){
+
       this.phaserGame = new Game(config);
       this.phaserGame.canvas.parentElement.removeChild(this.phaserGame.canvas); 
       document.getElementById('gameContainer').appendChild(this.phaserGame.canvas);
+      this.gameIsMounted();
 
-      setTimeout(() => {
+    },
+
+    gameIsMounted(){
+
+      const scene = this.phaserGame.scene.scenes[0]
+      if(scene && scene.mounted){
         this.tankFactory = this.phaserGame.scene.scenes[0].tankFactory;
         this.decksReadCountdown();
-      }, 2000);
+        this.gameMounted = true;
+        console.log('scene mounted');
+      }else{
+        console.log('scene not mounted');
+        setTimeout(() => {
+          this.gameIsMounted();
+        }, 500);
+      }
     },
 
     toggleFullScreen() {
@@ -152,12 +175,26 @@ export default {
       this.upgradeDecks = [false,false,false,false];
     },
 
-    assignResearch(researchId){
-      if(!this.tankFactory.upgradeTable.upgradeIdIsSearching[researchId - 1]){
+    assignResearch(researchId, upGradeLevel){
+      if(!this.tankFactory.upgradeTable.upgradeIdIsSearching[researchId - 1] && upGradeLevel < 10 ){
         let researchDeck;
         for (let i = 0; i < this.upgradeDecks.length; i++) {
           if(this.upgradeDecks[i]){
             researchDeck = i ;
+            switch (i) {
+              case 0:
+              this.tankFactory.up1Cd = 'Start';
+              break;
+              case 1:
+              this.tankFactory.up2Cd = 'Start';
+              break;
+              case 2:
+              this.tankFactory.up3Cd = 'Start';
+              break;
+              case 3:
+              this.tankFactory.up4Cd = 'Start';
+              break;
+            }
           }
           this.upgradeDecksWorking[researchDeck] = researchId;
         }
@@ -228,20 +265,33 @@ export default {
           break;
         case 15:
           console.log('case RocketDamage');
-          this.tankFactory.tankFactoryIstance.RocketDamage(upgradeDeckID);
+          this.tankFactory.tankFactoryIstance.rocketDamage(upgradeDeckID);
           break;
         case 16:
           console.log('case RocketRof');
-          this.tankFactory.tankFactoryIstance.RocketRof(upgradeDeckID);
+          this.tankFactory.tankFactoryIstance.rocketRof(upgradeDeckID);
           break;
         case 17:
           console.log('case RocketHp');
-          this.tankFactory.tankFactoryIstance.RocketHp(upgradeDeckID);
+          this.tankFactory.tankFactoryIstance.rocketHp(upgradeDeckID);
           break;
       }
     },
 
     decksReadCountdown(){
+
+      this.deck1Cd    = this.tankFactory.deck1Cd ;
+      this.deck2Cd    = this.tankFactory.deck2Cd ;
+      this.deck3Cd    = this.tankFactory.deck3Cd ;
+      this.deck4Cd    = this.tankFactory.deck4Cd ;
+      this.up1Cd      = this.tankFactory.up1Cd ;
+      this.up2Cd      = this.tankFactory.up2Cd ;
+      this.up3Cd      = this.tankFactory.up3Cd ;
+      this.up4Cd      = this.tankFactory.up4Cd ;
+      this.energy     = this.tankFactory.statusCounts.energy;
+      this.mgCost     = this.tankFactory.statusCounts.mgCost ;
+      this.cannonCost = this.tankFactory.statusCounts.cannonCost ;
+      this.rocketCost = this.tankFactory.statusCounts.rocketCost ;
 
           let readCd1 = setInterval(() => {
             if(typeof this.tankFactory.deck1Cd === 'string'){
@@ -282,12 +332,11 @@ export default {
           let readUpCd1 = setInterval(() => {
             if(typeof this.tankFactory.up1Cd === 'string'){
               this.up1Cd = this.tankFactory.up1Cd ;
-
-            }else{
-              this.up1Cd = this.secondToMinAndSecond(this.tankFactory.up1Cd);
-              if(this.tankFactory.up1Cd <= 2){
+              if(this.tankFactory.up1Cd === 'empty'){
                 this.upgradeDecksWorking[0] = false;
               }
+            }else{
+              this.up1Cd = this.secondToMinAndSecond(this.tankFactory.up1Cd);
             }
           }, 1000);
             readUpCd1;
@@ -295,12 +344,11 @@ export default {
           let readUpCd2 = setInterval(() => {
             if(typeof this.tankFactory.up2Cd === 'string'){
               this.up2Cd = this.tankFactory.up2Cd ;
-
-            }else{
-              this.up2Cd = this.secondToMinAndSecond(this.tankFactory.up2Cd);
-              if(this.tankFactory.up2Cd <= 2){
+              if(this.tankFactory.up2Cd === 'empty'){
                 this.upgradeDecksWorking[1] = false;
               }
+            }else{
+              this.up2Cd = this.secondToMinAndSecond(this.tankFactory.up2Cd);
             }
           }, 1000);
             readUpCd2;
@@ -308,12 +356,11 @@ export default {
           let readUpCd3 = setInterval(() => {
             if(typeof this.tankFactory.up3Cd === 'string'){
               this.up3Cd = this.tankFactory.up3Cd ;
-
-            }else{
-              this.up3Cd = this.secondToMinAndSecond(this.tankFactory.up3Cd);
-              if(this.tankFactory.up3Cd <= 2){
+              if(this.tankFactory.up3Cd === 'empty'){
                 this.upgradeDecksWorking[2] = false;
               }
+            }else{
+              this.up3Cd = this.secondToMinAndSecond(this.tankFactory.up3Cd);
             }
           }, 1000);
             readUpCd3;
@@ -321,18 +368,20 @@ export default {
           let readUpCd4 = setInterval(() => {
             if(typeof this.tankFactory.up4Cd === 'string'){
               this.up4Cd = this.tankFactory.up4Cd ;
-
-            }else{
-              this.up4Cd = this.secondToMinAndSecond(this.tankFactory.up4Cd);
-              if(this.tankFactory.up4Cd <= 2){
+              if(this.tankFactory.up4Cd === 'empty'){
                 this.upgradeDecksWorking[3] = false;
               }
+            }else{
+              this.up4Cd = this.secondToMinAndSecond(this.tankFactory.up4Cd);
             }
           }, 1000);
             readUpCd4;
           
           let readEnergy = setInterval(() => {
-            this.energy = this.tankFactory.statusCounts.energy;
+            this.energy =     this.tankFactory.statusCounts.energy;
+            this.mgCost =     this.tankFactory.statusCounts.mgCost ;
+            this.cannonCost = this.tankFactory.statusCounts.cannonCost ;
+            this.rocketCost = this.tankFactory.statusCounts.rocketCost ;
           }, 3000);
           readEnergy;
 
@@ -342,10 +391,16 @@ export default {
             this.enemiesNumb = this.phaserGame.scene.scenes[0].enemiesGrp.length;
             let activeGaiser =  this.phaserGame.scene.scenes[0].gaiserGrp.filter(gaiser => (!gaiser.exploited));
             activeGaiser = (activeGaiser.length * - 1 ) + 39;
-            console.log(activeGaiser)
-            this.gaisersNumb = activeGaiser
+            this.gaisersNumb = activeGaiser;
           }, 1000);
           readInfo;
+
+          let upgradeRadar = setInterval(() => {
+          const radar = this.phaserGame.scene.scenes[0].radarObj;
+          this.tanksCoord = radar.tanks;
+          this.enemiesCoord = radar.enemies;
+          }, 2500);
+          upgradeRadar;
     },
 
     secondToMinAndSecond(seconds){
@@ -354,11 +409,28 @@ export default {
       secondRemain = secondRemain < 10 ? '0' + secondRemain : secondRemain;
       return min + ':' + secondRemain ;
     },
+
+    resizeRadar(event){
+      console.log('resize',event.deltaY);
+
+      if(event.deltaY < 0 ){
+        if((this.radarSize - 8 ) > 120){
+          this.radarSize -= 8;
+        }
+      }else if(event.deltaY > 0 ){
+        if((this.radarSize + 8) < 264){
+          this.radarSize += 8;
+        }
+      }
+    },
+    resetRadarSize(){
+      this.radarSize = 256;
+    }
+
   },
 
   mounted(){
     this.initializeGame();
-
   }
 }
 
@@ -368,41 +440,69 @@ export default {
 
     <div @click="deactivateModal" id="gameContainer"></div>
 
-    
+
     <!-- controll surface -->
-    <div class="right_bar">
+    <div v-if="this.gameMounted">
+      
+      <div class="right_bar ">
 
-      <section class="top"></section>
+        <section class="top"></section>
 
-      <section class="mid debug">
+        <section class="mid ">
 
-        <p class="mb_1">{{ this.nextWave }} Next</p>
+          <p class="mb_1"> {{ this.nextWave }} Next         </p>
 
-        <p class="mb_1"> {{ this.tanksNumb }} Tanks</p>
+          <p class="mb_1"> {{ this.enemiesNumb }} Enemies   </p>
 
-        <p class="mb_1"> {{ this.enemiesNumb }} Enemies</p>
+          <p class="mb_1"> {{ this.gaisersNumb }}/39 Gaisers</p>
 
-        <p class="mb_1"> {{ this.gaisersNumb }}/39 Gaisers</p>
+          <p class="mb_1"> {{ this.tanksNumb }} Tanks       </p>
+
+          <p class="mb_1"> {{ this.mgCost }} Mg Cost       </p>
+
+          <p class="mb_1"> {{ this.cannonCost }} Cannon Cost       </p>
+
+          <p class="mb_1"> {{ this.rocketCost }} Rocket Cost       </p>
+        </section>
+
+        
+      </div>
+      
+      <section class="radar "
+      @wheel="resizeRadar"
+      @click ="resetRadarSize"
+      :style="{width: this.radarSize + 'px' , height: this.radarSize + 'px'}">
+
+        <div v-if="this.tanksCoord.length > 0">
+          <div class="radar_tile tanks_point"
+          v-for="(tank,index) in this.tanksCoord" :key="index"
+          :style="{ top: Math.floor((tank[1] / 128) * 100) + '%', left: Math.floor((tank[0] / 128) * 100) + '%' }"
+          ></div>
+        </div>
+
+        <div v-if="this.enemiesCoord.length > 0">
+          <div class="radar_tile enemy_point"
+          v-for="(enemy,index) in this.enemiesCoord" :key="index"
+          :style="{ top: Math.floor((enemy[1] / 128 ) * 100) + '%', left: Math.floor((enemy[0] / 128) * 100) + '%' }"
+          ></div>
+        </div>
+
       </section>
 
-      <section class="radar "></section>
+      <div class="left_bar">
 
-    </div>
+            <div class="btn ">btn</div>
+            <div class="btn ">btn</div>
+            <div class="btn ">btn</div>
+            <div class="btn ">btn</div>
 
-    <div class="left_bar">
+      </div>
 
-          <div class="btn ">btn</div>
-          <div class="btn ">btn</div>
-          <div class="btn ">btn</div>
-          <div class="btn ">btn</div>
+      <div class="bottom_bar">
 
-    </div>
+        <section class="buttons ">
 
-    <div class="bottom_bar">
-
-      <section class="buttons ">
-
-          <div @click="openUpgradesModal(0)"
+            <div @click="openUpgradesModal(0)"
           class="btn"
           :class="{
             'empty_upgrade' :  !this.upgradeDecksWorking[0],
@@ -425,9 +525,9 @@ export default {
             'upRocketHp' :      this.upgradeDecksWorking[0] === 17,
             }">
               <span>{{ this.up1Cd }}</span>
-          </div>
+            </div>
 
-          <div @click="openUpgradesModal(1)"
+            <div @click="openUpgradesModal(1)"
           class="btn"
           :class="{
             'empty_upgrade' :  !this.upgradeDecksWorking[1],
@@ -452,7 +552,7 @@ export default {
               <span>{{ this.up2Cd }}</span>
             </div>
 
-          <div @click="openUpgradesModal(2)" 
+            <div @click="openUpgradesModal(2)" 
           class="btn"
           :class="{
             'empty_upgrade' :  !this.upgradeDecksWorking[2],
@@ -477,7 +577,7 @@ export default {
               <span>{{ this.up3Cd }}</span>
             </div>
 
-          <div @click="openUpgradesModal(3)"
+            <div @click="openUpgradesModal(3)"
           class="btn"
           :class="{
             'empty_upgrade' :  !this.upgradeDecksWorking[3],
@@ -503,7 +603,7 @@ export default {
             </div>
 
 
-          <div @click="changeProduction(1)"
+            <div @click="changeProduction(1)"
           class="btn"
           :class="{
             'empty_deck' :  this.deck1 === 0,
@@ -514,7 +614,7 @@ export default {
                 <span>{{ this.deck1Cd }}</span>
             </div>
 
-          <div @click="changeProduction(2)"
+            <div @click="changeProduction(2)"
           class="btn empty_deck"
           :class="{
             'empty_deck' :  this.deck2 === 0,
@@ -525,7 +625,7 @@ export default {
                 <span>{{ this.deck2Cd }}</span>
             </div>
 
-          <div @click="changeProduction(3)"
+            <div @click="changeProduction(3)"
           class="btn empty_deck"
           :class="{
             'empty_deck' :  this.deck3 === 0,
@@ -536,7 +636,7 @@ export default {
                 <span>{{ this.deck3Cd }}</span>
             </div>
 
-          <div @click="changeProduction(4)"
+            <div @click="changeProduction(4)"
           class="btn empty_deck"
           :class="{
             'empty_deck' :  this.deck4 === 0,
@@ -547,99 +647,168 @@ export default {
                 <span>{{ this.deck4Cd }}</span>
             </div>
 
+        </section>
+
+      <section class="energy_bar debug">
+        <div class="energy_filling" :style="{ width: `${this.energy / 20}%` }"></div>
+        <span> energy: {{ this.energy }}</span>
       </section>
 
-    <section class="energy_bar debug">
-      <div class="energy_filling" :style="{ width: `${this.energy / 20}%` }"></div>
-      <span> energy: {{ this.energy }}</span>
-    </section>
-      
+      </div>
+
+      <div class="upgrades_modal"
+      v-if="this.upgradeDecks.includes(true)">
+
+        <div @click="assignResearch(1, this.tankFactory.upgradeTable.researchSpeedLevel )"
+        class="btn upResSpeed"
+        :class="{'alradySearching' : this.tankFactory.upgradeTable.upgradeIdIsSearching[0],
+                    'endSearching' : this.tankFactory.upgradeTable.researchSpeedLevel === 10,}">
+          <p>Lv.{{ this.tankFactory.upgradeTable.researchSpeedLevel }}/10</p>
+          <p>Cost: {{ this.tankFactory.upgradeTable.researchSpeed[this.tankFactory.upgradeTable.  researchSpeedLevel + 1].cost }}</p>
+        </div>
+
+        <div @click="assignResearch(2,this.tankFactory.upgradeTable.energyEfficiencyLevel)"
+        class="btn upEnergy"
+        :class="{'alradySearching' : this.tankFactory.upgradeTable.upgradeIdIsSearching[1],
+                    'endSearching' : this.tankFactory.upgradeTable.energyEfficiencyLevel === 10,}">
+          <p>Lv.{{ this.tankFactory.upgradeTable.energyEfficiencyLevel }}/10</p>
+          <p>Cost: {{ this.tankFactory.upgradeTable.energyEfficiency[this.tankFactory.upgradeTable. energyEfficiencyLevel + 1].cost }}</p>
+        </div>
+
+        <div @click="assignResearch(3,this.tankFactory.upgradeTable.engineerEfficiencyLevel)"
+        class="btn upEngineering"
+        :class="{'alradySearching' : this.tankFactory.upgradeTable.upgradeIdIsSearching[2],
+                    'endSearching' : this.tankFactory.upgradeTable.engineerEfficiencyLevel === 10,}">
+          <p>Lv.{{ this.tankFactory.upgradeTable.engineerEfficiencyLevel }}/10</p>
+          <p>Cost: {{ this.tankFactory.upgradeTable.engineerEfficiency[this.tankFactory.upgradeTable. engineerEfficiencyLevel + 1].cost }}</p>
+        </div>
+
+        <div @click="assignResearch(4,this.tankFactory.upgradeTable.buildingsArmorLevel )"
+        class="btn upBuildings"
+        :class="{'alradySearching' : this.tankFactory.upgradeTable.upgradeIdIsSearching[3],
+                    'endSearching' : this.tankFactory.upgradeTable.buildingsArmorLevel === 10,}">
+          <p>Lv.{{ this.tankFactory.upgradeTable.buildingsArmorLevel }}/10</p>
+          <p>Cost: {{ this.tankFactory.upgradeTable.buildingsArmor[this.tankFactory.upgradeTable. buildingsArmorLevel + 1].cost }}</p>
+        </div>
+
+
+        <div @click="assignResearch(5,this.tankFactory.upgradeTable.boostSpeedLevel)"
+        class="btn upBoost"
+        :class="{'alradySearching' : this.tankFactory.upgradeTable.upgradeIdIsSearching[4],
+                    'endSearching' : this.tankFactory.upgradeTable.boostSpeedLevel === 10,}">
+          <p>Lv.  {{ this.tankFactory.upgradeTable.boostSpeedLevel }}/10</p>
+          <p>Cost: {{ this.tankFactory.upgradeTable.boostSpeed[this.tankFactory.upgradeTable. boostSpeedLevel + 1].cost }}</p>
+        </div>
+
+        <div @click="assignResearch(6,this.tankFactory.upgradeTable.tanksProductionSpeedLevel)"
+        class="btn upProduction"
+        :class="{'alradySearching' : this.tankFactory.upgradeTable.upgradeIdIsSearching[5],
+                    'endSearching' : this.tankFactory.upgradeTable.tanksProductionSpeedLevel === 10,}">
+          <p>Lv.  {{ this.tankFactory.upgradeTable.tanksProductionSpeedLevel }}/10</p>
+          <p>Cost: {{ this.tankFactory.upgradeTable.tanksProductionSpeed[this.tankFactory.upgradeTable. tanksProductionSpeedLevel + 1].cost }}</p>
+        </div>
+
+        <div @click="assignResearch(7,this.tankFactory.upgradeTable.tanksSpeedTractionLevel)"
+        class="btn upSpeedTraction"
+        :class="{'alradySearching' : this.tankFactory.upgradeTable.upgradeIdIsSearching[6],
+                    'endSearching' : this.tankFactory.upgradeTable.tanksSpeedTractionLevel === 10,}">
+          <p>Lv.  {{ this.tankFactory.upgradeTable.tanksSpeedTractionLevel }}/10</p>
+          <p>Cost: {{ this.tankFactory.upgradeTable.tanksSpeedTraction[this.tankFactory.upgradeTable. tanksSpeedTractionLevel + 1].cost }}</p>
+        </div>
+
+        <div @click="assignResearch(8,this.tankFactory.upgradeTable.tanksRangeOfViewLevel )"
+        class="btn upRangeOfView"
+        :class="{'alradySearching' : this.tankFactory.upgradeTable.upgradeIdIsSearching[7],
+                    'endSearching' : this.tankFactory.upgradeTable.tanksRangeOfViewLevel === 10,}">
+          <p>Lv.  {{ this.tankFactory.upgradeTable.tanksRangeOfViewLevel }}/10</p>
+          <p>Cost: {{ this.tankFactory.upgradeTable.tanksRangeOfView[this.tankFactory.upgradeTable. tanksRangeOfViewLevel + 1].cost }}</p>
+        </div>
+
+
+        <div @click="assignResearch(9,this.tankFactory.upgradeTable.mgDamageLevel)"
+        class="btn upMgDmg"
+        :class="{'alradySearching' : this.tankFactory.upgradeTable.upgradeIdIsSearching[8],
+                    'endSearching' : this.tankFactory.upgradeTable.mgDamageLevel === 10,}">
+          <p>Lv.  {{ this.tankFactory.upgradeTable.mgDamageLevel }}/10</p>
+          <p>Cost: {{ this.tankFactory.upgradeTable.mgDamage[this.tankFactory.upgradeTable.mgDamageLevel +  1].cost }}</p>
+        </div>
+
+        <div @click="assignResearch(10,this.tankFactory.upgradeTable.mgRofLevel)"
+        class="btn upMgRof"
+        :class="{'alradySearching' : this.tankFactory.upgradeTable.upgradeIdIsSearching[9],
+                    'endSearching' : this.tankFactory.upgradeTable.mgRofLevel === 10,}">
+          <p>Lv.  {{ this.tankFactory.upgradeTable.mgRofLevel }}/10</p>
+          <p>Cost: {{ this.tankFactory.upgradeTable.mgRof[this.tankFactory.upgradeTable.mgRofLevel + 1].  cost }}</p>
+        </div>
+
+        <div @click="assignResearch(11,this.tankFactory.upgradeTable.mgHpLevel )"
+        class="btn upMgHp"
+        :class="{'alradySearching' : this.tankFactory.upgradeTable.upgradeIdIsSearching[10],
+                    'endSearching' : this.tankFactory.upgradeTable.mgHpLevel === 10,}">
+          <p>Lv.  {{ this.tankFactory.upgradeTable.mgHpLevel }}/10</p>
+          <p>Cost: {{ this.tankFactory.upgradeTable.mgHp[this.tankFactory.upgradeTable.mgHpLevel + 1].  cost }}</p>
+        </div>
+
+
+        <div class="btn-empty"></div>
+
+        <div @click="assignResearch(12,this.tankFactory.upgradeTable.cannonDamageLevel)"
+        class="btn upCannonDmg"
+        :class="{'alradySearching' : this.tankFactory.upgradeTable.upgradeIdIsSearching[11],
+                    'endSearching' : this.tankFactory.upgradeTable.cannonDamageLevel === 10,}">
+          <p>Lv.  {{ this.tankFactory.upgradeTable.cannonDamageLevel }}/10</p>
+          <p>Cost: {{ this.tankFactory.upgradeTable.cannonDamage[this.tankFactory.upgradeTable. cannonDamageLevel + 1].cost }}</p>
+        </div>
+
+        <div @click="assignResearch(13,this.tankFactory.upgradeTable.cannonRofLevel )"
+        class="btn upCannonRof"
+        :class="{'alradySearching' : this.tankFactory.upgradeTable.upgradeIdIsSearching[12],
+                    'endSearching' : this.tankFactory.upgradeTable.cannonRofLevel === 10,}">
+          <p>Lv.  {{ this.tankFactory.upgradeTable.cannonRofLevel }}/10</p>
+          <p>Cost: {{ this.tankFactory.upgradeTable.cannonRof[this.tankFactory.upgradeTable.cannonRofLevel  + 1].cost }}</p>
+        </div>
+
+        <div @click="assignResearch(14,this.tankFactory.upgradeTable.cannonHpLevel)"
+        class="btn upCannonHp"
+        :class="{'alradySearching' : this.tankFactory.upgradeTable.upgradeIdIsSearching[13],
+                    'endSearching' : this.tankFactory.upgradeTable.cannonHpLevel === 10,}">
+          <p>Lv.  {{ this.tankFactory.upgradeTable.cannonHpLevel }}/10</p>
+          <p>Cost: {{ this.tankFactory.upgradeTable.cannonHp[this.tankFactory.upgradeTable.cannonHpLevel +  1].cost }}</p>
+        </div>
+
+
+        <div class="btn-empty"></div>
+
+        <div @click="assignResearch(15,this.tankFactory.upgradeTable.RocketDamageLevel)"
+        class="btn upBRocketDmg"
+        :class="{'alradySearching' : this.tankFactory.upgradeTable.upgradeIdIsSearching[14],
+                    'endSearching' : this.tankFactory.upgradeTable.RocketDamageLevel === 10,}">
+          <p>Lv.  {{ this.tankFactory.upgradeTable.RocketDamageLevel }}/10</p>
+          <p>Cost: {{ this.tankFactory.upgradeTable.RocketDamage[this.tankFactory.upgradeTable. RocketDamageLevel + 1].cost }}</p>
+        </div>
+
+        <div @click="assignResearch(16,this.tankFactory.upgradeTable.RocketRofLevel)"
+        class="btn upRocketRof"
+        :class="{'alradySearching' : this.tankFactory.upgradeTable.upgradeIdIsSearching[15],
+                    'endSearching' : this.tankFactory.upgradeTable.RocketRofLevel === 10,}">
+          <p>Lv.  {{ this.tankFactory.upgradeTable.RocketRofLevel }}/10</p>
+          <p>Cost: {{ this.tankFactory.upgradeTable.RocketRof[this.tankFactory.upgradeTable.RocketRofLevel  + 1].cost }}</p>
+        </div>
+
+        <div @click="assignResearch(17,this.tankFactory.upgradeTable.RocketHpLevel)"
+        class="btn upRocketHp"
+        :class="{'alradySearching' : this.tankFactory.upgradeTable.upgradeIdIsSearching[16],
+                    'endSearching' : this.tankFactory.upgradeTable.RocketHpLevel === 10,}">
+          <p>Lv.  {{ this.tankFactory.upgradeTable.RocketHpLevel }}/10</p>
+          <p>Cost: {{ this.tankFactory.upgradeTable.RocketHp[this.tankFactory.upgradeTable.RocketHpLevel +  1].cost }}</p>
+        </div>
+
+
+        <div class="btn-empty"></div>
+
+      </div>
+
     </div>
-
-    <div class="upgrades_modal"
-    v-if="this.upgradeDecks.includes(true)">
-    
-      <div @click="assignResearch(1)"
-      class="btn upResSpeed"
-      :class="{'alradySearching' : this.tankFactory.upgradeTable.upgradeIdIsSearching[0]}"
-      ></div>
-      <div @click="assignResearch(2)"
-      class="btn upEnergy"
-      :class="{'alradySearching' : this.tankFactory.upgradeTable.upgradeIdIsSearching[1]}"
-      ></div>
-      <div @click="assignResearch(3)"
-      class="btn upEngineering"
-      :class="{'alradySearching' : this.tankFactory.upgradeTable.upgradeIdIsSearching[2]}"
-      ></div>
-      <div @click="assignResearch(4)"
-      class="btn upBuildings"
-      :class="{'alradySearching' : this.tankFactory.upgradeTable.upgradeIdIsSearching[3]}"
-      ></div>
-
-      <div @click="assignResearch(5)"
-      class="btn upBoost"
-      :class="{'alradySearching' : this.tankFactory.upgradeTable.upgradeIdIsSearching[4]}"
-      ></div>
-      <div @click="assignResearch(6)"
-      class="btn upProduction"
-      :class="{'alradySearching' : this.tankFactory.upgradeTable.upgradeIdIsSearching[5]}"
-      ></div>
-      <div @click="assignResearch(7)"
-      class="btn upSpeedTraction"
-      :class="{'alradySearching' : this.tankFactory.upgradeTable.upgradeIdIsSearching[6]}"
-      ></div>
-      <div @click="assignResearch(8)"
-      class="btn upRangeOfView"
-      :class="{'alradySearching' : this.tankFactory.upgradeTable.upgradeIdIsSearching[7]}"
-      ></div>
-
-      <div @click="assignResearch(9)"
-      class="btn upMgDmg"
-      :class="{'alradySearching' : this.tankFactory.upgradeTable.upgradeIdIsSearching[8]}"
-      ></div>
-      <div @click="assignResearch(10)"
-      class="btn upMgRof"
-      :class="{'alradySearching' : this.tankFactory.upgradeTable.upgradeIdIsSearching[9]}"
-      ></div>
-      <div @click="assignResearch(11)"
-      class="btn upMgHp"
-      :class="{'alradySearching' : this.tankFactory.upgradeTable.upgradeIdIsSearching[10]}"
-      ></div>
-
-      <div class="btn-empty"></div>
-
-      <div @click="assignResearch(12)"
-      class="btn upCannonDmg"
-      :class="{'alradySearching' : this.tankFactory.upgradeTable.upgradeIdIsSearching[11]}"
-      ></div>
-      <div @click="assignResearch(13)"
-      class="btn upCannonRof"
-      :class="{'alradySearching' : this.tankFactory.upgradeTable.upgradeIdIsSearching[12]}"
-      ></div>
-      <div @click="assignResearch(14)"
-      class="btn upCannonHp"
-      :class="{'alradySearching' : this.tankFactory.upgradeTable.upgradeIdIsSearching[13]}"
-      ></div>
-
-      <div class="btn-empty"></div>
-
-      <div @click="assignResearch(15)"
-      class="btn upBRocketDmg"
-      :class="{'alradySearching' : this.tankFactory.upgradeTable.upgradeIdIsSearching[14]}"
-      ></div>
-      <div @click="assignResearch(16)"
-      class="btn upRocketRof"
-      :class="{'alradySearching' : this.tankFactory.upgradeTable.upgradeIdIsSearching[15]}"
-      ></div>
-      <div @click="assignResearch(17)"
-      class="btn upRocketHp"
-      :class="{'alradySearching' : this.tankFactory.upgradeTable.upgradeIdIsSearching[16]}"
-      ></div>
-
-      <div class="btn-empty"></div>
-
-    </div>
-    <!-- <button @click="test" style="position:fixed; top: 100px;">TEST</button> -->
 
   </div>
 </template>

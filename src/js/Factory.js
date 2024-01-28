@@ -41,9 +41,9 @@ export default class TankFactory {
     this.up3Cd = 'empty';
     this.up4Cd = 'empty';
     
+
     this.waveCd = 180;
     
-
     this.WavesInterval = setInterval(() => {
       if(this.waveCd < 1){
         this.waveCd = 179;
@@ -53,8 +53,6 @@ export default class TankFactory {
     }, 1000);
 
     this.WavesInterval = setInterval(() => {
-      console.log('wave');
-
       this.waveStart(this.wavesTable.waves[this.wavesTable.wavesCount]);
       this.wavesTable.wavesCount ++;
     }, 180 * 1000);
@@ -785,33 +783,34 @@ export default class TankFactory {
         this.statusCounts.deck4IsProductive = false;
       }
   }
-  upgradeCountDown(cd, deck){
-    switch (deck) {
+
+  upgradeCountDown(cd, upgradeDeckID){
+    switch (upgradeDeckID) {
 
       case 1:
         if(cd < 1){
-          this.up1Cd = 'empty';
+          this.up1Cd = 'done';
         }else{
           this.up1Cd = cd;
         }
         break;
       case 2:
         if(cd < 1){
-          this.up2Cd = 'empty';
+          this.up2Cd = 'done';
         }else{
           this.up2Cd = cd;
         }
         break;
       case 3:
         if(cd < 1){
-          this.up3Cd = 'empty';
+          this.up3Cd = 'done';
         }else{
           this.up3Cd = cd;
         }
         break;
       case 4:
         if(cd < 1){
-          this.up4Cd = 'empty';
+          this.up4Cd = 'done';
         }else{
           this.up4Cd = cd;
         }
@@ -909,21 +908,71 @@ export default class TankFactory {
         break;
       case 14:
         setTimeout(() => {
-          this.RocketDamage(upgradeDeckID);
+          this.rocketDamage(upgradeDeckID);
         }, 5000);
         break;
       case 15:
         setTimeout(() => {
-          this.RocketRof(upgradeDeckID);
+          this.rocketRof(upgradeDeckID);
         }, 5000);
         break;
       case 16:
         setTimeout(() => {
-          this.RocketHp(upgradeDeckID);
+          this.rocketHp(upgradeDeckID);
         }, 5000);
         break;
     }
 
+  }
+
+  increaseAllTanksCost(){
+    this.statusCounts.timeProductionTanks.mg += 4;
+    this.statusCounts.timeProductionTanks.cannon += 4;
+    this.statusCounts.timeProductionTanks.rocket += 4;
+    this.statusCounts.mgCost += 5;
+    this.statusCounts.cannonCost += 5;
+    this.statusCounts.rocketCost += 5;
+  }
+  increaseMgTanksCost(){
+    this.statusCounts.timeProductionTanks.mg += 4;
+    this.statusCounts.mgCost += 5;
+  }
+  increaseCannonTanksCost(){
+    this.statusCounts.timeProductionTanks.cannon += 4;
+    this.statusCounts.cannonCost += 5;
+  }
+  increaseRocketTanksCost(){
+    this.statusCounts.timeProductionTanks.rocket += 4;
+    this.statusCounts.rocketCost += 5;
+  }
+  clearCountDown(upgradeDeckID){
+    switch (upgradeDeckID) {
+
+      case 1:               
+      clearInterval(this.upgrade1countDown);  
+      this.upgrade1countDown = false;
+      this.up1Cd = 'empty';
+      
+        break;
+      case 2:               
+      clearInterval(this.upgrade2countDown);  
+      this.upgrade2countDown = false;
+      this.up2Cd = 'empty';
+
+        break;
+      case 3:               
+      clearInterval(this.upgrade3countDown);  
+      this.upgrade3countDown = false;
+      this.up3Cd = 'empty';
+
+        break;
+      case 4:               
+      clearInterval(this.upgrade4countDown);  
+      this.upgrade4countDown = false;
+      this.up4Cd = 'empty';
+
+        break;
+    }
   }
   
   //  research upgrade
@@ -945,27 +994,26 @@ export default class TankFactory {
           case 1:
           this.upgrade1TimeOut = setTimeout(() => {
             
-            clearInterval(this.upgrade1countDown);
-    
             this.upgradeTable.researchSpeedLevel ++;  
             this.upgradeTable.upgradeIdIsSearching[0] = false;
+            this.clearCountDown(upgradeDeckID);             
             
           }, time);
-    
+
             var cd = (time /1000) - 1;
     
             this.upgrade1countDown = setInterval(() => {
               cd --;
               this.upgradeCountDown(cd,upgradeDeckID);
-              
+
             }, 1000);
             break;
           case 2:
           this.upgrade2TimeOut = setTimeout(() => {
-            clearInterval(this.upgrade2countDown);
-    
+            
             this.upgradeTable.researchSpeedLevel ++;  
             this.upgradeTable.upgradeIdIsSearching[0] = false;
+            this.clearCountDown(upgradeDeckID);  
             
           }, time);
     
@@ -979,10 +1027,10 @@ export default class TankFactory {
             break;
           case 3:
           this.upgrade3TimeOut = setTimeout(() => {
-            clearInterval(this.upgrade3countDown);
-    
+            
             this.upgradeTable.researchSpeedLevel ++;  
             this.upgradeTable.upgradeIdIsSearching[0] = false;
+            this.clearCountDown(upgradeDeckID);  
             
           }, time);
     
@@ -996,10 +1044,10 @@ export default class TankFactory {
             break;
           case 4:
           this.upgrade4TimeOut = setTimeout(() => {
-            clearInterval(this.upgrade4countDown);
-    
+            
             this.upgradeTable.researchSpeedLevel ++;  
             this.upgradeTable.upgradeIdIsSearching[0] = false;
+            this.clearCountDown(upgradeDeckID);  
             
           }, time);
     
@@ -1033,7 +1081,7 @@ export default class TankFactory {
       switch (upgradeDeckID) {
         case 1:
         this.upgrade1TimeOut = setTimeout(() => {
-          clearInterval(this.upgrade1countDown);
+          this.clearCountDown(upgradeDeckID);  
 
           this.upgradeTable.energyEfficiencyLevel ++;  
           this.upgradeTable.upgradeIdIsSearching[1] = false;
@@ -1050,7 +1098,7 @@ export default class TankFactory {
           break;
         case 2:
         this.upgrade2TimeOut = setTimeout(() => {
-          clearInterval(this.upgrade2countDown);
+          this.clearCountDown(upgradeDeckID);  
 
           this.upgradeTable.energyEfficiencyLevel ++;  
           this.upgradeTable.upgradeIdIsSearching[1] = false;
@@ -1067,7 +1115,7 @@ export default class TankFactory {
           break;
         case 3:
         this.upgrade3TimeOut = setTimeout(() => {
-          clearInterval(this.upgrade3countDown);
+          this.clearCountDown(upgradeDeckID);  
 
           this.upgradeTable.energyEfficiencyLevel ++;  
           this.upgradeTable.upgradeIdIsSearching[1] = false;
@@ -1085,10 +1133,10 @@ export default class TankFactory {
           break;
         case 4:
         this.upgrade4TimeOut = setTimeout(() => {
-          clearInterval(this.upgrade4countDown);
-
+          
           this.upgradeTable.energyEfficiencyLevel ++;  
           this.upgradeTable.upgradeIdIsSearching[1] = false;
+          this.clearCountDown(upgradeDeckID);  
 
         }, time);
 
@@ -1121,7 +1169,7 @@ export default class TankFactory {
       switch (upgradeDeckID) {
         case 1:
           this.upgrade1TimeOut = setTimeout(() => {
-          clearInterval(this.upgrade1countDown);
+          this.clearCountDown(upgradeDeckID);  
           this.scene.engineering.speed = engSpeed;
           this.upgradeTable.engineerEfficiencyLevel ++;  
           this.upgradeTable.upgradeIdIsSearching[2] = false;
@@ -1138,7 +1186,7 @@ export default class TankFactory {
           break;
         case 2:
           this.upgrade2TimeOut = setTimeout(() => {
-            clearInterval(this.upgrade2countDown);
+            this.clearCountDown(upgradeDeckID);  
             this.scene.engineering.speed = engSpeed;
             this.upgradeTable.engineerEfficiencyLevel ++;  
             this.upgradeTable.upgradeIdIsSearching[2] = false;
@@ -1155,7 +1203,7 @@ export default class TankFactory {
           break;
         case 3:          
           this.upgrade3TimeOut = setTimeout(() => {
-          clearInterval(this.upgrade3countDown);
+          this.clearCountDown(upgradeDeckID);  
           this.scene.engineering.speed = engSpeed;
 
           this.upgradeTable.engineerEfficiencyLevel ++;  
@@ -1173,7 +1221,7 @@ export default class TankFactory {
           break;
         case 4:
         this.upgrade4TimeOut = setTimeout(() => {
-          clearInterval(this.upgrade4countDown);
+          this.clearCountDown(upgradeDeckID);  
           this.scene.engineering.speed = engSpeed;
           this.upgradeTable.engineerEfficiencyLevel ++;  
           this.upgradeTable.upgradeIdIsSearching[2] = false;
@@ -1210,7 +1258,7 @@ export default class TankFactory {
       switch (upgradeDeckID) {
         case 1:
         this.upgrade1TimeOut = setTimeout(() => {
-          clearInterval(this.upgrade1countDown);
+          this.clearCountDown(upgradeDeckID);  
 
           this.upgradeTable.buildingsArmorLevel ++;  
           this.upgradeTable.upgradeIdIsSearching[3] = false;
@@ -1227,7 +1275,7 @@ export default class TankFactory {
           break;
         case 2:
         this.upgrade2TimeOut = setTimeout(() => {
-          clearInterval(this.upgrade2countDown);
+          this.clearCountDown(upgradeDeckID);  
 
           this.upgradeTable.buildingsArmorLevel ++;  
           this.upgradeTable.upgradeIdIsSearching[3] = false;
@@ -1244,7 +1292,7 @@ export default class TankFactory {
           break;
         case 3:
         this.upgrade3TimeOut = setTimeout(() => {
-          clearInterval(this.upgrade3countDown);
+          this.clearCountDown(upgradeDeckID);  
 
           this.upgradeTable.buildingsArmorLevel ++;  
           this.upgradeTable.upgradeIdIsSearching[3] = false;
@@ -1261,7 +1309,7 @@ export default class TankFactory {
           break;
         case 4:
         this.upgrade4TimeOut = setTimeout(() => {
-          clearInterval(this.upgrade4countDown);
+          this.clearCountDown(upgradeDeckID);  
 
           this.upgradeTable.buildingsArmorLevel ++;  
           this.upgradeTable.upgradeIdIsSearching[3] = false;
@@ -1297,7 +1345,7 @@ export default class TankFactory {
       switch (upgradeDeckID) {
         case 1:
         this.upgrade1TimeOut = setTimeout(() => {
-          clearInterval(this.upgrade1countDown);
+          this.clearCountDown(upgradeDeckID);  
 
           this.upgradeTable.boostSpeedLevel ++;  
           this.upgradeTable.upgradeIdIsSearching[4] = false;
@@ -1314,7 +1362,7 @@ export default class TankFactory {
           break;
         case 2:
         this.upgrade2TimeOut = setTimeout(() => {
-          clearInterval(this.upgrade2countDown);
+          this.clearCountDown(upgradeDeckID);  
 
           this.upgradeTable.boostSpeedLevel ++;  
           this.upgradeTable.upgradeIdIsSearching[4] = false;
@@ -1331,7 +1379,7 @@ export default class TankFactory {
           break;
         case 3:
         this.upgrade3TimeOut = setTimeout(() => {
-          clearInterval(this.upgrade3countDown);
+          this.clearCountDown(upgradeDeckID);  
 
           this.upgradeTable.boostSpeedLevel ++;  
           this.upgradeTable.upgradeIdIsSearching[4] = false;
@@ -1348,7 +1396,7 @@ export default class TankFactory {
           break;
         case 4:
         this.upgrade4TimeOut = setTimeout(() => {
-          clearInterval(this.upgrade4countDown);
+          this.clearCountDown(upgradeDeckID);  
 
           this.upgradeTable.boostSpeedLevel ++;  
           this.upgradeTable.upgradeIdIsSearching[4] = false;
@@ -1386,7 +1434,7 @@ export default class TankFactory {
       switch (upgradeDeckID) {
         case 1:
         this.upgrade1TimeOut = setTimeout(() => {
-          clearInterval(this.upgrade1countDown);
+          this.clearCountDown(upgradeDeckID);  
 
           this.upgradeTable.tanksProductionSpeedLevel ++;  
           this.upgradeTable.upgradeIdIsSearching[5] = false;
@@ -1403,7 +1451,7 @@ export default class TankFactory {
           break;
         case 2:
         this.upgrade2TimeOut = setTimeout(() => {
-          clearInterval(this.upgrade2countDown);
+          this.clearCountDown(upgradeDeckID);  
 
           this.upgradeTable.tanksProductionSpeedLevel ++;  
           this.upgradeTable.upgradeIdIsSearching[5] = false;
@@ -1420,7 +1468,7 @@ export default class TankFactory {
           break;
         case 3:
         this.upgrade3TimeOut = setTimeout(() => {
-          clearInterval(this.upgrade3countDown);
+          this.clearCountDown(upgradeDeckID);  
 
           this.upgradeTable.tanksProductionSpeedLevel ++;  
           this.upgradeTable.upgradeIdIsSearching[5] = false;
@@ -1437,7 +1485,7 @@ export default class TankFactory {
           break;
         case 4:
         this.upgrade4TimeOut = setTimeout(() => {
-          clearInterval(this.upgrade4countDown);
+          this.clearCountDown(upgradeDeckID);  
 
           this.upgradeTable.tanksProductionSpeedLevel ++;  
           this.upgradeTable.upgradeIdIsSearching[5] = false;
@@ -1477,12 +1525,13 @@ export default class TankFactory {
     switch (upgradeDeckID) {
       case 1:      
       this.upgrade1TimeOut = setTimeout(() => {
-        clearInterval(this.upgrade1countDown);
+        this.clearCountDown(upgradeDeckID);  
 
         this.upgradeTable.tanksSpeedTractionLevel ++;  
         this.upgradeTable.upgradeIdIsSearching[6] = false;
         this.speedTractionUpdate();
-        
+        this.increaseAllTanksCost();
+
       }, time);
 
         var cd = (time /1000) - 1  ;
@@ -1495,12 +1544,12 @@ export default class TankFactory {
         break;
       case 2:
       this.upgrade2TimeOut = setTimeout(() => {
-        clearInterval(this.upgrade2countDown);
+        this.clearCountDown(upgradeDeckID);  
 
         this.upgradeTable.tanksSpeedTractionLevel ++;  
         this.upgradeTable.upgradeIdIsSearching[6] = false;
         this.speedTractionUpdate();
-        
+        this.increaseAllTanksCost();
       }, time);
 
         var cd = (time /1000) - 1  ;
@@ -1513,12 +1562,12 @@ export default class TankFactory {
         break;
       case 3:
       this.upgrade3TimeOut = setTimeout(() => {
-        clearInterval(this.upgrade3countDown);
+        this.clearCountDown(upgradeDeckID);  
 
         this.upgradeTable.tanksSpeedTractionLevel ++;  
         this.upgradeTable.upgradeIdIsSearching[6] = false;
         this.speedTractionUpdate();
-        
+        this.increaseAllTanksCost();
       }, time);
 
         var cd = (time /1000) - 1  ;
@@ -1531,12 +1580,12 @@ export default class TankFactory {
         break;
       case 4:
       this.upgrade4TimeOut = setTimeout(() => {
-        clearInterval(this.upgrade4countDown);
+        this.clearCountDown(upgradeDeckID);  
 
         this.upgradeTable.tanksSpeedTractionLevel ++;  
         this.upgradeTable.upgradeIdIsSearching[6] = false;
         this.speedTractionUpdate();
-        
+        this.increaseAllTanksCost();
       }, time);
 
         var cd = (time /1000) - 1  ;
@@ -1572,12 +1621,12 @@ export default class TankFactory {
     switch (upgradeDeckID) {
       case 1:
         this.upgrade1TimeOut = setTimeout(() => {
-        clearInterval(this.upgrade1countDown);
+        this.clearCountDown(upgradeDeckID);  
 
         this.upgradeTable.tanksRangeOfViewLevel ++;  
         this.upgradeTable.upgradeIdIsSearching[6] = false;
         this.RangeOfViewUpdate();
-        
+        this.increaseAllTanksCost();
       }, time);
 
         var cd = (time /1000) - 1  ;
@@ -1590,12 +1639,12 @@ export default class TankFactory {
         break;
       case 2:
       this.upgrade2TimeOut = setTimeout(() => {
-        clearInterval(this.upgrade2countDown);
+        this.clearCountDown(upgradeDeckID);  
 
         this.upgradeTable.tanksRangeOfViewLevel ++;  
         this.upgradeTable.upgradeIdIsSearching[7] = false;
         this.RangeOfViewUpdate();
-        
+        this.increaseAllTanksCost();
       }, time);
 
         var cd = (time /1000) - 1  ;
@@ -1608,12 +1657,12 @@ export default class TankFactory {
         break;
       case 3:
       this.upgrade3TimeOut = setTimeout(() => {
-        clearInterval(this.upgrade3countDown);
+        this.clearCountDown(upgradeDeckID);  
 
         this.upgradeTable.tanksRangeOfViewLevel ++;  
         this.upgradeTable.upgradeIdIsSearching[7] = false;
         this.RangeOfViewUpdate();
-        
+        this.increaseAllTanksCost();
       }, time);
 
         var cd = (time /1000) - 1  ;
@@ -1626,12 +1675,12 @@ export default class TankFactory {
         break;
       case 4:
       this.upgrade4TimeOut = setTimeout(() => {
-        clearInterval(this.upgrade4countDown);
+        this.clearCountDown(upgradeDeckID);  
 
         this.upgradeTable.tanksRangeOfViewLevel ++;  
         this.upgradeTable.upgradeIdIsSearching[7] = false;
         this.RangeOfViewUpdate();
-        
+        this.increaseAllTanksCost();
       }, time);
 
         var cd = (time /1000) - 1  ;
@@ -1670,13 +1719,12 @@ export default class TankFactory {
     switch (upgradeDeckID) {
       case 1:      
         this.upgrade1TimeOut = setTimeout(() => {
-        clearInterval(this.upgrade1countDown);
+        this.clearCountDown(upgradeDeckID);  
 
         this.upgradeTable.mgDamageLevel ++;  
         this.upgradeTable.upgradeIdIsSearching[8] = false;
-
         this.mgDamageUpdate();
-        
+        this.increaseMgTanksCost();
       }, time);
 
         var cd = (time /1000) - 1  ;
@@ -1689,12 +1737,12 @@ export default class TankFactory {
         break;
       case 2:
         this.upgrade2TimeOut = setTimeout(() => {
-        clearInterval(this.upgrade2countDown);
+        this.clearCountDown(upgradeDeckID);  
 
         this.upgradeTable.mgDamageLevel ++;  
         this.upgradeTable.upgradeIdIsSearching[8] = false;
-
         this.mgDamageUpdate();
+        this.increaseMgTanksCost();
         
       }, time);
 
@@ -1708,13 +1756,13 @@ export default class TankFactory {
         break;
       case 3:
         this.upgrade3TimeOut = setTimeout(() => {
-        clearInterval(this.upgrade3countDown);
+        this.clearCountDown(upgradeDeckID);  
 
         this.upgradeTable.mgDamageLevel ++;  
         this.upgradeTable.upgradeIdIsSearching[8] = false;
-
         this.mgDamageUpdate();
-        
+        this.increaseMgTanksCost();
+
       }, time);
 
         var cd = (time /1000) - 1  ;
@@ -1728,12 +1776,12 @@ export default class TankFactory {
       case 4:
 
       this.upgrade4TimeOut = setTimeout(() => {
-        clearInterval(this.upgrade4countDown);
+        this.clearCountDown(upgradeDeckID);  
 
         this.upgradeTable.mgDamageLevel ++;  
         this.upgradeTable.upgradeIdIsSearching[8] = false;
-
         this.mgDamageUpdate();
+        this.increaseMgTanksCost();
         
       }, time);
 
@@ -1773,7 +1821,7 @@ export default class TankFactory {
     switch (upgradeDeckID) {
       case 1:      
         this.upgrade1TimeOut = setTimeout(() => {
-        clearInterval(this.upgrade1countDown);
+        this.clearCountDown(upgradeDeckID);  
 
         this.upgradeTable.mgRofLevel ++;  
         this.upgradeTable.upgradeIdIsSearching[9] = false;
@@ -1791,12 +1839,13 @@ export default class TankFactory {
         break;
       case 2:
       this.upgrade2TimeOut = setTimeout(() => {
-        clearInterval(this.upgrade2countDown);
+        this.clearCountDown(upgradeDeckID);  
 
         this.upgradeTable.mgRofLevel ++;  
         this.upgradeTable.upgradeIdIsSearching[9] = false;
         this.mgRofUpdate();
-        
+        this.increaseMgTanksCost();
+
       }, time);
 
         var cd = (time /1000) - 1  ;
@@ -1809,12 +1858,13 @@ export default class TankFactory {
         break;
       case 3:
       this.upgrade3TimeOut = setTimeout(() => {
-        clearInterval(this.upgrade3countDown);
+        this.clearCountDown(upgradeDeckID);  
 
         this.upgradeTable.mgRofLevel ++;  
         this.upgradeTable.upgradeIdIsSearching[9] = false;
         this.mgRofUpdate();
-        
+        this.increaseMgTanksCost();
+
       }, time);
 
         var cd = (time /1000) - 1  ;
@@ -1828,12 +1878,13 @@ export default class TankFactory {
       case 4:
 
       this.upgrade4TimeOut = setTimeout(() => {
-        clearInterval(this.upgrade4countDown);
+        this.clearCountDown(upgradeDeckID);  
 
         this.upgradeTable.mgRofLevel ++;  
         this.upgradeTable.upgradeIdIsSearching[9] = false;
         this.mgRofUpdate();
-        
+        this.increaseMgTanksCost();
+
       }, time);
 
         var cd = (time /1000) - 1  ;
@@ -1871,11 +1922,12 @@ export default class TankFactory {
     switch (upgradeDeckID) {
       case 1:      
       this.upgrade1TimeOut = setTimeout(() => {
-        clearInterval(this.upgrade1countDown);
+        this.clearCountDown(upgradeDeckID);  
 
         this.upgradeTable.mgHpLevel ++;  
         this.upgradeTable.upgradeIdIsSearching[10] = false;
         this.mgHpUpdate();
+        this.increaseMgTanksCost();
         
       }, time);
 
@@ -1889,11 +1941,12 @@ export default class TankFactory {
         break;
       case 2:
       this.upgrade2TimeOut = setTimeout(() => {
-        clearInterval(this.upgrade2countDown);
+        this.clearCountDown(upgradeDeckID);  
 
         this.upgradeTable.mgHpLevel ++;  
         this.upgradeTable.upgradeIdIsSearching[10] = false;
         this.mgHpUpdate();
+        this.increaseMgTanksCost();
         
       }, time);
 
@@ -1907,11 +1960,12 @@ export default class TankFactory {
         break;
       case 3:
       this.upgrade3TimeOut = setTimeout(() => {
-        clearInterval(this.upgrade3countDown);
+        this.clearCountDown(upgradeDeckID);  
 
         this.upgradeTable.mgHpLevel ++;  
         this.upgradeTable.upgradeIdIsSearching[10] = false;
         this.mgHpUpdate();
+        this.increaseMgTanksCost();
         
       }, time);
 
@@ -1925,11 +1979,12 @@ export default class TankFactory {
         break;
       case 4:
       this.upgrade4TimeOut = setTimeout(() => {
-        clearInterval(this.upgrade4countDown);
+        this.clearCountDown(upgradeDeckID);  
 
         this.upgradeTable.mgHpLevel ++;  
         this.upgradeTable.upgradeIdIsSearching[10] = false;
-        this.mgHpUpdate();;
+        this.mgHpUpdate();
+        this.increaseMgTanksCost();
         
       }, time);
 
@@ -1969,12 +2024,13 @@ export default class TankFactory {
     switch (upgradeDeckID) {
       case 1:      
       this.upgrade1TimeOut = setTimeout(() => {
-        clearInterval(this.upgrade1countDown);
+        this.clearCountDown(upgradeDeckID);  
 
         this.upgradeTable.cannonDamageLevel ++;  
         this.upgradeTable.upgradeIdIsSearching[11] = false;
         this.cannonDamageUpdate();
-        
+        this.increaseCannonTanksCost();
+
       }, time);
 
         var cd = (time /1000) - 1  ;
@@ -1987,11 +2043,12 @@ export default class TankFactory {
         break;
       case 2:
       this.upgrade2TimeOut = setTimeout(() => {
-        clearInterval(this.upgrade2countDown);
+        this.clearCountDown(upgradeDeckID);  
 
         this.upgradeTable.cannonDamageLevel ++;  
         this.upgradeTable.upgradeIdIsSearching[11] = false;
         this.cannonDamageUpdate();
+        this.increaseCannonTanksCost();
         
       }, time);
 
@@ -2005,11 +2062,12 @@ export default class TankFactory {
         break;
       case 3:
       this.upgrade3TimeOut = setTimeout(() => {
-        clearInterval(this.upgrade3countDown);
+        this.clearCountDown(upgradeDeckID);  
 
         this.upgradeTable.cannonDamageLevel ++;  
         this.upgradeTable.upgradeIdIsSearching[11] = false;
         this.cannonDamageUpdate();
+        this.increaseCannonTanksCost();
         
       }, time);
 
@@ -2023,11 +2081,12 @@ export default class TankFactory {
         break;
       case 4:
         this.upgrade4TimeOut = setTimeout(() => {
-        clearInterval(this.upgrade4countDown);
+        this.clearCountDown(upgradeDeckID);  
 
         this.upgradeTable.cannonDamageLevel ++;  
         this.upgradeTable.upgradeIdIsSearching[11] = false;
         this.cannonDamageUpdate();
+        this.increaseCannonTanksCost();
         
       }, time);
 
@@ -2069,12 +2128,13 @@ export default class TankFactory {
     switch (upgradeDeckID) {
       case 1:      
       this.upgrade1TimeOut = setTimeout(() => {
-        clearInterval(this.upgrade1countDown);
+        this.clearCountDown(upgradeDeckID);  
 
         this.upgradeTable.cannonRofLevel ++;  
         this.upgradeTable.upgradeIdIsSearching[12] = false;
         this.cannonRofUpdate();
-        
+        this.increaseCannonTanksCost();
+
       }, time);
 
         var cd = (time /1000) - 1  ;
@@ -2087,12 +2147,13 @@ export default class TankFactory {
         break;
       case 2:
       this.upgrade2TimeOut = setTimeout(() => {
-        clearInterval(this.upgrade2countDown);
+        this.clearCountDown(upgradeDeckID);  
 
         this.upgradeTable.cannonRofLevel ++;  
         this.upgradeTable.upgradeIdIsSearching[12] = false;
         this.cannonRofUpdate();
-        
+        this.increaseCannonTanksCost();
+
       }, time);
 
         var cd = (time /1000) - 1  ;
@@ -2105,12 +2166,13 @@ export default class TankFactory {
         break;
       case 3:
         this.upgrade3TimeOut = setTimeout(() => {
-        clearInterval(this.upgrade3countDown);
+        this.clearCountDown(upgradeDeckID);  
 
         this.upgradeTable.cannonRofLevel ++;  
         this.upgradeTable.upgradeIdIsSearching[12] = false;
         this.cannonRofUpdate();
-        
+        this.increaseCannonTanksCost();
+
       }, time);
 
         var cd = (time /1000) - 1  ;
@@ -2123,12 +2185,13 @@ export default class TankFactory {
         break;
       case 4:
       this.upgrade4TimeOut = setTimeout(() => {
-        clearInterval(this.upgrade4countDown);
+        this.clearCountDown(upgradeDeckID);  
 
         this.upgradeTable.cannonRofLevel ++;  
         this.upgradeTable.upgradeIdIsSearching[12] = false;
         this.cannonRofUpdate();
-        
+        this.increaseCannonTanksCost();
+
       }, time);
 
         var cd = (time /1000) - 1  ;
@@ -2168,12 +2231,13 @@ export default class TankFactory {
     switch (upgradeDeckID) {
       case 1:      
       this.upgrade1TimeOut = setTimeout(() => {
-        clearInterval(this.upgrade1countDown);
+        this.clearCountDown(upgradeDeckID);  
 
         this.upgradeTable.cannonHpLevel ++;  
         this.upgradeTable.upgradeIdIsSearching[13] = false;
         this.cannonHpUpdate();
-        
+        this.increaseCannonTanksCost();
+
       }, time);
 
         var cd = (time /1000) - 1  ;
@@ -2186,12 +2250,13 @@ export default class TankFactory {
         break;
       case 2:
       this.upgrade2TimeOut = setTimeout(() => {
-        clearInterval(this.upgrade2countDown);
+        this.clearCountDown(upgradeDeckID);  
 
         this.upgradeTable.cannonHpLevel ++;  
         this.upgradeTable.upgradeIdIsSearching[13] = false;
         this.cannonHpUpdate();
-        
+        this.increaseCannonTanksCost();
+
       }, time);
 
         var cd = (time /1000) - 1  ;
@@ -2204,12 +2269,13 @@ export default class TankFactory {
         break;
       case 3:
       this.upgrade3TimeOut = setTimeout(() => {
-        clearInterval(this.upgrade3countDown);
+        this.clearCountDown(upgradeDeckID);  
 
         this.upgradeTable.cannonHpLevel ++;  
         this.upgradeTable.upgradeIdIsSearching[13] = false;
         this.cannonHpUpdate();
-        
+        this.increaseCannonTanksCost();
+
       }, time);
 
         var cd = (time /1000) - 1  ;
@@ -2222,12 +2288,13 @@ export default class TankFactory {
         break;
       case 4:
       this.upgrade4TimeOut = setTimeout(() => {
-        clearInterval(this.upgrade4countDown);
+        this.clearCountDown(upgradeDeckID);  
 
         this.upgradeTable.cannonHpLevel ++;  
         this.upgradeTable.upgradeIdIsSearching[13] = false;
         this.cannonHpUpdate();
-        
+        this.increaseCannonTanksCost();
+
       }, time);
 
         var cd = (time /1000) - 1  ;
@@ -2251,7 +2318,7 @@ export default class TankFactory {
       tank.tank.cannon.damage = this.upgradeTable.RocketDamage[this.upgradeTable.RocketDamageLevel].dmg;
     });
   }
-  RocketDamage(upgradeDeckID){
+  rocketDamage(upgradeDeckID){
 
     this.upgradeTable.upgradeIdIsSearching[14] = true;
 
@@ -2265,12 +2332,13 @@ export default class TankFactory {
     switch (upgradeDeckID) {
       case 1:      
       this.upgrade1TimeOut = setTimeout(() => {
-        clearInterval(this.upgrade1countDown);
+        this.clearCountDown(upgradeDeckID);  
 
         this.upgradeTable.RocketDamageLevel ++;  
         this.upgradeTable.upgradeIdIsSearching[14] = false;
         this.rocketDamageUpdate();
-        
+        this.increaseRocketTanksCost();
+
       }, time);
 
         var cd = (time /1000) - 1  ;
@@ -2283,12 +2351,13 @@ export default class TankFactory {
         break;
       case 2:
       this.upgrade2TimeOut = setTimeout(() => {
-        clearInterval(this.upgrade2countDown);
+        this.clearCountDown(upgradeDeckID);  
 
         this.upgradeTable.RocketDamageLevel ++;  
         this.upgradeTable.upgradeIdIsSearching[14] = false;
         this.rocketDamageUpdate();
-        
+        this.increaseRocketTanksCost();
+
       }, time);
 
         var cd = (time /1000) - 1  ;
@@ -2301,12 +2370,13 @@ export default class TankFactory {
         break;
       case 3:
       this.upgrade3TimeOut = setTimeout(() => {
-        clearInterval(this.upgrade3countDown);
+        this.clearCountDown(upgradeDeckID);  
 
         this.upgradeTable.RocketDamageLevel ++;  
         this.upgradeTable.upgradeIdIsSearching[14] = false;
         this.rocketDamageUpdate();
-        
+        this.increaseRocketTanksCost();
+
       }, time);
 
         var cd = (time /1000) - 1  ;
@@ -2319,12 +2389,13 @@ export default class TankFactory {
         break;
       case 4:
       this.upgrade4TimeOut = setTimeout(() => {
-        clearInterval(this.upgrade4countDown);
+        this.clearCountDown(upgradeDeckID);  
 
         this.upgradeTable.RocketDamageLevel ++;  
         this.upgradeTable.upgradeIdIsSearching[14] = false;
         this.rocketDamageUpdate();
-        
+        this.increaseRocketTanksCost();
+
       }, time);
 
         var cd = (time /1000) - 1  ;
@@ -2350,7 +2421,7 @@ export default class TankFactory {
       tank.tank.cannon.rotationVelocity = this.upgradeTable.RocketRof[this.upgradeTable.RocketRofLevel].rot;
     });
   }
-  RocketRof(upgradeDeckID){
+  rocketRof(upgradeDeckID){
 
     this.upgradeTable.upgradeIdIsSearching[15] = true;
 
@@ -2364,12 +2435,13 @@ export default class TankFactory {
     switch (upgradeDeckID) {
       case 1:      
       this.upgrade1TimeOut = setTimeout(() => {
-        clearInterval(this.upgrade1countDown);
+        this.clearCountDown(upgradeDeckID);  
 
         this.upgradeTable.RocketRofLevel ++;  
         this.upgradeTable.upgradeIdIsSearching[15] = false;
         this.rocketRofUpdate();
-        
+        this.increaseRocketTanksCost();
+
       }, time);
 
         var cd = (time /1000) - 1  ;
@@ -2382,12 +2454,13 @@ export default class TankFactory {
         break;
       case 2:
       this.upgrade2TimeOut = setTimeout(() => {
-        clearInterval(this.upgrade2countDown);
+        this.clearCountDown(upgradeDeckID);  
 
         this.upgradeTable.RocketRofLevel ++;  
         this.upgradeTable.upgradeIdIsSearching[15] = false;
         this.rocketRofUpdate();
-        
+        this.increaseRocketTanksCost();
+
       }, time);
 
         var cd = (time /1000) - 1  ;
@@ -2400,12 +2473,13 @@ export default class TankFactory {
         break;
       case 3:
       this.upgrade3TimeOut = setTimeout(() => {
-        clearInterval(this.upgrade3countDown);
+        this.clearCountDown(upgradeDeckID);  
 
         this.upgradeTable.RocketRofLevel ++;  
         this.upgradeTable.upgradeIdIsSearching[15] = false;
         this.rocketRofUpdate();
-        
+        this.increaseRocketTanksCost();
+
       }, time);
 
         var cd = (time /1000) - 1  ;
@@ -2418,12 +2492,13 @@ export default class TankFactory {
         break;
       case 4:
       this.upgrade4TimeOut = setTimeout(() => {
-        clearInterval(this.upgrade4countDown);
+        this.clearCountDown(upgradeDeckID);  
 
         this.upgradeTable.RocketRofLevel ++;  
         this.upgradeTable.upgradeIdIsSearching[15] = false;
         this.rocketRofUpdate();
-        
+        this.increaseRocketTanksCost();
+
       }, time);
 
         var cd = (time /1000) - 1  ;
@@ -2447,7 +2522,7 @@ export default class TankFactory {
       tank.tank.maxHp = this.upgradeTable.RocketHp[this.upgradeTable.RocketHpLevel].hp;
     });
   }
-  RocketHp(upgradeDeckID){
+  rocketHp(upgradeDeckID){
 
     this.upgradeTable.upgradeIdIsSearching[16] = true;
 
@@ -2462,7 +2537,7 @@ export default class TankFactory {
     switch (upgradeDeckID) {
       case 1:
         this.upgrade1TimeOut = setTimeout(() => {
-        clearInterval(this.upgrade1countDown);
+        this.clearCountDown(upgradeDeckID);  
 
         this.upgradeTable.RocketHpLevel ++;  
         this.upgradeTable.upgradeIdIsSearching[16] = false;
@@ -2480,12 +2555,13 @@ export default class TankFactory {
         break;
       case 2:
         this.upgrade2TimeOut = setTimeout(() => {
-        clearInterval(this.upgrade2countDown);
+        this.clearCountDown(upgradeDeckID);  
 
         this.upgradeTable.RocketHpLevel ++;  
         this.upgradeTable.upgradeIdIsSearching[16] = false;
         this.rocketHpUpdate();
-        
+        this.increaseRocketTanksCost();
+
       }, time);
 
         var cd = (time /1000) - 1  ;
@@ -2498,12 +2574,13 @@ export default class TankFactory {
         break;
       case 3:
         this.upgrade3TimeOut = setTimeout(() => {
-        clearInterval(this.upgrade3countDown);
+        this.clearCountDown(upgradeDeckID);  
 
         this.upgradeTable.RocketHpLevel ++;  
         this.upgradeTable.upgradeIdIsSearching[16] = false;
         this.rocketHpUpdate();
-        
+        this.increaseRocketTanksCost();
+
       }, time);
 
         var cd = (time /1000) - 1  ;
@@ -2516,12 +2593,13 @@ export default class TankFactory {
         break;
       case 4:
         this.upgrade4TimeOut = setTimeout(() => {
-        clearInterval(this.upgrade4countDown);
+        this.clearCountDown(upgradeDeckID);  
 
         this.upgradeTable.RocketHpLevel ++;  
         this.upgradeTable.upgradeIdIsSearching[16] = false;
         this.rocketHpUpdate();
-        
+        this.increaseRocketTanksCost();
+
       }, time);
 
         var cd = (time /1000) - 1  ;
