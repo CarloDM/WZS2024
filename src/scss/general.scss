@@ -22,6 +22,7 @@
   background-color: rgb(124, 124, 124);
   overflow: hidden;
   font-family: monospace;
+  font-size: 1rem;
 }
 
 .game_container{
@@ -37,7 +38,7 @@
   justify-content: flex-start;
   align-items: flex-end;
   font-weight: bolder;
-  font-size: 1.0rem;
+  font-size: 0.9em;
   top: 0px;
   right: 0px;
   width: 165px;
@@ -97,7 +98,7 @@
   height: 260px;
   background-color: rgba(250, 235, 215, 0.753);
   font-weight: 900;
-  font-size: 1rem;
+  font-size: 0.95em;
   box-shadow: inset 0px 0px 50px 0px  rgba(80, 69, 55, 0.39);
 
   &.manual_closed{
