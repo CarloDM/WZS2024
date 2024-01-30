@@ -339,7 +339,7 @@ const config = {
   width: '100%',
   height: '100%',
   loader:{
-    baseURL: '/public/tankSurvive'
+    baseURL: '/tankSurvive'
   },
 
   scene: setMapTest,
