@@ -32,8 +32,8 @@ export default class CameraController {
       zoomIn:  scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.Z),
       zoomOut: scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.X),
 
-      acceleration: 0.028,
-      drag: 0.0006,
+      acceleration: 0.1,
+      drag: 0.001,
       maxSpeed: 0.6,
       maxZoom: 1.3,
       minZoom: 0.40,
