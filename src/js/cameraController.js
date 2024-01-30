@@ -6,15 +6,15 @@ export default class CameraController {
 
     const mainCamera = scene.cameras.main;
     mainCamera.postFX.addVignette(0.5, 0.5, 1.5);
-    mainCamera.zoomX = 0.45;
-    mainCamera.zoomY = 0.45;
+    mainCamera.zoomX = 1;
+    mainCamera.zoomY = 1;
     mainCamera.scrollX = -400;
     mainCamera.scrollY = -470;
 
     // gli input vanno importati dalla scena passata quindi
     scene.input.on('wheel',(pointer, gameObjects, deltaX, deltaY, deltaZ) => {
 
-      if(!((mainCamera.zoomY - deltaY / 2500) > 1.3 || (mainCamera.zoomY - deltaY / 2500 )< 0.4)){
+      if(!((mainCamera.zoomY - deltaY / 2500) > 1.2 || (mainCamera.zoomY - deltaY / 2500 )< 0.5)){
         mainCamera.zoomY -= deltaY / 2500;
         mainCamera.zoomX -= deltaY / 2500;
       }
@@ -35,8 +35,8 @@ export default class CameraController {
       acceleration: 0.028,
       drag: 0.0006,
       maxSpeed: 0.6,
-      maxZoom: 1.3,
-      minZoom: 0.40,
+      maxZoom: 1.2,
+      minZoom: 0.5,
     };
 
     this.controls = new Phaser.Cameras.Controls.SmoothedKeyControl(controlConfig);
