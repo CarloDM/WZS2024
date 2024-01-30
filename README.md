@@ -6,14 +6,28 @@ This application aims to be a minimal browser-based RTS game geared towards acti
 
 Technology i used are:
 
-vite + vue + phaser. https://phaser.io/
+vite + vue + phaser.
+
+ https://phaser.io/
 
 
+easystarjs for PathFinder:
 
-easystarjs.
+https://easystarjs.com/
 
-floatingNumbersPlugin for phaser by netgfx 
+floatingNumbersPlugin for phaser by netgfx:
+
 https://github.com/netgfx/Phaser-FloatingNumbersPlugin .
+
+tile map:
+
+https://www.mapeditor.org/
+
+graphics & animations:
+
+https://www.piskelapp.com/
+
+https://krita.org/en/
 
 -----------------------------------------
 ----------------------
