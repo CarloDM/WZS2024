@@ -32,7 +32,7 @@ export default class cannon {
     this.cannon.displayHeight = 64;
 
     // create circle range 
-    this.graphics = scene.add.graphics({ lineStyle: { width: 1, color: 0xED1871 },    fillStyle: { color: 0xED1871 , alpha:0.20 }});
+    this.graphics = scene.add.graphics({ lineStyle: { width: 1, color: 0xDBA0BD },    fillStyle: { color: 0xDBA0BD , alpha:0.3 }});
 
     this.circle = new Phaser.Geom.Circle(this.enemy.x, this.enemy.y, this.range );
   

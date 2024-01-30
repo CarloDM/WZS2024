@@ -37,7 +37,6 @@ export default class Tank  {
     this.tank.setInteractive();
     this.tank.hp = hp;
 
-    console.log(this.type)
     switch (this.type) {
       case 'machineGun':
         this.tank.cannon = new Mg(this.scene, this.tank, this.id);

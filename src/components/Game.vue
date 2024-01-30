@@ -37,6 +37,8 @@ export default {
       tanksCoord : [],
       enemiesCoord : [],
       radarSize: 256,
+      leftBarIsOpen : false,
+      manualIsOpen : false,
     }
   },
 
@@ -104,7 +106,6 @@ export default {
           }else{
             this.deck1 ++;
             const d1 = JSON.parse(JSON.stringify(this.deck1));
-            console.log(this.deck1);
             this.tankFactory.statusCounts.btnDeck1 = d1;
             this.tankFactory.tankFactoryIstance.deck1Production(); 
             this.deck1Cd = this.tankFactory.deck1Cd;
@@ -120,7 +121,6 @@ export default {
           }else{
             this.deck2 ++;
             const d2 = JSON.parse(JSON.stringify(this.deck2));
-            console.log(this.deck2);
             this.tankFactory.statusCounts.btnDeck2 = d2;
             this.tankFactory.tankFactoryIstance.deck2Production(); 
             this.deck2Cd = this.tankFactory.deck2Cd;
@@ -136,7 +136,6 @@ export default {
           }else{
             this.deck3 ++;
             const d3 = JSON.parse(JSON.stringify(this.deck3));
-            console.log(this.deck3);
             this.tankFactory.statusCounts.btnDeck3 = d3;
             this.tankFactory.tankFactoryIstance.deck3Production(); 
             this.deck3Cd = this.tankFactory.deck3Cd;
@@ -152,7 +151,6 @@ export default {
           }else{
             this.deck4 ++;
             const d4 = JSON.parse(JSON.stringify(this.deck4));
-            console.log(this.deck4);
             this.tankFactory.statusCounts.btnDeck4 = d4;
             this.tankFactory.tankFactoryIstance.deck4Production(); 
             this.deck4Cd = this.tankFactory.deck4Cd;
@@ -411,8 +409,7 @@ export default {
     },
 
     resizeRadar(event){
-      console.log('resize',event.deltaY);
-
+      
       if(event.deltaY < 0 ){
         if((this.radarSize - 8 ) > 120){
           this.radarSize -= 8;
@@ -425,8 +422,14 @@ export default {
     },
     resetRadarSize(){
       this.radarSize = 256;
-    }
+    },
 
+    openLeftBar(){
+      this.leftBarIsOpen = !this.leftBarIsOpen;
+    },
+    openManual(){
+      this.manualIsOpen = !this.manualIsOpen;
+    },
   },
 
   mounted(){
@@ -446,7 +449,10 @@ export default {
       
       <div class="right_bar ">
 
-        <section class="top"></section>
+        <section class="top">
+          <p>WZS2024 beta</p>
+          <p>Version: 0.1.0</p>
+        </section>
 
         <section class="mid ">
 
@@ -468,7 +474,7 @@ export default {
         
       </div>
       
-      <section class="radar "
+      <section class="radar"
       @wheel="resizeRadar"
       @click ="resetRadarSize"
       :style="{width: this.radarSize + 'px' , height: this.radarSize + 'px'}">
@@ -489,13 +495,41 @@ export default {
 
       </section>
 
-      <div class="left_bar">
+      <div class="manual" 
+      :class="{'manual_closed' : !this.manualIsOpen}">
 
-            <div class="btn ">btn</div>
-            <div class="btn ">btn</div>
-            <div class="btn ">btn</div>
-            <div class="btn ">btn</div>
+        <p>Please to adapt the view to your new window size, refresh the page; you can also enter full-screen mode by pressing F11 and then use CTRL+R</p>
+        <p>WASD to move camera</p>
+        <p>Mouse wheel or Z & X to zoom</p>
+        <p>Hold Left click and drag to tank selector</p>
+        <p>When the tanks are selected, press the right mouse button to move them</p>
+        <p>Always seek new upgrades and keep producing tanks to survive the waves!</p>
 
+
+        <div class="btn_manual" @click="openManual"
+        ><span>?</span></div>
+      </div>
+
+      <div class="left_bar" 
+      @click="openLeftBar"
+      :class="{'left_bar_on' : this.leftBarIsOpen}"
+      >
+            <div class="btn coming_soon">
+              <p>Eng. Priority</p> 
+              <p><strong>Cooming Soon</strong></p> 
+            </div>
+            <div class="btn coming_soon">
+              <p>Repair tanks</p> 
+              <p><strong>Cooming Soon</strong></p> 
+            </div>
+            <div class="btn coming_soon">
+              <p>Build</p> 
+              <p><strong>Cooming Soon</strong></p> 
+            </div>
+            <div class="btn coming_soon">
+              <p>Boost Tanks</p> 
+              <p><strong>Cooming Soon</strong></p> 
+            </div>
       </div>
 
       <div class="bottom_bar">
@@ -683,17 +717,18 @@ export default {
           <p>Cost: {{ this.tankFactory.upgradeTable.engineerEfficiency[this.tankFactory.upgradeTable. engineerEfficiencyLevel + 1].cost }}</p>
         </div>
 
-        <div @click="assignResearch(4,this.tankFactory.upgradeTable.buildingsArmorLevel )"
-        class="btn upBuildings"
+        <!-- @click="assignResearch(4,this.tankFactory.upgradeTable.buildingsArmorLevel )" -->
+        <div 
+        class="btn upBuildings coming_soon"
         :class="{'alradySearching' : this.tankFactory.upgradeTable.upgradeIdIsSearching[3],
                     'endSearching' : this.tankFactory.upgradeTable.buildingsArmorLevel === 10,}">
           <p>Lv.{{ this.tankFactory.upgradeTable.buildingsArmorLevel }}/10</p>
           <p>Cost: {{ this.tankFactory.upgradeTable.buildingsArmor[this.tankFactory.upgradeTable. buildingsArmorLevel + 1].cost }}</p>
         </div>
 
-
-        <div @click="assignResearch(5,this.tankFactory.upgradeTable.boostSpeedLevel)"
-        class="btn upBoost"
+        <!-- @click="assignResearch(5,this.tankFactory.upgradeTable.boostSpeedLevel)" -->
+        <div 
+        class="btn upBoost coming_soon"
         :class="{'alradySearching' : this.tankFactory.upgradeTable.upgradeIdIsSearching[4],
                     'endSearching' : this.tankFactory.upgradeTable.boostSpeedLevel === 10,}">
           <p>Lv.  {{ this.tankFactory.upgradeTable.boostSpeedLevel }}/10</p>

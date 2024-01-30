@@ -9,8 +9,8 @@ class StatusCounts {
     }
 
     this.mgCost = 40;
-    this.cannonCost = 40;
-    this.rocketCost = 40;
+    this.cannonCost = 45;
+    this.rocketCost = 50;
 
     this.button1 = 0;
 

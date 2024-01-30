@@ -186,8 +186,7 @@ export default class TankFactory {
     const newEnemy = new Enemy('rocket',
       this.scene, this.enemyCount, position, 
       this.upgradeTable.RocketHp[this.upgradeTable.enemyRocketHpLevel].hp, 
-      tankSpeed,
-      false, 
+      tankSpeed, 
       );
       
     this.scene.enemiesGrp.push(newEnemy);
@@ -195,19 +194,21 @@ export default class TankFactory {
   }
 
   waveStart(wave){
-    console.log('enemies incoming!!!');
+    // console.log('enemies incoming!!!');
     this.upgradeEnemiesLevels(wave.levels);
     const numbOfGates = wave.spawnCoordinates.length;
+    const spawnIntervalTime = wave.spawnIntervalTime;
     let gatesCount = 0;
     let totalSpawn = wave.types[0] + wave.types[1] + wave.types[2];
     let typeCounter = wave.types;
     let typeSelector = 0;
-    console.log(totalSpawn , numbOfGates );
+
+    // console.log(totalSpawn , numbOfGates );
 
     let spawnInterval = setInterval(() => {
       if(totalSpawn === 0){
         clearInterval(spawnInterval);
-        console.log('finish enemy spawns');
+        // console.log('finish enemy spawns');
       }else{
 
         if(typeSelector === 0 ){
@@ -260,8 +261,8 @@ export default class TankFactory {
           typeSelector = 0;
         }
       }
-      console.log('spwan interval :', totalSpawn, typeSelector, gatesCount, typeCounter[0]) ;
-    }, 250);
+      // console.log('spwan interval :', totalSpawn, typeSelector, gatesCount, typeCounter[0]) ;
+    }, spawnIntervalTime);
     spawnInterval;
   }
 
@@ -926,16 +927,16 @@ export default class TankFactory {
   }
 
   increaseAllTanksCost(){
-    this.statusCounts.timeProductionTanks.mg += 4;
+    this.statusCounts.timeProductionTanks.mg += 3.5;
     this.statusCounts.timeProductionTanks.cannon += 4;
     this.statusCounts.timeProductionTanks.rocket += 4;
-    this.statusCounts.mgCost += 5;
+    this.statusCounts.mgCost += 4.5;
     this.statusCounts.cannonCost += 5;
     this.statusCounts.rocketCost += 5;
   }
   increaseMgTanksCost(){
-    this.statusCounts.timeProductionTanks.mg += 4;
-    this.statusCounts.mgCost += 5;
+    this.statusCounts.timeProductionTanks.mg += 3.5;
+    this.statusCounts.mgCost += 4.5;
   }
   increaseCannonTanksCost(){
     this.statusCounts.timeProductionTanks.cannon += 4;
@@ -981,7 +982,7 @@ export default class TankFactory {
     this.upgradeTable.upgradeIdIsSearching[0] = true;
 
     let PresenceOfEnergy = (verifyPresenceOfEnergy(this.upgradeTable.researchSpeed[this.upgradeTable.researchSpeedLevel + 1].cost, this.statusCounts.energy ));
-    console.log(PresenceOfEnergy);
+
 
       if (PresenceOfEnergy){
         this.statusCounts.energy -= this.upgradeTable.researchSpeed[this.upgradeTable.researchSpeedLevel + 1].cost; 
@@ -1624,7 +1625,7 @@ export default class TankFactory {
         this.clearCountDown(upgradeDeckID);  
 
         this.upgradeTable.tanksRangeOfViewLevel ++;  
-        this.upgradeTable.upgradeIdIsSearching[6] = false;
+        this.upgradeTable.upgradeIdIsSearching[7] = false;
         this.RangeOfViewUpdate();
         this.increaseAllTanksCost();
       }, time);

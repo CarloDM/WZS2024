@@ -46,26 +46,26 @@ export default class CameraController {
 
 
     // debugghing camera control ------------ :)
-    const guiMCamera = new dat.GUI();
+    // const guiMCamera = new dat.GUI();
 
-    let guiMCameraHelp = {
-      moveKey : '[ADWS]',
-      zoomKey : '[ZX]',
-      zoomWheel : '[mouse wheel]',
-    }
+    // let guiMCameraHelp = {
+    //   moveKey : '[ADWS]',
+    //   zoomKey : '[ZX]',
+    //   zoomWheel : '[mouse wheel]',
+    // }
 
-    const debuggherMCamera = guiMCamera.addFolder('Main Camera');
-      debuggherMCamera.add(mainCamera, 'scrollX').listen();
-      debuggherMCamera.add(mainCamera, 'scrollY').listen();
-      debuggherMCamera.add(mainCamera, 'zoomX').listen();
-      debuggherMCamera.add(mainCamera, 'zoomY').listen();
-      debuggherMCamera.add(mainCamera.midPoint, 'x').listen();
-      debuggherMCamera.add(mainCamera.midPoint, 'y').listen();
-      debuggherMCamera.add(mainCamera.worldView, 'width').listen();
-      debuggherMCamera.add(mainCamera.worldView, 'height').listen();
-      debuggherMCamera.add(guiMCameraHelp, 'moveKey');
-      debuggherMCamera.add(guiMCameraHelp, 'zoomKey');
-      debuggherMCamera.add(guiMCameraHelp, 'zoomWheel');
+    // const debuggherMCamera = guiMCamera.addFolder('Main Camera');
+    //   debuggherMCamera.add(mainCamera, 'scrollX').listen();
+    //   debuggherMCamera.add(mainCamera, 'scrollY').listen();
+    //   debuggherMCamera.add(mainCamera, 'zoomX').listen();
+    //   debuggherMCamera.add(mainCamera, 'zoomY').listen();
+    //   debuggherMCamera.add(mainCamera.midPoint, 'x').listen();
+    //   debuggherMCamera.add(mainCamera.midPoint, 'y').listen();
+    //   debuggherMCamera.add(mainCamera.worldView, 'width').listen();
+    //   debuggherMCamera.add(mainCamera.worldView, 'height').listen();
+    //   debuggherMCamera.add(guiMCameraHelp, 'moveKey');
+    //   debuggherMCamera.add(guiMCameraHelp, 'zoomKey');
+    //   debuggherMCamera.add(guiMCameraHelp, 'zoomWheel');
       // debuggherMCamera.open();
     // ----------------------------------------
 

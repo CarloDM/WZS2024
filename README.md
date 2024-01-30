@@ -1,9 +1,28 @@
-# game-test-phaser
+# WZS2024 rts game v 0.1.0
 
-05/12/2023 <br>
-phaser 3.7 con vite + vue!
-test personale di phaser implementato e genesi di un intera logica di gioco RTS! <br>
-sono arrivato al terzo test progressivo!
+This game, inspired by the open-source game Warzone 2100, is currently in development. While it doesn't aim to achieve the same level of complexity, it seeks to create a similar RTS dynamic focused on troop logistics and speed and accuracy in upgrade choices.
+
+This application aims to be a minimal browser-based RTS game geared towards action. The current development state allows testing of the basic game dynamics, but it still lacks audio, a variety of animations and graphics, and some fundamental gameplay implementations such as building defensive turrets, a troop repair system, a special troop boosting system, and a game-saving system.
+
+Technology i used are:
+
+vite + vue + phaser. https://phaser.io/
+
+
+
+easystarjs.
+
+floatingNumbersPlugin for phaser by netgfx 
+https://github.com/netgfx/Phaser-FloatingNumbersPlugin .
+
+-----------------------------------------
+----------------------
+----------------------
+
+
+
+05/12/2023 
+Personal ToDo
 <ol>
   date 05/12/2023
   <li> hello word inizializzare phaser dentro componente vue.</li>
@@ -141,26 +160,26 @@ convertire interfaccia in css esternamente al canvas di gioco phaser wip
 
 ---
 25/01/2024 giorno 26
-DA FARE
+
   <li>approssimazione calcolo tempistiche dei timeout e intervall</li>
   <li>corretto funzionamento funzioni upgrade</li>
-
-
-<li>Aumentare costo e tempo di produzione per ogni tank s upgrade</li>
-<li>mappa minimappa in UI</li>
-<li>dedicarsi solo un po' alla grafica</li>
-<li>arrivare alla prima beta release priva di ulteriori funzionalità</li>
+  <li>incrementare il costo dei tank per upgrade</li>
+  <li>Aumentare costo e tempo di produzione per ogni tank s upgrade</li>
+  <li>mappa minimappa in UI</li>
+  <li>arrivare alla prima beta release priva di ulteriori funzionalità</li>
 
 ----
 RELAESE SUCCESSIVE
-
+DA FARE
 <li>sistema di riparazione tank</li>
 <li>sistema di boost tank</li>
 <li>sistema di costruzione torrette</li>
-<li>incrementare il costo dei tank per upgrade</li>
 <li>mappa completare texture </li>
 <li>bullet texture</li>
 <li>bullet explosion animation</li>
 <li>tank explosion animation</li>
+<li>audio immersivo</li>
+<li>pagina Home</li>
+<li>salvataggio partita</li>
 
 

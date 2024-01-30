@@ -31,7 +31,7 @@ export default class cannon {
     this.cannon.displayHeight = 64;
 
     // create circle range 
-    this.graphics = scene.add.graphics({ lineStyle: { width: 1, color: 0x72D079 },    fillStyle: { color: 0x72D079 , alpha:0.1 }});
+    this.graphics = scene.add.graphics({ lineStyle: { width: 1, color: 0xC1EAAB },    fillStyle: { color: 0xC1EAAB , alpha:0.3 }});
     this.circle = new Phaser.Geom.Circle(this.tank.x, this.tank.y, this.range );
   
     // visualizza circle range 

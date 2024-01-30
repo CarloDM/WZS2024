@@ -87,7 +87,6 @@ export default class Engineering  {
 
       let midPoint = calculateMidPoint( 0, 0, this.engineering.x, this.engineering.y);
 
-      console.log(midPoint)
       let closestGaiser = gaisers.map((gaiser, index)=>{
       
         const distanceToBase = Math.floor(calculateDistance(midPoint[0] ,midPoint[1], gaiser.x, gaiser.y));
