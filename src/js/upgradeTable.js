@@ -340,7 +340,7 @@ class UpgradeTable {
     ]
     
     // Cannon --------------
-    this.cannonDamageLevel = 0;
+    this.cannonDamageLevel = 6;
     this.cannonDamage =[
       {dmg : 15,
       cost:100, time:60},
@@ -369,7 +369,7 @@ class UpgradeTable {
       {cost:''},
     ]
 
-    this.cannonRofLevel = 0;
+    this.cannonRofLevel = 6;
     this.cannonRof=[
       {rof : 120, rot: 0.35,
         cost:100, time:60},

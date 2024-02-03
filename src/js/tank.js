@@ -86,15 +86,11 @@ export default class Tank  {
         const filteredPath = Fpath.filter((tile, index) => index % 3 === 0);
         filteredPath.push(lastTile);
 
-
         this.target = fromTileToTargetObj(filteredPath[0].x,filteredPath[0].y);
         filteredPath.shift();
 
-
         this.scene.physics.moveToObject(this.tank,this.target , 1);
         this.isDirected = true;
-        // this.selftMoveControll();
-
 
         filteredPath.forEach(tile => {
 
@@ -164,7 +160,7 @@ export default class Tank  {
   }
   
   destroy() {
-    // Assicurati che il tank esista prima di tentare la distruzione
+
     if (this.tank.body) {
       // Distruggi il corpo fisico
       this.tank.body.destroy();
@@ -219,11 +215,7 @@ export default class Tank  {
 
                 }
 
-            }
-
-
-
-            if (this.break && this.acceleration < this.speed && this.target){ 
+            }else if(this.break && this.acceleration < this.speed && this.target){ 
 
               this.tank.rotation = this.tank.body.angle;
               this.acceleration += this.accIncrement;

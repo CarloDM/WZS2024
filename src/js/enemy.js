@@ -1,3 +1,4 @@
+import Phaser from "phaser";
 import Mg         from "./enemyMachineGun";
 import Cannon     from "./enemyCannon";
 import Rocket     from "./enemyRocket";
@@ -21,10 +22,9 @@ export default class Enemy  {
     this.acceleration = 1;
     this.accIncrement = this.speed/30;
     this.break = false;
-    this.isDirected = false;
+    // this.isDirected = false;
     this.friction = 0.80;
     this.tolerance = 128;
-
 
     this.enemy = scene.add.sprite(position[0],position[1],'enemy');
     this.enemy.hp = hp
@@ -52,7 +52,31 @@ export default class Enemy  {
           break;
       }
 
+      // this.debugScanning = setInterval(() => {
+      //   this.scanTargets('all');
+      // }, 5000);
+// bun NaN semembra molto legato ai target, alla loro apparizione e scomparizione c è qualcosa...
     this.enemy.enemyInstance = this;
+  }
+
+  moveAway(){
+    console.log('allontana');
+    const coordinate = [
+      [ -1840, -1776 ],
+      [ -16,   -1776 ],
+      [  1776, -1776 ],
+      [  1744, -16   ],
+      [  1808,  1776 ],
+      [ -16,    1776 ],
+      [ -1776,  1776 ],
+      [ -1776, -16   ]
+    ]
+    const choice = Phaser.Math.Between(0,7);
+    this.enemy.x = coordinate[choice][0];
+    this.enemy.y = coordinate[choice][1];
+    this.acceleration = 1;
+    this.target = false;
+    // this.enemy.cannon.scanCount = 0;
   }
 
   scanTargets(wich){
@@ -67,7 +91,7 @@ export default class Enemy  {
 
       // se 0 building la base è stata distrutta
       if(this.scene.buildingsGrp.length < 1 && this.scene.tanksGrp1.length < 1){
-        console.warn('GAME OVER');
+        // console.warn('GAME OVER');
       }else{
 
         let targetScanned = [];
@@ -79,18 +103,18 @@ export default class Enemy  {
             let buildings = this.scanBuildings();
             let tanks = this.scanTanks();
             targetScanned = buildings.concat(tanks);
-  
+            // console.log('scann all');
             break;
           case 'buildings': 
 
             targetScanned = this.scanBuildings();
-            
+            // console.log('scann build',targetScanned, this.id );
             break;
   
           case 'tanks': 
 
             targetScanned = this.scanTanks();
-  
+            // console.log('scann tank');
             break;
         }
         
@@ -98,13 +122,11 @@ export default class Enemy  {
         
       }
 
-    }else{console.warn('no body')}//enemy distrutto
+    }else{clearInterval(this.debugScanning)}//enemy distrutto
   };
 
   scanBuildings(){
 
-    if(this.enemy.body){
-      // scan su qualunque cosa vicina gli mg
       let targetScanned = [];
 
       if(this.scene.buildingsGrp.length > 0 ){
@@ -119,15 +141,9 @@ export default class Enemy  {
 
       return targetScanned;
 
-    }else{
-      console.log('no building return');
-      return [[0,0]];
-    }
   };
 
   scanTanks(){
-
-    if(this.enemy.body){
 
       let targetScanned = [];
 
@@ -135,22 +151,14 @@ export default class Enemy  {
 
         this.scene.tanksGrp1.forEach(tank => {
           targetScanned.push( [tank.tank.x, tank.tank.y] );
-        });
+        });}
 
       return targetScanned;
-
-      }else{
-        console.log('no tank return');
-        return [[0,0]];
-      }
-
-    };
 
   }
 
   scanForClosestTarget(){
 
-    if(this.enemy.body){
       // scan su qualunque cosa vicina gli mg
       let targetScanned = [];
 
@@ -171,7 +179,6 @@ export default class Enemy  {
 
       this.calculateClosestTarget(targetScanned);
 
-    }else{}
   };
 
   calculateClosestTarget(targets){
@@ -191,8 +198,9 @@ export default class Enemy  {
         }, { target: null, distance: Infinity });
 
         if(closestTarget.target !== null){
-          this.target = closestTarget.target;
-          this.moveTankTo(fromPositionToTile(this.target[0],this.target[1]));
+
+          this.moveTankTo(fromPositionToTile(closestTarget.target[0],closestTarget.target[1]));
+
         }else{
           console.error('reduce non ha dato risultato valido', closestTarget, targets, this.enemy.x, this.enemy.y );
         }
@@ -200,38 +208,46 @@ export default class Enemy  {
     } 
   }
 
-  moveTankTo(tileTarget, clearAfter){
+  moveTankTo(tileTarget){
 
-    if(clearAfter){
-      this.afterTargets= [];
-    }
-    this.isDirected = false;
-    this.targets = [];
-
+    
     const tilePosition = fromPositionToTile(this.enemy.x, this.enemy.y);
 
     findPath(tilePosition[0], tilePosition[1], tileTarget[0], tileTarget[1])
       .then((Fpath) =>{
 
-        Fpath.shift();
-        const lastTile = Fpath[Fpath.length - 1];
-        const filteredPath = Fpath.filter((tile, index) => index % 3 === 0);
-        filteredPath.push(lastTile);
+        if(Fpath.length > 5){
 
-        this.target = fromTileToTargetObj(filteredPath[0].x,filteredPath[0].y);
-        filteredPath.shift();
+          Fpath.shift();
+          
+          const lastTile = Fpath[Fpath.length - 1];
 
-        this.scene.physics.moveToObject(this.enemy ,this.target , 1);
-        this.isDirected = true;
+          const filteredPath = Fpath.filter((tile, index) => index % 4 === 0);
 
-        filteredPath.forEach(tile => {
+          filteredPath.push(lastTile);
 
+          this.target = fromTileToTargetObj(filteredPath[0].x,filteredPath[0].y);
+
+          filteredPath.shift();
+
+          this.scene.physics.moveToObject(this.enemy ,this.target , 1);
+
+          this.targets = [];
+          filteredPath.forEach(tile => {
+            
           this.targets.push(fromTileToTargetObj(tile.x,tile.y))
-        });
+
+            });
+
+        }else{
+          console.log('path maggiore di 5', this.id, this.target);
+          // this.target = false;
+        }
+
 
       })
       .catch((error) => {
-        console.error(error);
+        // console.error(error);
       });
 
   };
@@ -239,8 +255,11 @@ export default class Enemy  {
   moveTankToNext(target){
 
     this.target = target;
-
+    const body = this.enemy.body;
+    if(body){
     this.scene.physics.moveToObject(this.enemy,this.target , 1);
+    }else{console.warn('somethings wrong!')}
+
 
   }
   
@@ -300,7 +319,6 @@ export default class Enemy  {
   
   update(){
 
-    
     this.enemy.cannon.update();
     this.enemy.lifeBar.update()
 
@@ -319,20 +337,12 @@ export default class Enemy  {
               this.moveTankToNext(this.targets[0]) 
               this.targets.shift();
 
-            }else{
-
-              this.isDirected = false;
-
             }
 
-        }
-
-
-        if (this.break && this.acceleration < this.speed && this.target){ 
+        }else if (this.break && this.acceleration < this.speed && this.target){ 
 
           this.enemy.rotation = this.enemy.body.angle;
           this.acceleration += this.accIncrement;
-
           this.scene.physics.moveToObject(this.enemy, this.target, this.acceleration);
 
         }else if (this.target){
@@ -340,8 +350,8 @@ export default class Enemy  {
           if(this.break){
             this.break = false;
           }
-          this.enemy.rotation = this.enemy.body.angle;
 
+          this.enemy.rotation = this.enemy.body.angle;
           this.scene.physics.moveToObject(this.enemy, this.target, this.speed);
 
         }

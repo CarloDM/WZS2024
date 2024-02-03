@@ -36,7 +36,10 @@ class setMapTest extends Phaser.Scene{
   this.tankFactory = null;
   this.radarObj = {tanks:[], enemies:[]}
   this.upgradeRadarArray();
+
+  this.enemyLost= 0;
   };
+
   
   preload(){
 
@@ -86,37 +89,6 @@ class setMapTest extends Phaser.Scene{
     this.load.image('enemyCannon',       '/texture/enemy-cannon.png'); 
     this.load.image('enemyRocket',       '/texture/enemy-rocket.png'); 
 
-    this.load.image('btn',              '/texture/btn-test.png'); 
-    
-    this.load.spritesheet('btn1',       '/icon/btn1.png',
-    {frameWidth:64,frameHeight:64});
-    this.load.spritesheet('btn2',       '/icon/btn2.png',
-    {frameWidth:64,frameHeight:64});
-    this.load.spritesheet('btnBoost',   '/icon/btnBoost.png',
-    {frameWidth:64,frameHeight:64});
-    this.load.spritesheet('btnDeck',    '/icon/btnDeck.png',
-    {frameWidth:64,frameHeight:64});
-    this.load.spritesheet('btnUpgrade', '/icon/btnUpgrade.png',
-    {frameWidth:64,frameHeight:64});
-
-    this.load.image('upResSpeed',      '/icon/up-resSpeed.png'); 
-    this.load.image('upEnergy',        '/icon/up-enEfficiency.png'); 
-    this.load.image('upEngineering',   '/icon/up-engineerEfficiency.png'); 
-    this.load.image('upBuildings',     '/icon/up-buildingsArmor.png'); 
-    this.load.image('upBoost',         '/icon/up-boostSpeed.png'); 
-    this.load.image('upProduction',    '/icon/up-ProductionSpeed.png'); 
-    this.load.image('upSpeedTraction', '/icon/up-SpeedTraction.png'); 
-    this.load.image('upRangeOfView',   '/icon/up-RangeOfView.png'); 
-    this.load.image('upMgDmg',         '/icon/up-mgDamage.png'); 
-    this.load.image('upMgRof',         '/icon/up-mgRof.png'); 
-    this.load.image('upMgHp',          '/icon/up-mgHp.png'); 
-    this.load.image('upCannonDmg',     '/icon/up-cannonDamage.png'); 
-    this.load.image('upCannonRof',     '/icon/up-cannonRof.png'); 
-    this.load.image('upCannonHp',      '/icon/up-cannonHp.png'); 
-    this.load.image('upBRocketDmg',    '/icon/up-RocketDamage.png'); 
-    this.load.image('upRocketRof',     '/icon/up-RocketRof.png'); 
-    this.load.image('upRocketHp',      '/icon/up-RocketHp.png'); 
-
   };// preload end ------------------------------------------------------------------/
 
   create() {
@@ -128,12 +100,12 @@ class setMapTest extends Phaser.Scene{
     // aggiungere immagine di background
     this.add.image(0,0,'background');
 
-    // set up layer collisioni
+    // set upthis.layer collisioni
     this.map = this.make.tilemap({key: 'map', tileWidth: 32, tileHeight:32});
-    const layer = this.map.createLayer(0,'collision',-2048, -2048 );
+    this.layer = this.map.createLayer(0,'collision',-2048, -2048 );
     this.map.setCollisionBetween(4,5);
 
-    // set up layer gaiser coordinate
+    // set upthis.layer gaiser coordinate
     this.gaisersMap = this.make.tilemap({key: 'gaiserMap', tileWidth: 32, tileHeight:32});
     this.gaisersMap.createLayer(0,'gaisersCoord',-2048, -2048 );
 
@@ -208,30 +180,34 @@ class setMapTest extends Phaser.Scene{
 
     this.bulletPool = new BulletsPool(this);
 
-    // setta collider tra gruppi fisici e wall ------------
-    this.physics.add.collider(this.tanks);
-    this.physics.add.collider(this.tanks, layer);
-    this.physics.add.collider(this.tanks, this.enemies);
-    this.physics.add.collider(this.enemies);
-    this.physics.add.collider(this.enemies, this.tanks);
-    this.physics.add.collider(this.enemies, layer);
+    this.MIN_DISTANCE_COLLISION = 16; // Imposta la distanza minima per la collisione
 
-    // overlap meno dispendioso per innescare logiche di esplosione e danno (nessuna ripercussione fisica)
-    this.physics.add.overlap(this.bulletPool.userBulletsGroup, this.enemies,    (bullet, enemy) => {
+    // setta collider tra gruppi fisici e wall ------------
+    this.tankCollider      = this.physics.add.collider(this.tanks);
+    this.tankLayerCollider = this.physics.add.collider(this.tanks, this.layer);
+    this.tankEnemyCollider = this.physics.add.collider(this.tanks, this.enemies);
+
+
+    this.enemiesCollider      = this.physics.add.collider(this.enemies);
+    this.enemiesTanksCollider = this.physics.add.collider(this.enemies, this.tanks);
+    this.enemiesLayerCollider = this.physics.add.collider(this.enemies, this.layer);
+
+    // overlap meno dispendioso per innescare logiche di esplosione e danno (nessuna ripercussione fisica);
+    this.bulletEnemiesOverlap = this.physics.add.overlap(this.bulletPool.userBulletsGroup, this.enemies,    (bullet, enemy) => {
 
       enemy.enemyInstance.takeDamage(bullet.bulletInstance.damage);
       bullet.bulletInstance.explode();
 
     });
 
-    this.physics.add.overlap(this.bulletPool.enemyBulletsGroup, this.tanks,     (bullet, tank) => {
+    this.bulletTanksOverlap = this.physics.add.overlap(this.bulletPool.enemyBulletsGroup, this.tanks,     (bullet, tank) => {
 
       tank.tankInstance.takeDamage(bullet.bulletInstance.damage);
       bullet.bulletInstance.explode();
 
     });
 
-    this.physics.add.overlap(this.bulletPool.enemyBulletsGroup, this.buildings, (bullet, building) => {
+    this.bulletBuildingsOverlap = this.physics.add.overlap(this.bulletPool.enemyBulletsGroup, this.buildings, (bullet, building) => {
 
       building.gaiserInstance.takeDamage(bullet.bulletInstance.damage);
       bullet.bulletInstance.explode();
@@ -247,8 +223,67 @@ class setMapTest extends Phaser.Scene{
     this.scale.on('resize', this.handleResize, this);
     
     this.mounted = true;
+    // this.reinizializzaCollider();
   }; //----create
   
+  reinizializzaCollider() {
+    
+    let reinitializeColliderIntervall = setInterval(() => {
+        console.log('total reinizialize collider');
+
+        this.tankCollider.destroy();
+        this.tankLayerCollider.destroy();
+        this.tankEnemyCollider.destroy();
+        this.enemiesCollider.destroy();
+        this.enemiesTanksCollider.destroy();
+        this.enemiesLayerCollider.destroy();
+        this.bulletEnemiesOverlap.destroy();
+        this.bulletTanksOverlap.destroy();
+        this.bulletBuildingsOverlap.destroy();
+
+        this.tankCollider      = this.physics.add.collider(this.tanks);
+        this.tankLayerCollider = this.physics.add.collider(this.tanks,this.layer);
+        this.tankEnemyCollider = this.physics.add.collider(this.tanks, this.enemies);
+
+
+        this.enemiesCollider = this.physics.add.collider(this.enemies, this.enemies, (enemyA, enemyB) => {
+          // const distance = Phaser.Math.Distance.Between(enemyA.x, enemyA.y, enemyB.x, enemyB.y)
+        
+          // if (distance > this.MIN_DISTANCE_COLLISION) {
+          
+          // }else{
+          //   // enemyA.enemyInstance.moveAway();
+          // };
+        });
+
+        this.enemiesTanksCollider = this.physics.add.collider(this.enemies, this.tanks);
+        this.enemiesLayerCollider = this.physics.add.collider(this.enemies,this.layer);
+        // overlap meno dispendioso per innescare logiche di esplosione e danno (nessuna ripercussione fisica)
+        this.bulletEnemiesOverlap = this.physics.add.overlap(this.bulletPool.userBulletsGroup, this.enemies,(bullet, enemy) => {
+        
+          enemy.enemyInstance.takeDamage(bullet.bulletInstance.damage);
+          bullet.bulletInstance.explode();
+        
+        });
+      
+        this.bulletTanksOverlap = this.physics.add.overlap(this.bulletPool.enemyBulletsGroup, this.tanks,(bullet, tank) => {
+        
+          tank.tankInstance.takeDamage(bullet.bulletInstance.damage);
+          bullet.bulletInstance.explode();
+        
+        });
+      
+        this.bulletBuildingsOverlap = this.physics.add.overlap(this.bulletPool.enemyBulletsGroup, this.buildings,(bullet, building) => {
+        
+          building.gaiserInstance.takeDamage(bullet.bulletInstance.damage);
+          bullet.bulletInstance.explode();
+        
+        });
+        console.log(this.physics);
+  }, 20000);
+  reinitializeColliderIntervall;
+  }
+
   upgradeRadarArray(){
     setInterval(() => {
       this.radarObj  = generateRadarArray(this.tanksGrp1, this.enemiesGrp);
@@ -266,6 +301,7 @@ class setMapTest extends Phaser.Scene{
     this.scale.baseSize.height = this.scale.parentSize.height;
 
   };
+
   
   update(time, delta) {
 
@@ -279,6 +315,7 @@ class setMapTest extends Phaser.Scene{
       if (tank.isDestroyed()) {
 
         this.tanksGrp1.splice(index, 1);
+
       }else{
 
         tank.update();
@@ -290,26 +327,15 @@ class setMapTest extends Phaser.Scene{
       if(enemy.isDestroyed()){
 
         this.enemiesGrp.splice(index, 1);
+
       }else{
 
-        if(isNaN(enemy.enemy.x)){
-          // prevenire l errore fatale (bug non trovato ancora)
-          console.warn('lost enemy:', enemy.id);
-          this.enemiesGrp[index].destroy();
-          this.enemiesGrp.splice(index, 1);
-
-        }else{
           enemy.update(time);
-        }
 
       }
     });
 
 
-
-
-
-    if(this.buildingsGrp.length > 0 ){
 
       this.buildingsGrp.forEach((building, index) => {
 
@@ -326,8 +352,6 @@ class setMapTest extends Phaser.Scene{
           }
         }
       })
-    }
-    
 
 
     stats.end();

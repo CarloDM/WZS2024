@@ -24,7 +24,7 @@ function setUpFinder(grid){
   finder.setTileCost(3, 10); 
   finder.setTileCost(2, 3);
   
-  finder.setIterationsPerCalculation(10000);
+  finder.setIterationsPerCalculation(90000);
 
   if(grid){
     console.log('finder inizialized');
@@ -45,7 +45,7 @@ function findPath(stpx, stpY, trpX, trpY){
 
       if (path === null) {
 
-        // console.log("Path was not found.");
+        // console.error("Path was not found.");
         reject("Path was not found.");
 
       } else {

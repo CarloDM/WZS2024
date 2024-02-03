@@ -17,7 +17,7 @@ class WavesTable {
     [
       {
         spawnIntervalTime: 250,
-        types : [10,0,0],
+        types : [30,0,0],
         spawnCoordinates : [gateTop],
         levels : {
           enemySpeedTractionLevel : 0,

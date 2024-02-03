@@ -1,4 +1,4 @@
-# WZS2024 rts game v 0.1.0
+# WZS2024 rts game v 0.1.1
 
 This game, inspired by the open-source game Warzone 2100, is currently in development. While it doesn't aim to achieve the same level of complexity, it seeks to create a similar RTS dynamic focused on troop logistics and speed and accuracy in upgrade choices.
 
@@ -186,6 +186,14 @@ convertire interfaccia in css esternamente al canvas di gioco phaser wip
 
 ----
 RELAESE SUCCESSIVE
+
+---
+3/02/2024
+  <li>fix bug! target coordinate enemy</li>
+  <li>stress test</li>
+
+
+
 DA FARE
 <li>sistema di riparazione tank</li>
 <li>sistema di boost tank</li>

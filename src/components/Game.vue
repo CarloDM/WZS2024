@@ -451,7 +451,7 @@ export default {
 
         <section class="top">
           <p>WZS2024 beta</p>
-          <p>Version: 0.1.0</p>
+          <p>Version: 0.1.1</p>
         </section>
 
         <section class="mid ">

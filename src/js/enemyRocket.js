@@ -47,18 +47,12 @@ export default class cannon {
             this.graphics.fillRect(p.x - 4, p.y - 4, 8, 8);
     }
     // debug range -------------------------
-    
   }
 // ------------
 // lo scanning del cannone nemico si differenzia per
 // - scannerizza tank non enemy
 // - deve dare precedenza a bersagli tank rispetto a costruzioni
   scanForTanks(){
-
-    try{
-
-    
-    if(this.enemy.body){
 
         if(this.scene.tanksGrp1.length > 0){
 
@@ -99,11 +93,6 @@ export default class cannon {
           this.tankTarget = false;
           this.scanForBuild();
         }
-    }
-  } catch (error) {
-    console.error('Errore durante la scansione dei tank:', error);
-  }
-
 
   }
 
@@ -131,8 +120,6 @@ export default class cannon {
   }
 
   scanForBuild(){
-
-    if(this.enemy.body){
 
       if(this.scene.buildingsGrp.length > 0){
 
@@ -169,9 +156,6 @@ export default class cannon {
         this.enemy.enemyInstance.scanTargets('tanks');
       }
 
-    }else{
-      clearInterval(this.scanning)
-    }
   }
 
   calculateClosestBuilding(){
