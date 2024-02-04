@@ -68,14 +68,21 @@ export default class SelectionRect {
           this.selectionRect.width = this.selection.width;
           this.selectionRect.height = this.selection.height;
         
-          if (this.selectionRect.width < 0) {
+          if (this.selectionRect.width < 25) {
             this.selectionRect.x += this.selectionRect.width;
-            this.selectionRect.width *= -1;
-          }
-          if (this.selectionRect.height < 0) {
+            // this.selectionRect.width *= -1;
+        }
+        
+        if (this.selectionRect.height < 25) {
             this.selectionRect.y += this.selectionRect.height;
-            this.selectionRect.height *= -1;
-          }
+            // this.selectionRect.height *= -1;
+        }
+        this.selectionRect.width = Math.abs(this.selection.width);
+        this.selectionRect.height = Math.abs(this.selection.height);
+
+        // Aggiorna la posizione del rettangolo in base alla direzione del movimento
+        this.selectionRect.x = this.selection.width >= 25 ? this.selection.x : this.selection.x + this.selection.width;
+        this.selectionRect.y = this.selection.height >= 25 ? this.selection.y : this.selection.y + this.selection.height;
 
 
       }

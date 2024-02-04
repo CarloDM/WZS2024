@@ -22,6 +22,7 @@ export default {
       up4Cd : 0,
 
       nextWave:'3:00',
+      wavesCount: 0,
 
       upgradeDecks :        [false,false,false,false],
       upgradeDecksWorking : [false,false,false,false],
@@ -397,6 +398,7 @@ export default {
           const radar = this.phaserGame.scene.scenes[0].radarObj;
           this.tanksCoord = radar.tanks;
           this.enemiesCoord = radar.enemies;
+          this.wavesCount = this.tankFactory.wavesTable.wavesCount;
           }, 2500);
           upgradeRadar;
     },
@@ -456,19 +458,21 @@ export default {
 
         <section class="mid ">
 
-          <p class="mb_1"> {{ this.nextWave }} Next         </p>
+          <p class="mb_1"> {{ this.wavesCount }}  wave       </p>
 
-          <p class="mb_1"> {{ this.enemiesNumb }} Enemies   </p>
+          <p class="mb_1"> {{ this.nextWave }}    Next       </p>
 
-          <p class="mb_1"> {{ this.gaisersNumb }}/39 Gaisers</p>
+          <p class="mb_1"> {{ this.enemiesNumb }} Enemies    </p>
 
-          <p class="mb_1"> {{ this.tanksNumb }} Tanks       </p>
+          <p class="mb_1"> {{ this.gaisersNumb }}/39 Gaisers </p>
 
-          <p class="mb_1"> {{ this.mgCost }} Mg Cost       </p>
+          <p class="mb_1"> {{ this.tanksNumb }}  Tanks       </p>
 
-          <p class="mb_1"> {{ this.cannonCost }} Cannon Cost       </p>
+          <p class="mb_1"> {{ this.mgCost }}     Mg Cost     </p>
 
-          <p class="mb_1"> {{ this.rocketCost }} Rocket Cost       </p>
+          <p class="mb_1"> {{ this.cannonCost }} Cannon Cost </p>
+
+          <p class="mb_1"> {{ this.rocketCost }} Rocket Cost </p>
         </section>
 
         

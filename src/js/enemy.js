@@ -81,8 +81,6 @@ export default class Enemy  {
 
   scanTargets(wich){
 
-    if(this.enemy.body){
-
       let verifiedChoice = wich;
 
       if(this.scene.tanksGrp1.length < 1){
@@ -117,12 +115,12 @@ export default class Enemy  {
             // console.log('scann tank');
             break;
         }
-        
-        this.calculateClosestTarget(targetScanned);
+        if(targetScanned.length > 0){
+          this.calculateClosestTarget(targetScanned);
+        }
         
       }
 
-    }else{clearInterval(this.debugScanning)}//enemy distrutto
   };
 
   scanBuildings(){
@@ -177,13 +175,13 @@ export default class Enemy  {
 
       }
 
-      this.calculateClosestTarget(targetScanned);
+      if(targetScanned.length > 0){
+        this.calculateClosestTarget(targetScanned);
+      }
 
   };
 
   calculateClosestTarget(targets){
-
-    if(targets.length > 0 ){
 
       let closestTarget = targets.reduce((closest, target) => {
 
@@ -205,7 +203,6 @@ export default class Enemy  {
           console.error('reduce non ha dato risultato valido', closestTarget, targets, this.enemy.x, this.enemy.y );
         }
 
-    } 
   }
 
   moveTankTo(tileTarget){
