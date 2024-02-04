@@ -1509,7 +1509,7 @@ export default class TankFactory {
   }
   speedTractionUpdate(){
     this.scene.tanksGrp1.forEach(tank => {
-      tank.tank.speed *= this.upgradeTable.tanksSpeedTraction[this.upgradeTable.tanksSpeedTractionLevel].incrementFactor;
+      tank.speed *= this.upgradeTable.tanksSpeedTraction[this.upgradeTable.tanksSpeedTractionLevel].incrementFactor;
     });
   }
   tanksSpeedTraction(upgradeDeckID){
