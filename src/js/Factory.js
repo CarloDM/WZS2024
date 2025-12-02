@@ -298,7 +298,7 @@ export default class TankFactory {
     const NewGaiser = new Gaiser(this.scene,position, id);
     this.scene.gaiserGrp.push(NewGaiser);
   }
-
+// verificare se non crea dei loop bloccanti
   deckCheckEnergy(upgradeDeckID){
     switch (upgradeDeckID) {
       case 1:

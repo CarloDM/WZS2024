@@ -226,63 +226,7 @@ class setMapTest extends Phaser.Scene{
     // this.reinizializzaCollider();
   }; //----create
   
-  reinizializzaCollider() {
-    
-    let reinitializeColliderIntervall = setInterval(() => {
-        console.log('total reinizialize collider');
 
-        this.tankCollider.destroy();
-        this.tankLayerCollider.destroy();
-        this.tankEnemyCollider.destroy();
-        this.enemiesCollider.destroy();
-        this.enemiesTanksCollider.destroy();
-        this.enemiesLayerCollider.destroy();
-        this.bulletEnemiesOverlap.destroy();
-        this.bulletTanksOverlap.destroy();
-        this.bulletBuildingsOverlap.destroy();
-
-        this.tankCollider      = this.physics.add.collider(this.tanks);
-        this.tankLayerCollider = this.physics.add.collider(this.tanks,this.layer);
-        this.tankEnemyCollider = this.physics.add.collider(this.tanks, this.enemies);
-
-
-        this.enemiesCollider = this.physics.add.collider(this.enemies, this.enemies, (enemyA, enemyB) => {
-          // const distance = Phaser.Math.Distance.Between(enemyA.x, enemyA.y, enemyB.x, enemyB.y)
-        
-          // if (distance > this.MIN_DISTANCE_COLLISION) {
-          
-          // }else{
-          //   // enemyA.enemyInstance.moveAway();
-          // };
-        });
-
-        this.enemiesTanksCollider = this.physics.add.collider(this.enemies, this.tanks);
-        this.enemiesLayerCollider = this.physics.add.collider(this.enemies,this.layer);
-        // overlap meno dispendioso per innescare logiche di esplosione e danno (nessuna ripercussione fisica)
-        this.bulletEnemiesOverlap = this.physics.add.overlap(this.bulletPool.userBulletsGroup, this.enemies,(bullet, enemy) => {
-        
-          enemy.enemyInstance.takeDamage(bullet.bulletInstance.damage);
-          bullet.bulletInstance.explode();
-        
-        });
-      
-        this.bulletTanksOverlap = this.physics.add.overlap(this.bulletPool.enemyBulletsGroup, this.tanks,(bullet, tank) => {
-        
-          tank.tankInstance.takeDamage(bullet.bulletInstance.damage);
-          bullet.bulletInstance.explode();
-        
-        });
-      
-        this.bulletBuildingsOverlap = this.physics.add.overlap(this.bulletPool.enemyBulletsGroup, this.buildings,(bullet, building) => {
-        
-          building.gaiserInstance.takeDamage(bullet.bulletInstance.damage);
-          bullet.bulletInstance.explode();
-        
-        });
-        console.log(this.physics);
-  }, 20000);
-  reinitializeColliderIntervall;
-  }
 
   upgradeRadarArray(){
     setInterval(() => {
